@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BácskAI Akadémia – AI képzések Baján és a Dél-Alföldön</title>
+<meta name="description" content="Gyakorlati mesterséges intelligencia képzés a mindennapok emberének és helyi vállalkozásoknak. Helyben, magyarul, érthetően. Baja és a dél-alföldi régió.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
+<style>
+/* ─── DESIGN TOKENS ────────────────────────────────────── */
+:root {
+  --bg:          #F7F6F2;
+  --surface:     #FFFFFF;
+  --surface2:    #F0EFE9;
+  --border:      rgba(0,0,0,0.08);
+  --border-med:  rgba(0,0,0,0.14);
+  --text:        #1A1A18;
+  --text-2:      #3D3D38;
+  --muted:       #7A7A72;
+  --muted2:      #A8A8A0;
+
+  --ink:         #1A1A18;
+  --sage:        #2D6A4F;
+  --sage-light:  #E8F4EE;
+  --sage-mid:    #B7DCCA;
+  --amber:       #C47A2B;
+  --amber-light: #FDF3E3;
+  --clay:        #B0593D;
+  --clay-light:  #F8E8E0;
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body:    'Bricolage Grotesque', system-ui, sans-serif;
+
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-xl: 32px;
+
+  --sh-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --sh-md: 0 4px 16px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04);
+  --sh-lg: 0 12px 40px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* ─── RESET ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+/* ─── UTILITIES ───────────────────────────────────────── */
+.container { max-width: 1180px; margin: 0 auto; padding: 0 2rem; }
+
+.tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-body);
+  font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--sage);
+  background: var(--sage-light);
+  border: 1px solid var(--sage-mid);
+  padding: 5px 12px; border-radius: 100px;
+  margin-bottom: 1.4rem;
+}
+
+.section-label {
+  font-family: var(--font-body);
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1rem;
+}
+
+h2.headline {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 1.2rem;
+}
+h2.headline em { font-style: italic; color: var(--sage); font-weight: 400; }
+
+.body-lg {
+  font-size: 1.05rem; color: var(--muted); line-height: 1.75;
+  max-width: 580px; margin-bottom: 2.4rem;
+}
+
+/* ─── BUTTONS ─────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-body); font-weight: 600;
+  font-size: 0.9rem; border-radius: 100px;
+  padding: 0.75rem 1.7rem;
+  transition: all 0.22s cubic-bezier(.25,.46,.45,.94);
+  cursor: pointer; border: none; text-decoration: none;
+  white-space: nowrap;
+  position: relative; overflow: hidden;
+}
+.btn::after {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(255,255,255,0); transition: background 0.15s;
+}
+.btn:hover::after { background: rgba(255,255,255,0.12); }
+
+.btn-primary {
+  background: var(--ink);
+  color: #fff;
+  box-shadow: var(--sh-sm);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: var(--sh-md); }
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text);
+  border: 1.5px solid var(--border-med);
+  box-shadow: var(--sh-sm);
+}
+.btn-secondary:hover { border-color: var(--ink); transform: translateY(-1px); }
+
+.btn-sage {
+  background: var(--sage);
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(45,106,79,0.28);
+}
+.btn-sage:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(45,106,79,0.35); }
+
+.btn-sm { padding: 0.55rem 1.2rem; font-size: 0.82rem; }
+.btn-wide { width: 100%; justify-content: center; }
+
+/* ─── NAV ─────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+  background: rgba(247,246,242,0.88);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 1.25rem;
+  color: var(--text); letter-spacing: -0.02em;
+}
+.nav-logo span { color: var(--sage); }
+
+.nav-links {
+  display: flex; gap: 2rem; list-style: none;
+}
+.nav-links a {
+  color: var(--muted); font-size: 0.88rem; font-weight: 500;
+  transition: color 0.18s;
+}
+.nav-links a:hover { color: var(--text); }
+
+.nav-cta { background: var(--ink); color: #fff; }
+
+/* ─── HERO ────────────────────────────────────────────── */
+.hero {
+  min-height: 92vh;
+  padding: 9rem 2rem 5rem;
+  position: relative;
+  display: flex; align-items: center;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.hero-bg-lines {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  opacity: 0.5;
+}
+.hero-bg-lines svg { position: absolute; bottom: -20px; right: -40px; }
+
+.hero-inner {
+  max-width: 1180px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 440px; gap: 4rem; align-items: center;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 5.4vw, 4.6rem);
+  line-height: 1.05; letter-spacing: -0.03em;
+  margin-bottom: 1.4rem; color: var(--text);
+}
+.hero h1 em {
+  font-style: italic; font-weight: 400;
+  color: var(--sage);
+}
+
+.hero-desc {
+  font-size: 1.1rem; color: var(--muted); line-height: 1.75;
+  max-width: 500px; margin-bottom: 2.2rem;
+}
+
+.hero-actions { display: flex; gap: 0.9rem; flex-wrap: wrap; margin-bottom: 3.2rem; }
+
+.location-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  font-size: 0.78rem; font-weight: 500;
+  padding: 6px 14px; border-radius: 100px;
+  margin-bottom: 1.6rem;
+  box-shadow: var(--sh-sm);
+}
+.location-pill .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--sage); flex-shrink: 0;
+  animation: pulse-dot 2s infinite;
+}
+
+.hero-stats {
+  display: flex; gap: 2.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.stat-num {
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 1.9rem;
+  letter-spacing: -0.03em; color: var(--text);
+  line-height: 1;
+}
+.stat-num span { color: var(--sage); }
+.stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 6px; max-width: 140px; line-height: 1.4; }
+
+/* Hero card – Why now */
+.hero-card {
+  background: var(--surface);
+  border-radius: var(--r-xl);
+  padding: 2rem;
+  box-shadow: var(--sh-lg);
+  border: 1px solid var(--border);
+  position: relative;
+}
+.hero-card-badge {
+  position: absolute; top: -14px; left: 24px;
+  background: var(--ink); color: #fff;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; white-space: nowrap;
+  padding: 5px 14px; border-radius: 100px;
+}
+.hero-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem; font-weight: 600;
+  margin-bottom: 0.4rem; margin-top: 0.6rem;
+  letter-spacing: -0.01em;
+}
+.hero-card .card-meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.6rem; line-height: 1.55; }
+
+.why-now-list { list-style: none; }
+.why-now-list li {
+  display: flex; gap: 12px;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.why-now-list li:last-child { border-bottom: none; }
+.why-now-list .num {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--sage);
+  min-width: 18px;
+}
+.why-now-list .txt strong {
+  display: block; font-weight: 600; font-size: 0.88rem;
+  color: var(--text); margin-bottom: 2px;
+}
+.why-now-list .txt p { font-size: 0.78rem; color: var(--muted); line-height: 1.55; }
+
+/* ─── SECTION COMMON ─────────────────────────────────── */
+section { padding: 6rem 2rem; }
+section.alt { background: var(--surface); }
+
+/* ─── ROLUNK ─────────────────────────────────────────── */
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: center;
+}
+.about-visual {
+  position: relative; height: 480px;
+}
+.about-main-card {
+  position: absolute; inset: 0;
+  background: var(--surface); border-radius: var(--r-xl);
+  border: 1px solid var(--border); box-shadow: var(--sh-md);
+  padding: 2rem; display: flex; flex-direction: column; justify-content: space-between;
+  overflow: hidden;
+}
+.about-main-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--sage), var(--sage-mid));
+}
+.about-diagram { flex: 1; display: flex; align-items: center; justify-content: center; }
+.about-quote {
+  font-family: var(--font-display);
+  font-style: italic; font-size: 1.1rem; color: var(--text-2);
+  line-height: 1.55; border-left: 3px solid var(--sage);
+  padding-left: 1rem; margin-top: 1rem;
+}
+.about-floating {
+  position: absolute; bottom: -20px; right: -20px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-md); padding: 1rem 1.3rem;
+  box-shadow: var(--sh-md); min-width: 170px;
+}
+.about-floating .af-num {
+  font-family: var(--font-display);
+  font-size: 1.7rem; font-weight: 700; color: var(--sage);
+  letter-spacing: -0.03em; line-height: 1;
+}
+.about-floating .af-label { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+
+.pillar {
+  display: flex; align-items: flex-start; gap: 1rem;
+  padding: 1.2rem 0; border-bottom: 1px solid var(--border);
+}
+.pillar:last-child { border-bottom: none; }
+.pillar-icon-wrap {
+  width: 42px; height: 42px; border-radius: var(--r-sm);
+  background: var(--sage-light); border: 1px solid var(--sage-mid);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.pillar-text strong {
+  display: block; font-weight: 600; font-size: 0.95rem; margin-bottom: 3px;
+  color: var(--text);
+}
+.pillar-text p { font-size: 0.85rem; color: var(--muted); line-height: 1.55; }
+
+/* ─── KÉPZÉSEK ────────────────────────────────────── */
+.products-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.4rem;
+  margin-top: 2.5rem;
+}
+
+.product-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 2rem;
+  box-shadow: var(--sh-sm);
+  transition: all 0.25s cubic-bezier(.25,.46,.45,.94);
+  display: flex; flex-direction: column;
+  position: relative;
+}
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--sh-lg);
+  border-color: var(--sage-mid);
+}
+.product-card.featured {
+  border-color: var(--sage);
+  box-shadow: 0 0 0 1px var(--sage), var(--sh-md);
+}
+.product-card.featured::after {
+  content: 'Legtöbben ezt választják';
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--sage); color: #fff;
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.09em;
+  text-transform: uppercase; white-space: nowrap;
+  padding: 5px 14px; border-radius: 100px;
+}
+
+.product-icon {
+  width: 56px; height: 56px; border-radius: var(--r-md);
+  background: var(--sage-light);
+  border: 1px solid var(--sage-mid);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.4rem;
+}
+.product-card.alt-icon .product-icon {
+  background: var(--amber-light);
+  border-color: rgba(196,122,43,0.25);
+}
+.product-card.alt-icon-2 .product-icon {
+  background: var(--clay-light);
+  border-color: rgba(176,89,61,0.22);
+}
+
+.product-meta-tag {
+  font-family: var(--font-body);
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.5rem;
+}
+
+.product-card h3 {
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 1.4rem;
+  letter-spacing: -0.02em; line-height: 1.15;
+  margin-bottom: 0.6rem;
+}
+.product-card > p.product-desc {
+  font-size: 0.88rem; color: var(--muted);
+  line-height: 1.65; margin-bottom: 1.4rem;
+}
+
+.product-meta {
+  display: flex; gap: 0.6rem; flex-wrap: wrap;
+  margin-bottom: 1.4rem;
+}
+.meta-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 0.74rem; color: var(--text-2); font-weight: 500;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 4px 10px; border-radius: 100px;
+}
+
+.product-features {
+  list-style: none; flex: 1; margin-bottom: 1.6rem;
+}
+.product-features li {
+  display: flex; align-items: flex-start; gap: 9px;
+  font-size: 0.85rem; color: var(--text-2); line-height: 1.5;
+  padding: 0.45rem 0;
+  border-bottom: 1px dashed var(--border);
+}
+.product-features li:last-child { border-bottom: none; }
+.product-features svg { flex-shrink: 0; margin-top: 3px; }
+
+.product-price {
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 1.9rem;
+  letter-spacing: -0.03em; color: var(--text);
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+.product-price small {
+  font-family: var(--font-body);
+  font-size: 0.78rem; font-weight: 400; color: var(--muted);
+}
+.product-price-note {
+  font-size: 0.78rem; color: var(--muted);
+  margin-bottom: 1.4rem;
+}
+
+/* ─── KIHELYEZETT (CÉGES) ────────────────────────── */
+.kihely-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; align-items: start;
+}
+.kihely-features {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1rem; margin-top: 2rem;
+}
+.kihely-feat {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md); padding: 1.2rem;
+}
+.kihely-feat-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--surface); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 0.8rem;
+}
+.kihely-feat strong {
+  display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.3rem;
+}
+.kihely-feat p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+/* AI Act notice strip */
+.ai-act-notice {
+  margin-top: 1.6rem;
+  background: var(--amber-light);
+  border: 1px solid rgba(196,122,43,0.2);
+  border-radius: var(--r-md);
+  padding: 1rem 1.2rem;
+  display: flex; align-items: flex-start; gap: 0.8rem;
+}
+.ai-act-notice .ai-act-icon {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--amber); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-weight: 700; font-size: 0.8rem;
+}
+.ai-act-notice strong {
+  display: block; font-size: 0.85rem; color: var(--text); margin-bottom: 2px;
+  font-weight: 600;
+}
+.ai-act-notice p { font-size: 0.78rem; color: var(--text-2); line-height: 1.5; }
+
+.form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 2.5rem;
+  box-shadow: var(--sh-md);
+}
+.form-card h3 {
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 1.3rem;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.02em;
+}
+.form-card .form-desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.8rem; }
+
+.form-group { margin-bottom: 1rem; }
+.form-group label {
+  display: block; font-size: 0.78rem; font-weight: 600;
+  color: var(--text-2); margin-bottom: 0.4rem;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%; background: var(--bg);
+  border: 1.5px solid var(--border-med);
+  border-radius: var(--r-sm); padding: 0.7rem 1rem;
+  color: var(--text); font-family: var(--font-body);
+  font-size: 0.9rem; outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--sage);
+  box-shadow: 0 0 0 3px rgba(45,106,79,0.1);
+}
+.form-group textarea { resize: vertical; min-height: 90px; }
+
+/* ─── HOGYAN INDULSZ (utak) ─────────────────────── */
+.path-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4rem;
+  margin-top: 2.5rem;
+  position: relative;
+}
+.path-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 1.8rem;
+  box-shadow: var(--sh-sm);
+  position: relative;
+}
+.path-step {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--sage);
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+.path-card h4 {
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.6rem;
+}
+.path-card p {
+  font-size: 0.88rem; color: var(--muted); line-height: 1.65;
+}
+
+/* ─── TESTIMONIALS ──────────────────────────────── */
+.testimonials-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem; margin-top: 2.5rem;
+}
+.testi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 2rem;
+  box-shadow: var(--sh-sm);
+  transition: box-shadow 0.2s;
+}
+.testi-card:hover { box-shadow: var(--sh-md); }
+.stars { display: flex; gap: 3px; margin-bottom: 1rem; }
+.star-icon { color: #F5A623; }
+.testi-card > p {
+  font-family: var(--font-display);
+  font-style: italic; font-size: 1rem;
+  line-height: 1.65; color: var(--text-2);
+  margin-bottom: 1.5rem;
+}
+.testi-author { display: flex; align-items: center; gap: 0.8rem; }
+.testi-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--sage-light); border: 2px solid var(--sage-mid);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 0.85rem; color: var(--sage);
+  flex-shrink: 0;
+}
+.testi-info strong { display: block; font-weight: 600; font-size: 0.9rem; }
+.testi-info span { font-size: 0.78rem; color: var(--muted); }
+
+/* ─── FAQ ───────────────────────────────────────── */
+.faq-list {
+  margin-top: 2.5rem;
+  max-width: 760px; margin-left: auto; margin-right: auto;
+}
+.faq-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  margin-bottom: 0.8rem;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.faq-item[open] { border-color: var(--sage-mid); }
+.faq-item summary {
+  padding: 1.2rem 1.5rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  transition: background 0.18s;
+}
+.faq-item summary:hover { background: var(--surface2); }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: '+';
+  font-family: var(--font-display);
+  font-size: 1.4rem; color: var(--sage);
+  transition: transform 0.25s;
+  flex-shrink: 0;
+}
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item .faq-body {
+  padding: 0 1.5rem 1.4rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+/* ─── CTA BANNER ─────────────────────────────────── */
+.cta-banner {
+  background: var(--ink);
+  border-radius: var(--r-xl);
+  padding: 4.5rem 4rem;
+  text-align: center; position: relative; overflow: hidden;
+}
+.cta-banner::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(45,106,79,0.28) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(196,122,43,0.15) 0%, transparent 45%);
+}
+.cta-banner h2 {
+  font-family: var(--font-display);
+  font-weight: 700; color: #fff;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  letter-spacing: -0.025em;
+  margin-bottom: 1rem; position: relative;
+  line-height: 1.15;
+}
+.cta-banner h2 em { font-style: italic; color: var(--sage-mid); font-weight: 400; }
+.cta-banner p { color: rgba(255,255,255,0.65); max-width: 480px; margin: 0 auto 2rem; position: relative; }
+.cta-actions { display: flex; gap: 0.9rem; justify-content: center; flex-wrap: wrap; position: relative; }
+.btn-on-dark {
+  background: #fff; color: var(--ink);
+}
+.btn-on-dark:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,255,255,0.2); }
+.btn-ghost-white {
+  background: transparent; color: rgba(255,255,255,0.8);
+  border: 1.5px solid rgba(255,255,255,0.25);
+}
+.btn-ghost-white:hover { border-color: rgba(255,255,255,0.6); color: #fff; }
+
+/* ─── FOOTER ─────────────────────────────────────── */
+footer {
+  background: var(--ink); color: rgba(255,255,255,0.7);
+  padding: 4rem 2rem 2.5rem;
+}
+.footer-inner { max-width: 1180px; margin: 0 auto; }
+.footer-top {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem; margin-bottom: 3rem;
+  padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.footer-brand-name {
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 1.2rem; color: #fff;
+  margin-bottom: 0.8rem; display: block;
+}
+.footer-brand-name span { color: var(--sage-mid); }
+.footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 280px; }
+.footer-col h4 {
+  font-family: var(--font-body);
+  font-weight: 700; font-size: 0.72rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255,255,255,0.35); margin-bottom: 1.2rem;
+}
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 0.65rem; }
+.footer-col ul li a {
+  color: rgba(255,255,255,0.55); font-size: 0.85rem;
+  transition: color 0.18s;
+}
+.footer-col ul li a:hover { color: #fff; }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-bottom p { font-size: 0.78rem; }
+
+/* ─── MODAL ──────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(26,26,24,0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: none; align-items: center; justify-content: center;
+  padding: 2rem;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 2.5rem;
+  max-width: 480px; width: 100%;
+  position: relative; box-shadow: var(--sh-lg);
+  animation: modalIn 0.28s cubic-bezier(.34,1.56,.64,1);
+  max-height: 90vh; overflow-y: auto;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.94) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-close {
+  position: absolute; top: 1.2rem; right: 1.2rem;
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--muted); width: 30px; height: 30px; border-radius: 50%;
+  cursor: pointer; font-size: 0.9rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s;
+}
+.modal-close:hover { background: var(--border-med); color: var(--text); }
+.modal h2 {
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 1.5rem;
+  letter-spacing: -0.02em; margin-bottom: 0.3rem;
+}
+.modal-course-name {
+  font-size: 0.9rem; color: var(--sage); font-weight: 600;
+  margin-bottom: 1.6rem;
+}
+
+/* ─── ANIMATION ─────────────────────────────────── */
+@keyframes pulse-dot {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+.fade-up {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── MOBILE ─────────────────────────────────────── */
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; padding: 6px; background: none; border: none;
+}
+.hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: var(--text); border-radius: 2px;
+  transition: all 0.2s;
+}
+.mobile-menu {
+  display: none; position: fixed;
+  top: 64px; left: 0; right: 0;
+  background: rgba(247,246,242,0.96);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem 2rem; z-index: 99;
+  flex-direction: column; gap: 1.2rem;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  color: var(--text); font-weight: 500; font-size: 1rem;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 960px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-card { display: none; }
+  .about-grid, .kihely-inner { grid-template-columns: 1fr; }
+  .products-grid, .testimonials-grid, .path-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .about-visual { height: 320px; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .hero-stats { gap: 1.8rem; }
+  .kihely-features { grid-template-columns: 1fr; }
+  .cta-banner { padding: 3rem 2rem; }
+  .product-card.featured::after { font-size: 0.6rem; padding: 4px 12px; }
+}
+@media (max-width: 600px) {
+  .footer-top { grid-template-columns: 1fr; }
+  .hero { padding: 8rem 1.5rem 4rem; }
+  section { padding: 4rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     NAV
+═══════════════════════════════════════════════════════ -->
+<nav>
+  <a href="#" class="nav-logo">BácskAI <span>Akadémia</span></a>
+  <ul class="nav-links">
+    <li><a href="#rolunk">Rólunk</a></li>
+    <li><a href="#kepzesek">Képzések</a></li>
+    <li><a href="#ceges">Céges képzés</a></li>
+    <li><a href="#hogyan">Hogyan indulsz</a></li>
+    <li><a href="#velemenyek">Vélemények</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:0.8rem;">
+    <a href="#kepzesek" class="btn btn-primary btn-sm nav-cta">Képzések</a>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menü">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#rolunk" onclick="toggleMenu()">Rólunk</a>
+  <a href="#kepzesek" onclick="toggleMenu()">Képzések</a>
+  <a href="#ceges" onclick="toggleMenu()">Céges képzés</a>
+  <a href="#hogyan" onclick="toggleMenu()">Hogyan indulsz</a>
+  <a href="#velemenyek" onclick="toggleMenu()">Vélemények</a>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg-lines" aria-hidden="true">
+    <svg width="600" height="500" viewBox="0 0 600 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="300" cy="300" r="280" stroke="#2D6A4F" stroke-width="0.6" stroke-dasharray="4 8"/>
+      <circle cx="300" cy="300" r="200" stroke="#2D6A4F" stroke-width="0.5" stroke-dasharray="3 6"/>
+      <circle cx="300" cy="300" r="120" stroke="#2D6A4F" stroke-width="0.4" stroke-dasharray="2 5"/>
+      <line x1="0" y1="300" x2="600" y2="300" stroke="#2D6A4F" stroke-width="0.5" stroke-dasharray="3 8"/>
+      <line x1="300" y1="0" x2="300" y2="500" stroke="#2D6A4F" stroke-width="0.5" stroke-dasharray="3 8"/>
+    </svg>
+  </div>
+
+  <div class="hero-inner container">
+    <div>
+      <div class="location-pill">
+        <span class="dot"></span>
+        Baja · Kalocsa · Szekszárd · Szeged · Kecskemét
+      </div>
+
+      <h1>A mesterséges intelligencia <em>nem nektek való</em> — szól a tévé.<br>Mi <em>mást</em> mondunk.</h1>
+
+      <p class="hero-desc">
+        Gyakorlati AI-képzés a mindennapok emberének és a dél-alföldi vállalkozásoknak. Nem fővárosi konferencia-nyelven, hanem úgy, ahogy itt beszélnek. Helyben, magyarul, érthetően.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#kepzesek" class="btn btn-primary">
+          Nézd meg a képzéseket
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#ceges" class="btn btn-secondary">Céges képzést keresek</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">3</div>
+          <div class="stat-label">tiszta képzési út, az alapoktól a céges szintig</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">1<span> nap</span></div>
+          <div class="stat-label">alatt használható tudás, nem féléves elmélet</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">2026<span>.</span></div>
+          <div class="stat-label">augusztustól az AI Act kötelez minden céget</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero card – Why now -->
+    <div class="hero-card fade-up">
+      <div class="hero-card-badge">Miért most</div>
+      <h3>Egy néhány éves<br>időablak — amíg nyitva van.</h3>
+      <p class="card-meta">Pár dolog, ami egybeesett, és amit kihagyni veszteség lenne:</p>
+
+      <ul class="why-now-list">
+        <li>
+          <span class="num">01</span>
+          <div class="txt">
+            <strong>Az AI tömegtermék lett</strong>
+            <p>Mindenki hallott a ChatGPT-ről. Tudatosan, naponta kevesen használják — pont ebben a szakadékban élünk.</p>
+          </div>
+        </li>
+        <li>
+          <span class="num">02</span>
+          <div class="txt">
+            <strong>Az AI Act élesedik</strong>
+            <p>2026 augusztusától a céges AI-képzés nem opció — jogi követelmény, szankciókkal.</p>
+          </div>
+        </li>
+        <li>
+          <span class="num">03</span>
+          <div class="txt">
+            <strong>A főváros nem jön le</strong>
+            <p>2,5 óra autóút Baja. A dél-alföldi vállalkozónak ez nem opció. Nekünk az.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     RÓLUNK
+═══════════════════════════════════════════════════════ -->
+<section id="rolunk" class="alt">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual fade-up">
+        <div class="about-main-card">
+          <div class="about-diagram">
+            <svg width="280" height="220" viewBox="0 0 280 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="140" cy="110" r="42" fill="#E8F4EE" stroke="#B7DCCA" stroke-width="1.5"/>
+              <text x="140" y="105" text-anchor="middle" font-family="'Bricolage Grotesque',sans-serif" font-size="11" font-weight="600" fill="#2D6A4F">BácskAI</text>
+              <text x="140" y="120" text-anchor="middle" font-family="'Bricolage Grotesque',sans-serif" font-size="10" fill="#2D6A4F">Akadémia</text>
+
+              <circle cx="140" cy="32" r="22" fill="#fff" stroke="#E0DFD8" stroke-width="1"/>
+              <text x="140" y="36" text-anchor="middle" font-family="'Bricolage Grotesque',sans-serif" font-size="9" fill="#3D3D38">Magánszemély</text>
+
+              <circle cx="232" cy="110" r="22" fill="#fff" stroke="#E0DFD8" stroke-width="1"/>
+              <text x="232" y="114" text-anchor="middle" font-family="'Bricolage Grotesque',sans-serif" font-size="9" fill="#3D3D38">Haladó</text>
+
+              <circle cx="140" cy="188" r="22" fill="#fff" stroke="#E0DFD8" stroke-width="1"/>
+              <text x="140" y="192" text-anchor="middle" font-family="'Bricolage Grotesque',sans-serif" font-size="9" fill="#3D3D38">Cégek</text>
+
+              <circle cx="48" cy="110" r="22" fill="#fff" stroke="#E0DFD8" stroke-width="1"/>
+              <text x="48" y="114" text-anchor="middle" font-family="'Bricolage Grotesque',sans-serif" font-size="9" fill="#3D3D38">Helyben</text>
+
+              <line x1="140" y1="54" x2="140" y2="68" stroke="#B7DCCA" stroke-width="1" stroke-dasharray="3 3"/>
+              <line x1="210" y1="110" x2="182" y2="110" stroke="#B7DCCA" stroke-width="1" stroke-dasharray="3 3"/>
+              <line x1="140" y1="166" x2="140" y2="152" stroke="#B7DCCA" stroke-width="1" stroke-dasharray="3 3"/>
+              <line x1="70" y1="110" x2="98" y2="110" stroke="#B7DCCA" stroke-width="1" stroke-dasharray="3 3"/>
+            </svg>
+          </div>
+          <blockquote class="about-quote">
+            „Nem fővárosi konferencia-nyelven. Helyben élünk, ismerjük az itteni cégeket, az itteni nyelvet — ettől más, amit csinálunk."
+          </blockquote>
+        </div>
+        <div class="about-floating">
+          <div class="af-num">Helyben</div>
+          <div class="af-label">a dél-alföldi régióból, érted</div>
+        </div>
+      </div>
+
+      <div class="fade-up">
+        <div class="section-label">Rólunk</div>
+        <h2 class="headline">Az AI <em>nem sci-fi</em> —<br>és nem is főváros.</h2>
+        <p class="body-lg">
+          A BácskAI Akadémia azért jött létre, mert a legtöbb AI-képzés vagy túl elméleti, vagy túl messze van. Mi mindennapi munkára, valódi eszközökre, és olyan árazásra építünk, ami egy helyi vállalkozónak is reális.
+        </p>
+
+        <div class="pillars">
+          <div class="pillar">
+            <div class="pillar-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <rect x="3" y="4" width="14" height="10" rx="2" stroke="#2D6A4F" stroke-width="1.4"/>
+                <path d="M7 9h6M7 12h4" stroke="#2D6A4F" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="pillar-text">
+              <strong>Csak alkalmazható tudás</strong>
+              <p>Minden modult konkrét eszközön, élő feladaton tanítunk. Nincs „dia-előadás" — egy nap alatt használható, nem féléves elmélet.</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <circle cx="10" cy="8" r="3.5" stroke="#2D6A4F" stroke-width="1.4"/>
+                <path d="M4 17c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#2D6A4F" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="pillar-text">
+              <strong>Helyben, a régióból</strong>
+              <p>Itt élünk, itt tanítunk. Bajai, kalocsai, szekszárdi, szegedi, kecskeméti vállalkozók — nem kell felmenni Budapestre.</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M10 3l1.9 3.8 4.2.6-3 3 .7 4.2L10 12.5 6.2 14.6l.7-4.2-3-3 4.2-.6L10 3z" stroke="#2D6A4F" stroke-width="1.3" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="pillar-text">
+              <strong>Két szakember, nem egy</strong>
+              <p>Ketten csináljuk: egyikünk tanít, a másik értékesít és visszajelzést ad. Ettől hitelesebb, mint egy egyéni képző.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     KÉPZÉSEK – 3 termék
+═══════════════════════════════════════════════════════ -->
+<section id="kepzesek">
+  <div class="container">
+    <div class="section-label">Képzések</div>
+    <h2 class="headline fade-up">Három tiszta út —<br><em>a kíváncsiságtól a céges bevezetésig.</em></h2>
+    <p class="body-lg fade-up">Nem szórjuk szét a figyelmedet hat különböző csomaggal. Három képzés, mindegyik egy konkrét helyzetre szabva.</p>
+
+    <div class="products-grid">
+
+      <!-- 1. AI Alapozó -->
+      <div class="product-card fade-up">
+        <div class="product-icon">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <circle cx="13" cy="13" r="9.5" stroke="#2D6A4F" stroke-width="1.5"/>
+            <path d="M9 13.5L11.5 16L17 10.5" stroke="#2D6A4F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="product-meta-tag">01 · Belépő</div>
+        <h3>AI Alapozó</h3>
+        <p class="product-desc">Az első igazi találkozás az AI-jal. Kezdő magánszemélyeknek és mikrovállalkozóknak, akik hallottak róla, beleírtak párszor, de nem „kaptak rá".</p>
+
+        <div class="product-meta">
+          <span class="meta-chip">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1"/><path d="M5.5 3v3l1.5 1" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+            1 nap
+          </span>
+          <span class="meta-chip">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="4" cy="4.5" r="2" stroke="currentColor" stroke-width="1"/><circle cx="8" cy="5" r="1.6" stroke="currentColor" stroke-width="0.9"/><path d="M1 10c0-1.5 1.5-2.5 3-2.5M6.5 10c0-1.2 1-2 2-2" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/></svg>
+            10–20 fő
+          </span>
+          <span class="meta-chip">Havonta</span>
+        </div>
+
+        <ul class="product-features">
+          <li>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5l2.5 2.5L10 4" stroke="#2D6A4F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            ChatGPT, Gemini, Claude alapok kézzel fogva
+          </li>
+          <li>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5l2.5 2.5L10 4" stroke="#2D6A4F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Hogyan kérdezz okosan — promptolás alapjai
+          </li>
+          <li>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5l2.5 2.5L10 4" stroke="#2D6A4F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Biztonságos, GDPR-tudatos használat
+          </li>
+          <li>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5l2.5 2.5L10 4" stroke="#2D6A4F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Saját munkára adaptált gyakorlatok
+          </li>
+        </ul>
+
+        <div class="product-price">29 900 Ft<small> / fő</small></div>
+        <div class="product-price-note">helyszíni workshop · Baja</div>
+        <button class="btn btn-primary btn-wide" onclick="openModal('AI Alapozó')">Jelentkezem</button>
+      </div>
+
+      <!-- 2. AI Haladó – Featured -->
+      <div class="product-card featured fade-up alt-icon">
+        <div class="product-icon">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <path d="M13 3L15.6 9.2L22 10.1L17.5 14.7L18.7 21L13 17.9L7.3 21L8.5 14.7L4 10.1L10.4 9.2L13 3Z" stroke="#C47A2B" stroke-width="1.4" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="product-meta-tag" style="color:var(--amber);">02 · Emelt szint</div>
+        <h3>AI Haladó</h3>
+        <p class="product-desc">Azoknak, akik már elvégezték az Alapozót vagy önállóan tanultak. A „többet ki lehet hozni belőle" érzéstől eljutsz a tényleges hatékonyságig.</p>
+
+        <div class="product-meta">
+          <span class="meta-chip">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1"/><path d="M5.5 3v3l1.5 1" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+            1 nap
+          </span>
+          <span class="meta-chip">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="4" cy="4.5" r="2" stroke="currentColor" stroke-width="1"/><circle cx="8" cy="5" r="1.6" stroke="currentColor" stroke-width="0.9"/><path d="M1 10c0-1.5 1.5-2.5 3-2.5M6.5 10c0-1.2 1-2 2-2" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/></svg>
+            8–10 fő
+          </span>
+          <span class="meta-chip">Kéthavonta</span>
+        </div>
+
+        <ul class="product-features">
+          <li>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5l2.5 2.5L10 4" stroke="#2D6A4F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Haladó prompt-technikák, sablonok
+          </li>
+          <li>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5l2.5 2.5L10 4" stroke="#2D6A4F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Saját AI-munkafolyamat építése
+          </li>
+          <li>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5l2.5 2.5L10 4" stroke="#2D6A4F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Marketing, ügyfélszolgálat, kreatív felhasználás
+          </li>
+          <li>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5l2.5 2.5L10 4" stroke="#2D6A4F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Kis közösség, valódi szakmai kapcsolat
+          </li>
+        </ul>
+
+        <div class="product-price">49 900 Ft<small> / fő</small></div>
+        <div class="product-price-note">kiscsoport · Alapozó vagy ekvivalens szükséges</div>
+        <button class="btn btn-sage btn-wide" onclick="openModal('AI Haladó')">Jelentkezem</button>
+      </div>
+
+      <!-- 3. Céges csomag -->
+      <div class="product-card fade-up alt-icon-2">
+        <div class="product-icon">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <rect x="4" y="6" width="18" height="14" rx="1.6" stroke="#B0593D" stroke-width="1.4"/>
+            <path d="M4 10h18" stroke="#B0593D" stroke-width="1.4"/>
+            <path d="M9 4v3M17 4v3" stroke="#B0593D" stroke-width="1.4" stroke-linecap="round"/>
+            <path d="M9 14h3M9 17h6" stroke="#B0593D" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="product-meta-tag" style="color:var(--clay);">03 · Vállalati</div>
+        <h3>Céges csomag</h3>
+        <p class="product-desc">5–30 fős dél-alföldi KKV-knek. Nem általános bevezető — a ti folyamataitokra szabva. Tartalmazza a belső AI-szabályzatot, ami segít az AI Act-megfelelésben.</p>
+
+        <div class="product-meta">
+          <span class="meta-chip">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1"/><path d="M5.5 3v3l1.5 1" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+            1 nap + utókövetés
+          </span>
+          <span class="meta-chip">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="4" cy="4.5" r="2" stroke="currentColor" stroke-width="1"/><circle cx="8" cy="5" r="1.6" stroke="currentColor" stroke-width="0.9"/><path d="M1 10c0-1.5 1.5-2.5 3-2.5M6.5 10c0-1.2 1-2 2-2" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/></svg>
+            5–15 fő
+          </span>
+          <span class="meta-chip">A ti irodátokban</span>
+        </div>
+
+        <ul class="product-features">
+          <li>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5l2.5 2.5L10 4" stroke="#2D6A4F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Cég szerepköreire szabott modulok (2–3 választható)
+          </li>
+          <li>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5l2.5 2.5L10 4" stroke="#2D6A4F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Írásos belső AI-szabályzat (AI Act-alapokhoz)
+          </li>
+          <li>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5l2.5 2.5L10 4" stroke="#2D6A4F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Szerepkör-specifikus prompt-gyűjtemény
+          </li>
+          <li>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5l2.5 2.5L10 4" stroke="#2D6A4F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            30 napos utókövetés e-mailben
+          </li>
+          <li>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5l2.5 2.5L10 4" stroke="#2D6A4F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Tanúsítvány — pályázati elszámoláshoz is
+          </li>
+        </ul>
+
+        <div class="product-price">290 000 Ft<small> / nap</small></div>
+        <div class="product-price-note">5–15 fős csapatra · helyszínre szabva</div>
+        <a href="#ceges" class="btn btn-secondary btn-wide">Ajánlatot kérek</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     CÉGES (KIHELYEZETT)
+═══════════════════════════════════════════════════════ -->
+<section id="ceges" class="alt">
+  <div class="container">
+    <div class="kihely-inner">
+      <div class="fade-up">
+        <div class="section-label">Céges képzés</div>
+        <h2 class="headline">Hozzuk az AI-t<br><em>a csapatodhoz.</em></h2>
+        <p class="body-lg">
+          Nem kell felutaznod, nem kell konferenciát szervezned. Mi jövünk hozzátok, és a képzést teljes egészében a ti folyamataitokra, szerepköreitekre, üzleti céljaitokra szabjuk.
+        </p>
+
+        <div class="kihely-features">
+          <div class="kihely-feat">
+            <div class="kihely-feat-icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l2 4h4l-3 3 1 4-4-2.5L5 13l1-4-3-3h4L9 2z" stroke="#2D6A4F" stroke-width="1.2" stroke-linejoin="round"/></svg>
+            </div>
+            <strong>Iparágra szabva</strong>
+            <p>2–3 modult választunk a ti szerepköreitekre — marketing, admin, pénzügy, értékesítés.</p>
+          </div>
+          <div class="kihely-feat">
+            <div class="kihely-feat-icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="3" width="14" height="12" rx="2" stroke="#2D6A4F" stroke-width="1.2"/><path d="M6 7.5h6M6 10.5h4" stroke="#2D6A4F" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+            <strong>A ti irodátokban</strong>
+            <p>Saját környezetben, saját eszközökkel. Vagy választott helyszínen Baja–Szeged között.</p>
+          </div>
+          <div class="kihely-feat">
+            <div class="kihely-feat-icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9l3 3 6-7" stroke="#2D6A4F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 12v3M11 12v2M17 11v4" stroke="#2D6A4F" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+            <strong>Belső szabályzat</strong>
+            <p>Írásos AI-használati szabályzat a céged számára — segít az AI Act-megfeleléshez.</p>
+          </div>
+          <div class="kihely-feat">
+            <div class="kihely-feat-icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="#2D6A4F" stroke-width="1.2"/><path d="M9 5v4l2.5 2.5" stroke="#2D6A4F" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+            <strong>30 napos utókövetés</strong>
+            <p>Nem hagyunk magatokra: e-mailes kérdés-felelet hónapig a képzés után.</p>
+          </div>
+        </div>
+
+        <div class="ai-act-notice">
+          <div class="ai-act-icon">!</div>
+          <div>
+            <strong>AI Act élesedik 2026 augusztusától</strong>
+            <p>Az EU rendelet 4. cikke már 2025 februárja óta kötelező, augusztustól szankciókkal együtt. A céges AI-képzés nem opció — jogi követelmény.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card fade-up">
+        <h3>Érdekel a céges képzés?</h3>
+        <p class="form-desc">Töltsd ki a rövid űrlapot — 1–2 munkanapon belül felvesszük veled a kapcsolatot egy bemutató beszélgetésre.</p>
+
+        <div class="form-group">
+          <label>Neved</label>
+          <input type="text" placeholder="Kovács Béla">
+        </div>
+        <div class="form-group">
+          <label>E-mail cím</label>
+          <input type="email" placeholder="bela@cegem.hu">
+        </div>
+        <div class="form-group">
+          <label>Cégnév</label>
+          <input type="text" placeholder="Cégem Kft.">
+        </div>
+        <div class="form-group">
+          <label>Csapatméret</label>
+          <select>
+            <option value="">Válassz...</option>
+            <option>5–10 fő</option>
+            <option>11–15 fő</option>
+            <option>16–30 fő</option>
+            <option>30+ fő</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mire van szükségetek?</label>
+          <textarea placeholder="Pár mondat arról, milyen területen szeretnétek AI-t bevezetni..."></textarea>
+        </div>
+        <button class="btn btn-sage btn-wide">
+          Ajánlatot kérek
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     HOGYAN INDULSZ
+═══════════════════════════════════════════════════════ -->
+<section id="hogyan">
+  <div class="container">
+    <div class="section-label">Hogyan indulsz</div>
+    <h2 class="headline fade-up">Három lépés —<br><em>nem több.</em></h2>
+    <p class="body-lg fade-up">Nem kell hetekig készülnöd. Egyetlen döntés a tied, a többi a mi dolgunk.</p>
+
+    <div class="path-grid">
+      <div class="path-card fade-up">
+        <div class="path-step">— első lépés</div>
+        <h4>Választasz egy képzést</h4>
+        <p>Magánszemélyként az Alapozót vagy a Haladót, cégként céges csomagot. Ha bizonytalan vagy, szólj — segítünk eldönteni.</p>
+      </div>
+      <div class="path-card fade-up">
+        <div class="path-step">— második lépés</div>
+        <h4>Jelentkezel</h4>
+        <p>Pár adat, e-mail, és kapsz egy visszaigazolást. Lakossági képzésnél időpont, céges csomagnál bemutató beszélgetés.</p>
+      </div>
+      <div class="path-card fade-up">
+        <div class="path-step">— harmadik lépés</div>
+        <h4>Eljössz, és használható tudással mész haza</h4>
+        <p>Egy nap — élő gyakorlat, valós feladat. Másnap reggel már másképp dolgozol. Ez a célunk, nem kevesebb.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     VÉLEMÉNYEK
+═══════════════════════════════════════════════════════ -->
+<section id="velemenyek" class="alt">
+  <div class="container">
+    <div class="section-label">Vélemények</div>
+    <h2 class="headline fade-up">Mit mondanak<br><em>a résztvevők?</em></h2>
+
+    <div class="testimonials-grid">
+
+      <div class="testi-card fade-up">
+        <div class="stars">
+          <svg class="star-icon" width="14" height="14" viewBox="0 0 14 14"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.4 3.8 11l.6-3.6L2 4.8l3.6-.5L7 1z" fill="currentColor"/></svg>
+          <svg class="star-icon" width="14" height="14" viewBox="0 0 14 14"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.4 3.8 11l.6-3.6L2 4.8l3.6-.5L7 1z" fill="currentColor"/></svg>
+          <svg class="star-icon" width="14" height="14" viewBox="0 0 14 14"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.4 3.8 11l.6-3.6L2 4.8l3.6-.5L7 1z" fill="currentColor"/></svg>
+          <svg class="star-icon" width="14" height="14" viewBox="0 0 14 14"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.4 3.8 11l.6-3.6L2 4.8l3.6-.5L7 1z" fill="currentColor"/></svg>
+          <svg class="star-icon" width="14" height="14" viewBox="0 0 14 14"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.4 3.8 11l.6-3.6L2 4.8l3.6-.5L7 1z" fill="currentColor"/></svg>
+        </div>
+        <p>Nagyon informatív, kézzel foghatóvá tett tanfolyam, ahol a saját példánkra adaptálva is kipróbálhattuk a különböző programok használatát.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">MV</div>
+          <div class="testi-info">
+            <strong>Molnár Veronika</strong>
+            <span>Marketing, Baja</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card fade-up">
+        <div class="stars">
+          <svg class="star-icon" width="14" height="14" viewBox="0 0 14 14"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.4 3.8 11l.6-3.6L2 4.8l3.6-.5L7 1z" fill="currentColor"/></svg>
+          <svg class="star-icon" width="14" height="14" viewBox="0 0 14 14"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.4 3.8 11l.6-3.6L2 4.8l3.6-.5L7 1z" fill="currentColor"/></svg>
+          <svg class="star-icon" width="14" height="14" viewBox="0 0 14 14"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.4 3.8 11l.6-3.6L2 4.8l3.6-.5L7 1z" fill="currentColor"/></svg>
+          <svg class="star-icon" width="14" height="14" viewBox="0 0 14 14"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.4 3.8 11l.6-3.6L2 4.8l3.6-.5L7 1z" fill="currentColor"/></svg>
+          <svg class="star-icon" width="14" height="14" viewBox="0 0 14 14"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.4 3.8 11l.6-3.6L2 4.8l3.6-.5L7 1z" fill="currentColor"/></svg>
+        </div>
+        <p>Lépésről lépésre vezetett az AI használatába, és gyakorlati példákon mutatták meg, hogyan tudom alkalmazni a saját munkámban.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">SZ</div>
+          <div class="testi-info">
+            <strong>Szabó Zsolt</strong>
+            <span>Ügyvezető, Kalocsa</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card fade-up">
+        <div class="stars">
+          <svg class="star-icon" width="14" height="14" viewBox="0 0 14 14"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.4 3.8 11l.6-3.6L2 4.8l3.6-.5L7 1z" fill="currentColor"/></svg>
+          <svg class="star-icon" width="14" height="14" viewBox="0 0 14 14"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.4 3.8 11l.6-3.6L2 4.8l3.6-.5L7 1z" fill="currentColor"/></svg>
+          <svg class="star-icon" width="14" height="14" viewBox="0 0 14 14"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.4 3.8 11l.6-3.6L2 4.8l3.6-.5L7 1z" fill="currentColor"/></svg>
+          <svg class="star-icon" width="14" height="14" viewBox="0 0 14 14"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.4 3.8 11l.6-3.6L2 4.8l3.6-.5L7 1z" fill="currentColor"/></svg>
+          <svg class="star-icon" width="14" height="14" viewBox="0 0 14 14"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.4 3.8 11l.6-3.6L2 4.8l3.6-.5L7 1z" fill="currentColor"/></svg>
+        </div>
+        <p>Egy nap alatt több használható tudást kaptam, mint máshol féléves kurzus alatt. Nem fővárosi „üres szöveg", hanem amit másnap már alkalmazni tudtam.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">NK</div>
+          <div class="testi-info">
+            <strong>Nagy Katalin</strong>
+            <span>Vállalkozó, Szekszárd</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     FAQ
+═══════════════════════════════════════════════════════ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-label" style="text-align:center;">Gyakori kérdések</div>
+    <h2 class="headline fade-up" style="text-align:center;">Amit <em>érdemes tudnod</em><br>jelentkezés előtt.</h2>
+
+    <div class="faq-list fade-up">
+      <details class="faq-item">
+        <summary>Kell-e előzetes informatikai tudás az AI Alapozóhoz?</summary>
+        <div class="faq-body">
+          Nem. Ha tudsz e-mailt írni és böngészőt használni, már elég. A képzést azoknak terveztük, akik még nem használtak ChatGPT-t napi szinten, vagy belekezdtek, de nem „kaptak rá".
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary>Mi a különbség az AI Alapozó és a Haladó között?</summary>
+        <div class="faq-body">
+          Az Alapozó az első találkozás: alapfogalmak, kérdezés-tanulás, biztonságos használat. A Haladó már feltételezi, hogy napi szinten használsz AI-t — ott haladó technikákról, saját munkafolyamat felépítéséről beszélünk, kisebb csoportban.
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary>Mit jelent pontosan a céges csomag „testre szabása"?</summary>
+        <div class="faq-body">
+          A céges nap előtt rövid bemutató beszélgetésen átnézzük, milyen szerepkörök vannak nálatok, és milyen folyamatokat szeretnétek érinteni. Ezután 2–3 modult választunk (pl. marketing + ügyfélszolgálat + admin), és ehhez szabjuk a tananyagot, a feladatokat, a prompt-gyűjteményt.
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary>Mi az az „AI Act", és tényleg minket is érint?</summary>
+        <div class="faq-body">
+          Az EU mesterséges intelligenciáról szóló rendelete. A 4. cikke 2025 februárjától kötelezően alkalmazandó, és 2026 augusztusától szankciós szakasz is élesedik — ekkortól minden olyan cégnek, amely AI-t használ vagy fejleszt, igazolható szintű AI-műveltséggel kell rendelkeznie a munkavállalói körében. A céges csomagunk része egy írásos belső szabályzat, ami ehhez ad alapot.
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary>Hol vannak a képzések?</summary>
+        <div class="faq-body">
+          A lakossági workshopok Baján zajlanak, helyszíni formátumban. A céges képzéseket a ti irodátokban vagy közösen választott helyszínen tartjuk — Baja, Kalocsa, Szekszárd, Szeged, Kecskemét és környékükön.
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary>Mi van, ha kevesen jelentkeznek egy időpontra?</summary>
+        <div class="faq-body">
+          6 fős minimum létszám alatt elhalasztjuk a workshopot 2–3 héttel — a már jelentkezőknek kedvezményt adunk az új időpontra. Egy 4 fős csoport sem nektek, sem nekünk nem szolgálná a célt.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     CTA BANNER
+═══════════════════════════════════════════════════════ -->
+<section style="padding:3rem 2rem;">
+  <div class="container">
+    <div class="cta-banner fade-up">
+      <h2>Az AI nem helyettesít.<br><em>De aki ismeri, megelőz.</em></h2>
+      <p>Csatlakozz azokhoz, akik ma egy nappal kezdik el — nem holnap egy féléves kurzussal.</p>
+      <div class="cta-actions">
+        <a href="#kepzesek" class="btn btn-on-dark">
+          Nézd meg a képzéseket
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#ceges" class="btn btn-ghost-white">Céges képzést keresek</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="footer-brand-name">BácskAI <span>Akadémia</span></span>
+        <p>Mesterséges intelligencia képzés a mindennapok emberének és helyi vállalkozásoknak — Baja, Kalocsa, Szekszárd, Szeged, Kecskemét.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigáció</h4>
+        <ul>
+          <li><a href="#rolunk">Rólunk</a></li>
+          <li><a href="#kepzesek">Képzések</a></li>
+          <li><a href="#ceges">Céges képzés</a></li>
+          <li><a href="#hogyan">Hogyan indulsz</a></li>
+          <li><a href="#faq">GYIK</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Képzések</h4>
+        <ul>
+          <li><a href="#kepzesek">AI Alapozó</a></li>
+          <li><a href="#kepzesek">AI Haladó</a></li>
+          <li><a href="#ceges">Céges csomag</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Kapcsolat</h4>
+        <ul>
+          <li><a href="mailto:info@bacskaii.hu">info@bacskaii.hu</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 BácskAI Akadémia. Minden jog fenntartva.</p>
+      <p>Helyben, magyarul, érthetően.</p>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     MODAL
+═══════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()" aria-label="Bezárás">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+        <path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <h2>Jelentkezés</h2>
+    <div class="modal-course-name" id="modalCourseName">–</div>
+
+    <div class="form-group">
+      <label>Teljes neved</label>
+      <input type="text" placeholder="Kovács Béla">
+    </div>
+    <div class="form-group">
+      <label>E-mail cím</label>
+      <input type="email" placeholder="bela@pelda.hu">
+    </div>
+    <div class="form-group">
+      <label>Telefonszám</label>
+      <input type="tel" placeholder="+36 30 123 4567">
+    </div>
+    <div class="form-group">
+      <label>Honnan érkezel?</label>
+      <select>
+        <option value="">Válassz...</option>
+        <option>Baja és környéke</option>
+        <option>Kalocsa</option>
+        <option>Szekszárd</option>
+        <option>Szeged</option>
+        <option>Kecskemét</option>
+        <option>Egyéb</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Megjegyzés (opcionális)</label>
+      <textarea placeholder="Bármi, amit jó, ha tudunk rólad..."></textarea>
+    </div>
+
+    <button class="btn btn-sage btn-wide" onclick="submitForm()">
+      Jelentkezés elküldése
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <p style="font-size:0.72rem;color:var(--muted);margin-top:1rem;text-align:center;line-height:1.5;">A jelentkezés visszaigazolása e-mailben érkezik 1–2 munkanapon belül.</p>
+  </div>
+</div>
+
+
+<script>
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+function openModal(courseName) {
+  document.getElementById('modalCourseName').textContent = courseName;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOnBg(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+function submitForm() {
+  alert('Köszönjük a jelentkezésedet! 1–2 munkanapon belül e-mailben keresünk.');
+  closeModal();
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  nav.style.boxShadow = window.scrollY > 10 ? 'var(--sh-md)' : 'none';
+});
+</script>
+</body>
+</html>
