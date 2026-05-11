@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BácskAI Akadémia – Mesterséges intelligencia képzések</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ─── DESIGN TOKENS ────────────────────────────────────── */
 :root {
@@ -33,6 +33,7 @@
   /* Typography */
   --font-display: 'Fraunces', Georgia, serif;
   --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
 
   /* Spacing */
   --r-sm: 10px;
@@ -303,42 +304,171 @@ section.alt { background: var(--surface); }
 /* ─── ABOUT ──────────────────────────────────────────── */
 .about-grid {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: 5rem; align-items: center;
+  gap: 5rem; align-items: stretch;
 }
+
+/* BRUTALIST VISUAL — éles kontraszt a finomított jobb oldallal */
 .about-visual {
-  position: relative; height: 460px;
+  position: relative;
+  background: var(--bg);
+  border: 2px solid var(--ink);
+  /* Brutalist offset shadow — nem soft, hanem éles */
+  box-shadow: 8px 8px 0 var(--ink);
+  /* Zajos textúra background */
+  background-image:
+    repeating-linear-gradient(45deg, transparent 0 2px, rgba(0,0,0,0.015) 2px 3px),
+    var(--surface);
 }
-.about-main-card {
-  position: absolute; inset: 0;
-  background: var(--surface); border-radius: var(--r-xl);
-  border: 1px solid var(--border); box-shadow: var(--sh-md);
-  padding: 2rem; display: flex; flex-direction: column; justify-content: space-between;
+
+/* Top metadata bar — terminál érzet */
+.about-meta-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.7rem 1.2rem;
+  border-bottom: 2px solid var(--ink);
+  background: var(--ink);
+  color: var(--surface);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.about-meta-bar .dot-row { display: flex; gap: 6px; }
+.about-meta-bar .dot {
+  width: 8px; height: 8px;
+  background: var(--surface);
+  opacity: 0.4;
+}
+.about-meta-bar .dot.active { opacity: 1; background: var(--sage-mid); }
+
+/* Aszimmetrikus brutalist grid */
+.about-brutal-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  grid-template-rows: auto auto auto;
+}
+.about-brutal-grid > div {
+  border-bottom: 2px solid var(--ink);
+}
+.about-brutal-grid > div:nth-child(odd) {
+  border-right: 2px solid var(--ink);
+}
+
+/* Az óriási évszám cella */
+.brutal-year {
+  padding: 2rem 1.5rem 1.5rem;
+  grid-row: span 2;
+  display: flex; flex-direction: column; justify-content: space-between;
+  position: relative;
   overflow: hidden;
 }
-.about-main-card::before {
-  content: ''; position: absolute;
-  top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, var(--sage), var(--sage-mid));
+.brutal-year-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
 }
-.about-diagram { flex: 1; display: flex; align-items: center; justify-content: center; }
-.about-quote {
+.brutal-year-num {
   font-family: var(--font-display);
-  font-style: italic; font-size: 1.1rem; color: var(--text-2);
-  line-height: 1.55; border-left: 3px solid var(--sage);
-  padding-left: 1rem; margin-top: 1rem;
+  font-weight: 700;
+  font-size: clamp(4rem, 8vw, 6.5rem);
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  color: var(--ink);
+  /* Számjegyek mono-felirattal alul */
 }
-.about-floating {
-  position: absolute; bottom: -20px; right: -20px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--r-md); padding: 1rem 1.3rem;
-  box-shadow: var(--sh-md); min-width: 160px;
+.brutal-year-sub {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-2);
+  letter-spacing: 0.04em;
+  border-top: 1px dashed var(--border-med);
+  padding-top: 0.7rem;
+  margin-top: 1rem;
 }
-.about-floating .af-num {
+
+/* Pillér cellák — Tudás / Gyakorlat / Eredmény / Közösség */
+.brutal-pillar {
+  padding: 1.2rem 1.2rem;
+  display: flex; flex-direction: column;
+  gap: 0.4rem;
+  transition: background 0.2s;
+  cursor: default;
+}
+.brutal-pillar:hover {
+  background: var(--ink);
+  color: var(--surface);
+}
+.brutal-pillar:hover .brutal-pillar-num { color: var(--sage-mid); }
+.brutal-pillar:hover .brutal-pillar-label { color: rgba(255,255,255,0.6); }
+
+.brutal-pillar-num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--sage);
+  letter-spacing: 0.06em;
+  transition: color 0.2s;
+}
+.brutal-pillar-title {
   font-family: var(--font-display);
-  font-size: 1.8rem; font-weight: 700; color: var(--sage);
-  letter-spacing: -0.03em;
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  color: inherit;
+  line-height: 1.1;
 }
-.about-floating .af-label { font-size: 0.75rem; color: var(--muted); }
+.brutal-pillar-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: color 0.2s;
+}
+
+/* Idézet sáv — alsó kontraszt blokk */
+.brutal-quote {
+  grid-column: 1 / -1;
+  padding: 1.5rem 1.5rem;
+  background: var(--ink);
+  color: var(--surface);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  letter-spacing: -0.005em;
+  border-bottom: none;
+  position: relative;
+}
+.brutal-quote::before {
+  content: '"';
+  position: absolute;
+  top: -0.5rem; left: 1.2rem;
+  font-family: var(--font-display);
+  font-size: 4rem;
+  color: var(--sage-mid);
+  line-height: 1;
+  font-style: normal;
+  opacity: 0.6;
+}
+.brutal-quote .q-text {
+  position: relative;
+  z-index: 1;
+  display: block;
+  padding-top: 0.5rem;
+}
+.brutal-quote .q-attr {
+  display: block;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sage-mid);
+  margin-top: 0.9rem;
+}
 
 .pillar {
   display: flex; align-items: flex-start; gap: 1rem;
@@ -903,7 +1033,6 @@ footer {
   .berletek-grid, .testimonials-grid { grid-template-columns: 1fr; }
   .footer-top { grid-template-columns: 1fr 1fr; }
   .tudastar-preview { grid-template-columns: 1fr; }
-  .about-visual { height: 320px; }
   .nav-links { display: none; }
   .hamburger { display: flex; }
   .hero-stats { gap: 1.8rem; }
@@ -920,6 +1049,28 @@ footer {
   section { padding: 4rem 1.5rem; }
   .berlet-card { padding: 1.8rem 1.5rem; }
   .berletek-grid { grid-template-columns: 1fr; }
+  /* Brutalist visual mobil: évszám felül teljes szélességben, pillérek 2x2 alatta */
+  .about-brutal-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .brutal-year {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    padding: 1.5rem 1.2rem;
+    border-right: none !important;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .brutal-year-sub {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+    text-align: right;
+    max-width: 45%;
+  }
+  .brutal-year-num { font-size: 4rem; }
+  .about-visual { box-shadow: 5px 5px 0 var(--ink); }
 }
 </style>
 </head>
@@ -1074,39 +1225,56 @@ footer {
 <section id="rolunk" class="alt">
   <div class="container">
     <div class="about-grid">
-      <!-- Visual -->
+      <!-- Brutalist Visual -->
       <div class="about-visual fade-up">
-        <div class="about-main-card">
-          <div class="about-diagram">
-            <!-- Illustrated diagram: AI learning loop -->
-            <svg width="260" height="200" viewBox="0 0 260 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Central node -->
-              <circle cx="130" cy="100" r="36" fill="#E8F4EE" stroke="#B7DCCA" stroke-width="1.5"/>
-              <text x="130" y="95" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" font-weight="600" fill="#2D6A4F">BácskAI</text>
-              <text x="130" y="109" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="9" fill="#2D6A4F">Akadémia</text>
-              <!-- Orbit nodes -->
-              <circle cx="130" cy="28" r="20" fill="#fff" stroke="#E0DFD8" stroke-width="1"/>
-              <text x="130" y="32" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="8" fill="#3D3D38">Tudás</text>
-              <circle cx="210" cy="100" r="20" fill="#fff" stroke="#E0DFD8" stroke-width="1"/>
-              <text x="210" y="104" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="8" fill="#3D3D38">Gyakorlat</text>
-              <circle cx="130" cy="172" r="20" fill="#fff" stroke="#E0DFD8" stroke-width="1"/>
-              <text x="130" y="176" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="8" fill="#3D3D38">Eredmény</text>
-              <circle cx="50" cy="100" r="20" fill="#fff" stroke="#E0DFD8" stroke-width="1"/>
-              <text x="50" y="104" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="8" fill="#3D3D38">Közösség</text>
-              <!-- Connecting lines -->
-              <line x1="130" y1="48" x2="130" y2="64" stroke="#B7DCCA" stroke-width="1" stroke-dasharray="3 3"/>
-              <line x1="190" y1="100" x2="166" y2="100" stroke="#B7DCCA" stroke-width="1" stroke-dasharray="3 3"/>
-              <line x1="130" y1="152" x2="130" y2="136" stroke="#B7DCCA" stroke-width="1" stroke-dasharray="3 3"/>
-              <line x1="70" y1="100" x2="94" y2="100" stroke="#B7DCCA" stroke-width="1" stroke-dasharray="3 3"/>
-            </svg>
+        <div class="about-meta-bar">
+          <span>BAJA · DÉL-ALFÖLD</span>
+          <div class="dot-row" aria-hidden="true">
+            <span class="dot active"></span>
+            <span class="dot active"></span>
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
           </div>
-          <blockquote class="about-quote">
-            „Az AI nem helyettesíti a munkádat — de aki ismeri, megelőz téged."
-          </blockquote>
         </div>
-        <div class="about-floating">
-          <div class="af-num">2024</div>
-          <div class="af-label">óta képezünk</div>
+
+        <div class="about-brutal-grid">
+          <!-- Bal: óriási évszám -->
+          <div class="brutal-year">
+            <div>
+              <div class="brutal-year-label">// Alapítva</div>
+              <div class="brutal-year-num">2026</div>
+            </div>
+            <div class="brutal-year-sub">Helyben tanítjuk az AI-t</div>
+          </div>
+
+          <!-- Jobb: 4 pillér 2x2-ben -->
+          <div class="brutal-pillar">
+            <span class="brutal-pillar-num">01</span>
+            <span class="brutal-pillar-title">Tudás</span>
+            <span class="brutal-pillar-label">elméleti alap</span>
+          </div>
+          <div class="brutal-pillar">
+            <span class="brutal-pillar-num">02</span>
+            <span class="brutal-pillar-title">Gyakorlat</span>
+            <span class="brutal-pillar-label">élő feladat</span>
+          </div>
+          <div class="brutal-pillar">
+            <span class="brutal-pillar-num">03</span>
+            <span class="brutal-pillar-title">Eredmény</span>
+            <span class="brutal-pillar-label">mérhető output</span>
+          </div>
+          <div class="brutal-pillar">
+            <span class="brutal-pillar-num">04</span>
+            <span class="brutal-pillar-title">Közösség</span>
+            <span class="brutal-pillar-label">helyi network</span>
+          </div>
+
+          <!-- Idézet sáv -->
+          <div class="brutal-quote">
+            <span class="q-text">Az AI nem helyettesíti a munkádat — de aki ismeri, megelőz téged.</span>
+            <span class="q-attr">— Bácsk[AI] filozófia</span>
+          </div>
         </div>
       </div>
 
