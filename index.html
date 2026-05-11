@@ -320,91 +320,6 @@ section.alt { background: var(--surface); }
   top: 0; left: 0; right: 0; height: 3px;
   background: linear-gradient(90deg, var(--sage), var(--sage-mid));
 }
-  .about-main-card{
-  position:relative;
-  overflow:hidden;
-  padding:2rem;
-  border-radius:28px;
-  background:rgba(255,255,255,0.7);
-  backdrop-filter:blur(14px);
-  border:1px solid rgba(255,255,255,0.5);
-  box-shadow:
-    0 10px 40px rgba(0,0,0,0.06),
-    inset 0 1px 0 rgba(255,255,255,0.6);
-}
-
-.ai-panel{
-  position:relative;
-  height:220px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.ai-core{
-  position:relative;
-  z-index:2;
-  width:120px;
-  height:120px;
-  border-radius:28px;
-  background:linear-gradient(135deg,#1f3d2f,#2d6a4f);
-  color:white;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 20px 50px rgba(45,106,79,.25);
-}
-
-.core-dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:#7fffd4;
-  margin-bottom:10px;
-  box-shadow:0 0 20px #7fffd4;
-}
-
-.core-title{
-  font-weight:700;
-  font-size:1rem;
-}
-
-.core-sub{
-  opacity:.7;
-  font-size:.75rem;
-}
-
-.floating-card{
-  position:absolute;
-  background:rgba(255,255,255,0.85);
-  border:1px solid rgba(255,255,255,0.6);
-  backdrop-filter:blur(10px);
-  padding:.8rem 1rem;
-  border-radius:18px;
-  font-size:.8rem;
-  box-shadow:0 10px 30px rgba(0,0,0,.05);
-}
-
-.floating-card span{
-  display:block;
-  font-size:1rem;
-  margin-bottom:4px;
-}
-
-.fc-1{ top:10px; left:20px; }
-.fc-2{ top:20px; right:20px; }
-.fc-3{ bottom:10px; right:30px; }
-.fc-4{ bottom:20px; left:25px; }
-
-.grid-glow{
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle at center,
-    rgba(45,106,79,.12),
-    transparent 70%);
-}
 .about-diagram { flex: 1; display: flex; align-items: center; justify-content: center; }
 .about-quote {
   font-family: var(--font-display);
@@ -413,11 +328,8 @@ section.alt { background: var(--surface); }
   padding-left: 1rem; margin-top: 1rem;
 }
 .about-floating {
-  position: absolute;
-  top: -20px;
-  right: -20px;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  position: absolute; bottom: -20px; right: -20px;
+  background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--r-md); padding: 1rem 1.3rem;
   box-shadow: var(--sh-md); min-width: 160px;
 }
@@ -1073,10 +985,9 @@ footer {
         AI képzések · Baja & a Dél-Alföld
       </div>
 
-      <h1>Két éve még kísérlet volt. <em>Két év</em><br>múlva része a mindennapi munkának. —<br></h1>
+      <h1>Tanuld meg az <em>AI-t</em><br>a hétköznapokra —<br>helyben, magyarul.</h1>
 
       <p class="hero-desc">
-        Most még van idő ráérezni, mielőtt muszáj lesz.
         Gyakorlati képzések magánszemélyeknek, vállalkozóknak és helyi cégeknek.
         Kezdő szinttől AI Act-megfelelő céges képzésig — kiscsoportban, érthetően.
       </p>
@@ -1160,45 +1071,44 @@ footer {
 <!-- ═══════════════════════════════════════════════════════
      RÓLUNK
 ═══════════════════════════════════════════════════════ -->
-<div class="about-main-card">
-  
-  <div class="ai-panel">
-    
-    <div class="ai-core">
-      <span class="core-dot"></span>
-      <div class="core-title">BácskAI</div>
-      <div class="core-sub">AI Akadémia</div>
-    </div>
-
-    <div class="floating-card fc-1">
-      <span>📘</span>
-      <p>Tudás</p>
-    </div>
-
-    <div class="floating-card fc-2">
-      <span>⚡</span>
-      <p>Gyakorlat</p>
-    </div>
-
-    <div class="floating-card fc-3">
-      <span>📈</span>
-      <p>Eredmény</p>
-    </div>
-
-    <div class="floating-card fc-4">
-      <span>🤝</span>
-      <p>Közösség</p>
-    </div>
-
-    <div class="grid-glow"></div>
-
-  </div>
-
-  <blockquote class="about-quote">
-    „Az AI nem helyettesíti a munkádat — de aki ismeri, megelőz téged."
-  </blockquote>
-
-</div>
+<section id="rolunk" class="alt">
+  <div class="container">
+    <div class="about-grid">
+      <!-- Visual -->
+      <div class="about-visual fade-up">
+        <div class="about-main-card">
+          <div class="about-diagram">
+            <!-- Illustrated diagram: AI learning loop -->
+            <svg width="260" height="200" viewBox="0 0 260 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Central node -->
+              <circle cx="130" cy="100" r="36" fill="#E8F4EE" stroke="#B7DCCA" stroke-width="1.5"/>
+              <text x="130" y="95" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" font-weight="600" fill="#2D6A4F">BácskAI</text>
+              <text x="130" y="109" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="9" fill="#2D6A4F">Akadémia</text>
+              <!-- Orbit nodes -->
+              <circle cx="130" cy="28" r="20" fill="#fff" stroke="#E0DFD8" stroke-width="1"/>
+              <text x="130" y="32" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="8" fill="#3D3D38">Tudás</text>
+              <circle cx="210" cy="100" r="20" fill="#fff" stroke="#E0DFD8" stroke-width="1"/>
+              <text x="210" y="104" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="8" fill="#3D3D38">Gyakorlat</text>
+              <circle cx="130" cy="172" r="20" fill="#fff" stroke="#E0DFD8" stroke-width="1"/>
+              <text x="130" y="176" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="8" fill="#3D3D38">Eredmény</text>
+              <circle cx="50" cy="100" r="20" fill="#fff" stroke="#E0DFD8" stroke-width="1"/>
+              <text x="50" y="104" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="8" fill="#3D3D38">Közösség</text>
+              <!-- Connecting lines -->
+              <line x1="130" y1="48" x2="130" y2="64" stroke="#B7DCCA" stroke-width="1" stroke-dasharray="3 3"/>
+              <line x1="190" y1="100" x2="166" y2="100" stroke="#B7DCCA" stroke-width="1" stroke-dasharray="3 3"/>
+              <line x1="130" y1="152" x2="130" y2="136" stroke="#B7DCCA" stroke-width="1" stroke-dasharray="3 3"/>
+              <line x1="70" y1="100" x2="94" y2="100" stroke="#B7DCCA" stroke-width="1" stroke-dasharray="3 3"/>
+            </svg>
+          </div>
+          <blockquote class="about-quote">
+            „Az AI nem helyettesíti a munkádat — de aki ismeri, megelőz téged."
+          </blockquote>
+        </div>
+        <div class="about-floating">
+          <div class="af-num">2024</div>
+          <div class="af-label">óta képezünk</div>
+        </div>
+      </div>
 
       <!-- Content -->
       <div class="fade-up">
@@ -1637,6 +1547,7 @@ footer {
       <div class="footer-col">
         <h4>Kapcsolat</h4>
         <ul>
+          <li><a href="mailto:info@bacskaii.hu">info@bacskaii.hu</a></li>
           <li><a href="#">LinkedIn</a></li>
           <li><a href="#">Facebook</a></li>
           <li><a href="#">Hírlevél</a></li>
@@ -1644,7 +1555,7 @@ footer {
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2026 BácskAI Akadémia. Minden jog fenntartva.</p>
+      <p>© 2025 BácskAI Akadémia. Minden jog fenntartva.</p>
       <p>Az AI segítségével épített jövő.</p>
     </div>
   </div>
