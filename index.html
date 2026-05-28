@@ -923,7 +923,7 @@ nav {
 }
 .about-float-badge {
   position: absolute;
-  bottom: -18px; right: -18px;
+  top: -18px; right: -18px;
   background: var(--coral);
   color: #fff;
   padding: 1rem 1.4rem;
@@ -1070,6 +1070,18 @@ nav {
 .course-price-free {
   color: var(--coral);
 }
+
+/* Kártya gombpáros: Részletek + Jelentkezem */
+.course-actions {
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.course-actions .btn { width: 100%; justify-content: center; }
+.btn-link-row {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  font-size: 0.85rem; font-weight: 700; color: var(--slate);
+  padding: 0.4rem; transition: color 0.18s, gap 0.18s;
+}
+.btn-link-row:hover { color: var(--coral); gap: 9px; }
 
 /* Scarcity */
 .scarcity {
@@ -1990,7 +2002,10 @@ footer {
           </div>
         </div>
         <div class="course-price course-price-free">Ingyenes</div>
-        <button class="btn btn-primary btn-wide" onclick="openModal('SzerdaAI')">Jelentkezem a SzerdAI estre</button>
+        <div class="course-actions">
+          <button class="btn btn-primary" onclick="openModal('SzerdaAI')">Jelentkezem</button>
+          <a href="szerdai.html" class="btn-link-row">Részletek <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
       </div>
 
       <!-- AI Alapozó -->
@@ -2013,7 +2028,10 @@ footer {
           </div>
         </div>
         <div class="course-price">39 900 Ft<small> bruttó</small></div>
-        <button class="btn btn-primary btn-wide" onclick="openModal('AI Alapozó')">Jelentkezem az AI Alapozóra</button>
+        <div class="course-actions">
+          <button class="btn btn-primary" onclick="openModal('AI Alapozó')">Jelentkezem</button>
+          <a href="ai-alapozo.html" class="btn-link-row">Részletek <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
       </div>
 
       <!-- AI Haladó -->
@@ -2035,7 +2053,10 @@ footer {
           </div>
         </div>
         <div class="course-price">79 900 Ft<small> bruttó</small></div>
-        <button class="btn btn-secondary btn-wide" onclick="openModal('AI Haladó')">Jelentkezem az AI Haladóra</button>
+        <div class="course-actions">
+          <button class="btn btn-primary" onclick="openModal('AI Haladó')">Jelentkezem</button>
+          <a href="ai-halado.html" class="btn-link-row">Részletek <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
       </div>
 
       <!-- Céges AI képzés -->
@@ -2057,7 +2078,10 @@ footer {
           </div>
         </div>
         <div class="course-price" style="font-size:1.3rem;">Egyedi ajánlat</div>
-        <a href="#kihelyezett" class="btn btn-secondary btn-wide">Céges képzés érdekel</a>
+        <div class="course-actions">
+          <a href="#kihelyezett" class="btn btn-primary">Ajánlatot kérek</a>
+          <a href="ceges-ai-kepzes.html" class="btn-link-row">Részletek <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
       </div>
 
     </div>
