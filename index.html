@@ -585,35 +585,81 @@ nav {
   grid-template-columns: repeat(4, 1fr);
   gap: 1.4rem;
 }
+
+/* Glass kártya — szintenként árnyalódó palakék akcentussal */
 .audience-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
+  --acc: var(--slate);          /* akcentus-szín, kártyánként felülírva */
+  --acc-soft: rgba(75,101,132,0.10);
+  position: relative;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  border: 1px solid rgba(255,255,255,0.7);
   border-radius: var(--r-xl);
-  padding: 2rem 1.6rem;
-  box-shadow: var(--sh-sm);
-  transition: transform 0.25s, box-shadow 0.25s;
+  padding: 2.2rem 1.7rem 2rem;
+  box-shadow: 0 4px 20px rgba(43,51,64,0.06), inset 0 1px 0 rgba(255,255,255,0.6);
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s, background 0.3s;
+}
+/* Felső akcentus-csík */
+.audience-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--acc);
+  opacity: 0.85;
+  transition: height 0.3s;
+}
+/* Halvány színes derengés a sarokban */
+.audience-card::after {
+  content: '';
+  position: absolute; top: -40px; right: -40px;
+  width: 130px; height: 130px;
+  background: radial-gradient(circle, var(--acc-soft) 0%, transparent 70%);
+  transition: opacity 0.3s, transform 0.4s;
+  opacity: 0.7;
 }
 .audience-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--sh-lg);
+  transform: translateY(-7px);
+  background: rgba(255,255,255,0.78);
+  box-shadow: 0 18px 44px rgba(43,51,64,0.14), inset 0 1px 0 rgba(255,255,255,0.7);
 }
+.audience-card:hover::before { height: 5px; }
+.audience-card:hover::after { opacity: 1; transform: scale(1.25); }
+
+/* Erős, kitöltött ikon-keret az akcentus színével */
 .audience-icon {
-  width: 50px; height: 50px;
-  border-radius: var(--r-md);
-  background: var(--coral-light);
+  position: relative; z-index: 1;
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  background: var(--acc);
   display: flex; align-items: center; justify-content: center;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.4rem;
+  box-shadow: 0 6px 16px -4px var(--acc);
+  transition: transform 0.3s cubic-bezier(.34,1.5,.5,1);
 }
-.audience-icon svg { stroke: var(--coral); }
+.audience-card:hover .audience-icon {
+  transform: scale(1.08) rotate(-4deg);
+}
+.audience-icon svg { stroke: #fff; color: #fff; }
 .audience-card h3 {
+  position: relative; z-index: 1;
   font-family: var(--font-display);
-  font-weight: 800; font-size: 1.15rem;
+  font-weight: 800; font-size: 1.18rem;
   margin-bottom: 0.6rem; color: var(--ink);
   letter-spacing: -0.01em;
 }
 .audience-card p {
+  position: relative; z-index: 1;
   font-size: 0.9rem; color: var(--text-2); line-height: 1.6;
 }
+
+/* Szintenként árnyalódó kék — világos → sötét (mint a bannerek) */
+.audience-card.lvl-1 { --acc: #6E86A6; --acc-soft: rgba(110,134,166,0.14); }
+.audience-card.lvl-2 { --acc: #4B6584; --acc-soft: rgba(75,101,132,0.14); }
+.audience-card.lvl-3 { --acc: #3A506B; --acc-soft: rgba(58,80,107,0.14); }
+.audience-card.lvl-4 { --acc: #2B3340; --acc-soft: rgba(43,51,64,0.14); }
+
 
 /* ─── PROBLÉMA → MEGOLDÁS ───────────────────────────── */
 .problem-list {
@@ -1776,33 +1822,33 @@ footer {
     </div>
 
     <div class="audience-grid">
-      <div class="audience-card fade-up">
+      <div class="audience-card lvl-1 fade-up">
         <div class="audience-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" stroke="currentColor" stroke-width="1.6"/><path d="M8 5V3.5M16 5V3.5M3 10h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.7"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
         </div>
         <h3>Munkavállalóknak</h3>
         <p>Ha irodai, értékesítési, marketing, pénzügyi, HR, ügyfélszolgálati vagy adminisztratív munkát végzel — megtanulod, hogyan gyorsítsd fel a napi feladataidat AI-eszközökkel.</p>
       </div>
 
-      <div class="audience-card fade-up">
+      <div class="audience-card lvl-2 fade-up">
         <div class="audience-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.5 7h7l-5.5 4.5 2 7-6-4.5-6 4.5 2-7L2.5 9h7L12 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3c3 1.5 5 4.5 5 8.5 0 2.5-1 4.5-2 6H9c-1-1.5-2-3.5-2-6C7 7.5 9 4.5 12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="1.8" stroke="currentColor" stroke-width="1.5"/><path d="M9 17.5l-1.5 3M15 17.5l1.5 3M12 17.5v3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         </div>
         <h3>Vállalkozóknak</h3>
         <p>Ha kevés az időd, sok a feladatod, és gyakran egyedül kell döntened — az AI segíthet szövegírásban, ajánlatkészítésben, ötletelésben, elemzésben és ügyfélszerzésben.</p>
       </div>
 
-      <div class="audience-card fade-up">
+      <div class="audience-card lvl-3 fade-up">
         <div class="audience-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 20V8l8-5 8 5v12" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 20v-6h6v6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 21V6l7-3v18M11 21h9V10l-9-3" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14.5 11v0M14.5 14.5v0M14.5 18v0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </div>
         <h3>Cégvezetőknek</h3>
         <p>Ha szeretnéd megérteni, mire használható az AI a cégedben, hol érdemes bevezetni, és hogyan gyorsíthatók a munkafolyamatok — a képzés jó gyakorlati belépőpont.</p>
       </div>
 
-      <div class="audience-card fade-up">
+      <div class="audience-card lvl-4 fade-up">
         <div class="audience-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="9" r="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M3 19c0-3 2.7-5 6-5s6 2 6 5M16 19c0-2.5 1.5-4 4-4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="9" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 19c0-2.8 2-4.5 4.5-4.5S12.5 16.2 12.5 19M11.5 19c0-2.8 2-4.5 4.5-4.5s4.5 1.7 4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         </div>
         <h3>Céges csapatoknak</h3>
         <p>Ha nem egy embernek, hanem egy teljes csapatnak kell közös AI-alap — céges képzés keretében a saját működésetekhez igazítjuk a workshopot.</p>
