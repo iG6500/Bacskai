@@ -124,7 +124,29 @@ section.alt { background: var(--surface2); }
   cursor: pointer; border: none; text-decoration: none;
   white-space: nowrap;
   position: relative;
+  overflow: hidden;
 }
+/* A gombon belüli nyíl finoman csúszik hoverre */
+.btn svg { transition: transform 0.25s cubic-bezier(.4,0,.2,1); }
+.btn:hover svg { transform: translateX(3px); }
+
+/* Fény-átfutás a kitöltött gombokon */
+.btn-primary::after,
+.btn-slate::after,
+.btn-amber::after,
+.btn-sage::after {
+  content: '';
+  position: absolute; top: 0; left: -75%;
+  width: 50%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+.btn-primary:hover::after,
+.btn-slate:hover::after,
+.btn-amber:hover::after,
+.btn-sage:hover::after { left: 130%; }
 
 /* PRIMARY — coral */
 .btn-primary {
@@ -352,17 +374,39 @@ nav {
 
 /* Soft decorative blobs */
 .hero-bg-lines {
-  position: absolute; inset: 0; pointer-events: none;
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
 }
 .hero-bg-lines svg { display: none; }
 .hero-bg-lines::before {
   content: '';
   position: absolute;
-  top: 12%; right: 8%;
-  width: 320px; height: 320px;
-  background: radial-gradient(circle, rgba(75,101,132,0.10) 0%, transparent 70%);
+  top: 10%; right: 6%;
+  width: 360px; height: 360px;
+  background: radial-gradient(circle, rgba(75,101,132,0.12) 0%, transparent 70%);
   border-radius: 50%;
   filter: blur(20px);
+  animation: floatBlobA 20s ease-in-out infinite;
+}
+.hero-bg-lines::after {
+  content: '';
+  position: absolute;
+  bottom: 8%; left: 4%;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(217,148,31,0.10) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(20px);
+  animation: floatBlobB 24s ease-in-out infinite;
+}
+@keyframes floatBlobA {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-40px, 30px) scale(1.08); }
+}
+@keyframes floatBlobB {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(35px, -25px) scale(1.1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg-lines::before, .hero-bg-lines::after { animation: none; }
 }
 
 .hero-inner {
@@ -739,6 +783,81 @@ nav {
 .fit-yes li::before { content: '✓'; color: var(--coral); }
 
 /* ─── OKTATÓK ── end */
+
+/* ─── GALÉRIA (fotó-kész) ───────────────────────────── */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 180px;
+  gap: 1rem;
+}
+.gallery-item { position: relative; }
+.gallery-item.gi-tall { grid-row: span 2; }
+.gallery-item.gi-wide { grid-column: span 2; }
+.gallery-ph {
+  position: absolute; inset: 0;
+  border-radius: var(--r-lg);
+  background:
+    linear-gradient(135deg, var(--slate-light) 0%, var(--coral-light) 100%);
+  border: 1px dashed var(--border-med);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 0.8rem;
+  color: var(--slate);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  overflow: hidden;
+}
+.gallery-ph svg { opacity: 0.55; }
+.gallery-ph span {
+  font-size: 0.8rem; font-weight: 700;
+  color: var(--slate); opacity: 0.75;
+  line-height: 1.4;
+}
+.gallery-item:hover .gallery-ph {
+  transform: scale(0.985);
+  box-shadow: var(--sh-md) inset;
+}
+
+@media (max-width: 700px) {
+  .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 140px; }
+  .gallery-item.gi-tall { grid-row: span 1; }
+  .gallery-item.gi-wide { grid-column: span 2; }
+}
+
+/* ─── STATEMENT BAND ─────────────────────────────────── */
+.statement-band {
+  padding: 7rem 2rem;
+  background: var(--ink);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.statement-band::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 30%, rgba(252,92,101,0.18) 0%, transparent 45%),
+    radial-gradient(circle at 85% 70%, rgba(217,148,31,0.12) 0%, transparent 45%);
+}
+.statement-text {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: #fff;
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+.statement-text span { color: var(--coral); }
+.statement-sub {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.62);
+  max-width: 540px;
+  margin: 0 auto;
+  font-weight: 500;
+  position: relative;
+}
 
 /* ─── ABOUT ──────────────────────────────────────────── */
 .about-grid {
@@ -1357,9 +1476,60 @@ footer {
 /* ─── ANIMATIONS ─────────────────────────────────────── */
 .fade-up {
   opacity: 0; transform: translateY(24px);
-  transition: opacity 0.6s cubic-bezier(.4,0,.2,1), transform 0.6s cubic-bezier(.4,0,.2,1);
+  transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
 }
 .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* Staggered children — egymás után úsznak be */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+}
+.stagger.visible > * { opacity: 1; transform: translateY(0); }
+.stagger.visible > *:nth-child(1) { transition-delay: 0.05s; }
+.stagger.visible > *:nth-child(2) { transition-delay: 0.15s; }
+.stagger.visible > *:nth-child(3) { transition-delay: 0.25s; }
+.stagger.visible > *:nth-child(4) { transition-delay: 0.35s; }
+.stagger.visible > *:nth-child(5) { transition-delay: 0.45s; }
+.stagger.visible > *:nth-child(6) { transition-delay: 0.55s; }
+
+/* Hero belépő — automatikus, betöltéskor */
+.hero-reveal > * {
+  opacity: 0;
+  transform: translateY(22px);
+  animation: heroIn 0.85s cubic-bezier(.4,0,.2,1) forwards;
+}
+.hero-reveal > *:nth-child(1) { animation-delay: 0.15s; }
+.hero-reveal > *:nth-child(2) { animation-delay: 0.28s; }
+.hero-reveal > *:nth-child(3) { animation-delay: 0.41s; }
+.hero-reveal > *:nth-child(4) { animation-delay: 0.54s; }
+.hero-reveal > *:nth-child(5) { animation-delay: 0.67s; }
+.hero-reveal > *:nth-child(6) { animation-delay: 0.80s; }
+@keyframes heroIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-card.reveal-card {
+  opacity: 0;
+  transform: translateY(30px) scale(0.98);
+  animation: heroCardIn 1s cubic-bezier(.34,1.4,.5,1) 0.6s forwards;
+}
+@keyframes heroCardIn {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Count-up számoknál a villódzás elkerülése */
+.count-target { font-variant-numeric: tabular-nums; }
+
+/* Akadálymentesség: ki van kapcsolva a mozgás → minden azonnal látszik */
+@media (prefers-reduced-motion: reduce) {
+  .fade-up, .stagger > *, .hero-reveal > *, .hero-card.reveal-card {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
 
 /* ─── RESPONSIVE ─────────────────────────────────────── */
 @media (max-width: 960px) {
@@ -1469,7 +1639,7 @@ footer {
   </div>
 
   <div class="hero-inner container" style="padding:0 2rem;max-width:1180px;margin:0 auto;width:100%;">
-    <div>
+    <div class="hero-reveal">
       <!-- SzerdAI nyitány – low-commitment belépő -->
       <div class="urgency-bar" aria-label="Ingyenes SzerdAI est">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -1495,20 +1665,16 @@ footer {
           Megnézem a tanfolyamokat
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="szerdai.html" class="btn btn-secondary">Jelentkezem a SzerdAI estre</a>
+        <a href="#" class="btn btn-secondary" onclick="openModal('SzerdaAI'); return false;">Jelentkezem a SzerdAI estre</a>
       </div>
-
-      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:2.5rem;margin-top:-1.5rem;font-weight:600;">
-        Jelentkezés után telefonon egyeztetünk, hogy a céljaidhoz illő képzést válaszd.
-      </p>
 
       <div class="hero-stats">
         <div class="stat-item">
-          <div class="stat-num">4</div>
+          <div class="stat-num count-target" data-count="4">0</div>
           <div class="stat-label">gyakorlati képzési forma</div>
         </div>
         <div class="stat-item">
-          <div class="stat-num">15<span>–</span>30</div>
+          <div class="stat-num"><span class="count-target" data-count="15">0</span><span>–</span><span class="count-target" data-count="30">0</span></div>
           <div class="stat-label">fős csoportlétszám</div>
         </div>
         <div class="stat-item">
@@ -1519,7 +1685,7 @@ footer {
     </div>
 
     <!-- Hero card – belépő termék, SzerdAI -->
-    <div class="hero-card fade-up">
+    <div class="hero-card reveal-card">
       <div class="hero-card-badge">Itt kezdd</div>
       <h3>SzerdAI est</h3>
       <p class="card-meta">2 óra · Ingyenes · Havonta szerdán este</p>
@@ -1556,7 +1722,7 @@ footer {
       </ul>
 
       <div class="hero-card-price course-price-free">Ingyenes</div>
-      <a href="szerdai.html" class="btn btn-primary btn-wide">Jelentkezem a SzerdAI estre →</a>
+      <a href="#" class="btn btn-primary btn-wide" onclick="openModal('SzerdaAI'); return false;">Jelentkezem a SzerdAI estre →</a>
 
       <div class="social-proof-row">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="color:var(--coral);flex-shrink:0;">
@@ -1672,6 +1838,19 @@ footer {
 
 
 <!-- ═══════════════════════════════════════════════════════
+     STATEMENT — nagy tipográfiai pillanat
+═══════════════════════════════════════════════════════ -->
+<section class="statement-band">
+  <div class="container">
+    <p class="statement-text fade-up">
+      Nem programozni<br>tanítunk. <span>Dolgozni.</span>
+    </p>
+    <p class="statement-sub fade-up">Az AI nem a jövő. Már most ott van a munkádban — a kérdés csak az, ki tudja használni.</p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
      RÓLUNK
 ═══════════════════════════════════════════════════════ -->
 <section id="rolunk">
@@ -1747,6 +1926,39 @@ footer {
 </section>
 
 
+<!-- ═══════════════════════════════════════════════════════
+     GALÉRIA — fotó-kész placeholder
+═══════════════════════════════════════════════════════ -->
+<section class="gallery-band alt">
+  <div class="container">
+    <div style="text-align:center;max-width:640px;margin:0 auto 2.5rem;">
+      <div class="section-label" style="display:inline-block;">Így dolgozunk</div>
+      <h2 class="headline fade-up">Pillanatképek<br>a <em>workshopokról.</em></h2>
+    </div>
+    <div class="gallery-grid fade-up">
+      <div class="gallery-item gi-tall">
+        <div class="gallery-ph">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="7" width="24" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="14" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 22l7-6 5 4 4-3 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Hamarosan: valós<br>workshop-fotók</span>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-ph"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="4" y="7" width="24" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="14" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 22l7-6 5 4 4-3 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-ph"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="4" y="7" width="24" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="14" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 22l7-6 5 4 4-3 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="gallery-item gi-wide">
+        <div class="gallery-ph">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="4" y="7" width="24" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="14" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 22l7-6 5 4 4-3 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Helyszín, hangulat, csapat</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
 <!-- ═══════════════════════════════════════════════════════
      TANFOLYAMOK
@@ -1778,7 +1990,7 @@ footer {
           </div>
         </div>
         <div class="course-price course-price-free">Ingyenes</div>
-        <a href="szerdai.html" class="btn btn-primary btn-wide">Jelentkezem a SzerdAI estre</a>
+        <button class="btn btn-primary btn-wide" onclick="openModal('SzerdaAI')">Jelentkezem a SzerdAI estre</button>
       </div>
 
       <!-- AI Alapozó -->
@@ -1801,7 +2013,7 @@ footer {
           </div>
         </div>
         <div class="course-price">39 900 Ft<small> bruttó</small></div>
-        <a href="ai-alapozo.html" class="btn btn-primary btn-wide">Megnézem az AI Alapozót</a>
+        <button class="btn btn-primary btn-wide" onclick="openModal('AI Alapozó')">Jelentkezem az AI Alapozóra</button>
       </div>
 
       <!-- AI Haladó -->
@@ -1823,7 +2035,7 @@ footer {
           </div>
         </div>
         <div class="course-price">79 900 Ft<small> bruttó</small></div>
-        <a href="ai-halado.html" class="btn btn-secondary btn-wide">Megnézem az AI Haladót</a>
+        <button class="btn btn-secondary btn-wide" onclick="openModal('AI Haladó')">Jelentkezem az AI Haladóra</button>
       </div>
 
       <!-- Céges AI képzés -->
@@ -1845,7 +2057,7 @@ footer {
           </div>
         </div>
         <div class="course-price" style="font-size:1.3rem;">Egyedi ajánlat</div>
-        <a href="ceges-ai-kepzes.html" class="btn btn-secondary btn-wide">Céges képzés érdekel</a>
+        <a href="#kihelyezett" class="btn btn-secondary btn-wide">Céges képzés érdekel</a>
       </div>
 
     </div>
@@ -1988,39 +2200,60 @@ footer {
 
       <!-- Form -->
       <div class="form-card fade-up">
-        <h3>Céges egyeztetést kérek</h3>
-        <p class="form-desc">Töltsd ki a rövid formot — jelentkezés után telefonon egyeztetünk az igényekről és a képzési formáról.</p>
+        <div id="cegFormView">
+          <h3>Céges egyeztetést kérek</h3>
+          <p class="form-desc">Töltsd ki a rövid formot — jelentkezés után telefonon egyeztetünk az igényekről és a képzési formáról.</p>
 
-        <div class="form-group">
-          <label>Neved</label>
-          <input type="text" placeholder="Kovács Béla">
+          <form id="cegForm" onsubmit="return submitCegForm(event)">
+            <input type="hidden" name="fields[esemeny]" value="Céges AI képzés">
+            <div style="display:flex;gap:0.7rem;">
+              <div class="form-group" style="flex:1;">
+                <label>Vezetéknév</label>
+                <input type="text" name="fields[last_name]" placeholder="Kovács" required>
+              </div>
+              <div class="form-group" style="flex:1;">
+                <label>Keresztnév</label>
+                <input type="text" name="fields[name]" placeholder="Béla" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>E-mail cím</label>
+              <input type="email" name="fields[email]" placeholder="bela@cegem.hu" required>
+            </div>
+            <div class="form-group">
+              <label>Telefonszám</label>
+              <input type="tel" name="fields[phone]" placeholder="+36 30 123 4567" required>
+            </div>
+            <div class="form-group">
+              <label>Település</label>
+              <input type="text" name="fields[city]" placeholder="Baja" required>
+            </div>
+            <div class="form-group">
+              <label>Cégnév</label>
+              <input type="text" name="fields[company]" placeholder="Cégem Kft." required>
+            </div>
+            <div class="form-group">
+              <label>Csapat mérete (fő)</label>
+              <input type="number" name="fields[csapat_merete]" placeholder="8" min="1" required>
+            </div>
+            <div class="form-group">
+              <label>Mire van szükségetek?</label>
+              <textarea name="fields[megjegyzes]" placeholder="Röviden írd le, milyen képzést kerestek..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-wide" id="cegSubmitBtn">
+              Céges egyeztetést kérek
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </form>
         </div>
-        <div class="form-group">
-          <label>E-mail cím</label>
-          <input type="email" placeholder="bela@cegem.hu">
+
+        <div id="cegSuccessView" style="display:none;text-align:center;padding:2rem 0;">
+          <div style="width:64px;height:64px;border-radius:50%;background:var(--coral-light);display:flex;align-items:center;justify-content:center;margin:0 auto 1.4rem;">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M9 16.5l4.5 4.5L23 11" stroke="var(--coral)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 style="margin-bottom:0.6rem;">Köszönjük az érdeklődést!</h3>
+          <p style="color:var(--text-2);">Hamarosan felvesszük veletek a kapcsolatot, hogy egyeztessük a képzés részleteit.</p>
         </div>
-        <div class="form-group">
-          <label>Cégnév</label>
-          <input type="text" placeholder="Cégem Kft.">
-        </div>
-        <div class="form-group">
-          <label>Csapat mérete</label>
-          <select>
-            <option value="">Válassz...</option>
-            <option>5–10 fő</option>
-            <option>11–20 fő</option>
-            <option>21–30 fő</option>
-            <option>30+ fő</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Mire van szükségetek?</label>
-          <textarea placeholder="Röviden írd le, milyen képzést kerestek..."></textarea>
-        </div>
-        <button class="btn btn-primary btn-wide">
-          Céges egyeztetést kérek
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
       </div>
     </div>
   </div>
@@ -2220,7 +2453,7 @@ footer {
 
 
 <!-- ═══════════════════════════════════════════════════════
-     MODAL
+     MODAL — MailerLite jelentkezés
 ═══════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
   <div class="modal">
@@ -2229,52 +2462,76 @@ footer {
         <path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
       </svg>
     </button>
-    <h2>Jelentkezés</h2>
-    <div class="modal-course-name" id="modalCourseName">–</div>
 
-    <div class="form-group">
-      <label>Teljes neved</label>
-      <input type="text" placeholder="Kovács Béla">
+    <!-- Jelentkezési nézet -->
+    <div id="modalFormView">
+      <h2 id="modalTitle">Jelentkezés</h2>
+      <div class="modal-course-name" id="modalCourseName">–</div>
+
+      <form id="mlForm" onsubmit="return submitMlForm(event)">
+        <!-- Esemény (rejtett, a kártyából töltődik) -->
+        <input type="hidden" name="fields[esemeny]" id="mlEsemeny" value="">
+
+        <div style="display:flex;gap:0.7rem;">
+          <div class="form-group" style="flex:1;">
+            <label>Vezetéknév</label>
+            <input type="text" name="fields[last_name]" placeholder="Kovács" required>
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label>Keresztnév</label>
+            <input type="text" name="fields[name]" placeholder="Béla" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>E-mail cím</label>
+          <input type="email" name="fields[email]" placeholder="bela@pelda.hu" required>
+        </div>
+        <div class="form-group">
+          <label>Telefonszám</label>
+          <input type="tel" name="fields[phone]" placeholder="+36 30 123 4567" required>
+        </div>
+        <div class="form-group">
+          <label>Település</label>
+          <input type="text" name="fields[city]" placeholder="Baja" required>
+        </div>
+
+        <!-- Céges mezők — csak a Céges AI képzésnél jelennek meg -->
+        <div id="mlCompanyFields" style="display:none;">
+          <div class="form-group">
+            <label>Cégnév</label>
+            <input type="text" name="fields[company]" placeholder="Cégem Kft.">
+          </div>
+          <div class="form-group">
+            <label>Csapat mérete (fő)</label>
+            <input type="number" name="fields[csapat_merete]" placeholder="8" min="1">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Megjegyzés <span style="color:var(--muted);font-weight:500;">(nem kötelező)</span></label>
+          <textarea name="fields[megjegyzes]" placeholder="Bármi, amit fontosnak tartasz..."></textarea>
+        </div>
+
+        <p style="font-size:0.78rem;color:var(--coral-dark);margin-bottom:1rem;line-height:1.5;background:var(--coral-light);border:1px solid var(--coral-mid);padding:0.7rem 1rem;border-radius:var(--r-sm);">
+          Jelentkezés után telefonon egyeztetünk veled a részletekről. Bármikor leiratkozhatsz.
+        </p>
+
+        <button type="submit" class="btn btn-primary btn-wide" id="mlSubmitBtn">
+          Jelentkezés elküldése
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
     </div>
-    <div class="form-group">
-      <label>E-mail cím</label>
-      <input type="email" placeholder="bela@pelda.hu">
-    </div>
-    <div class="form-group">
-      <label>Telefonszám</label>
-      <input type="tel" placeholder="+36 30 123 4567">
-    </div>
-    <div class="form-group" id="paymentSection">
-      <label>Fizetési mód</label>
-      <div class="payment-options">
-        <div class="payment-opt selected" onclick="selectPayment(this)">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.5 6.5h13" stroke="currentColor" stroke-width="1.2"/></svg>
-          Bankkártyás
-        </div>
-        <div class="payment-opt" onclick="selectPayment(this)">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 7h12" stroke="currentColor" stroke-width="1.2"/><path d="M5 10h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-          Átutalás
-        </div>
-        <div class="payment-opt" onclick="selectPayment(this)">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6" cy="6" r="2.5" stroke="currentColor" stroke-width="1.2"/><circle cx="11" cy="7" r="2" stroke="currentColor" stroke-width="1.1"/><path d="M1 13c0-2.2 2-4 5-4h1M9.5 13c0-1.8 1.3-3.3 3-3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-          Csoportos
-        </div>
-        <div class="payment-opt" onclick="selectPayment(this)">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.2"/><path d="M8 4.5v3.5l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-          Részletfizetés
-        </div>
+
+    <!-- Sikeres nézet -->
+    <div id="modalSuccessView" style="display:none;text-align:center;padding:1.5rem 0;">
+      <div style="width:64px;height:64px;border-radius:50%;background:var(--coral-light);display:flex;align-items:center;justify-content:center;margin:0 auto 1.4rem;">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M9 16.5l4.5 4.5L23 11" stroke="var(--coral)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
+      <h2 style="margin-bottom:0.6rem;">Köszönjük a jelentkezésed!</h2>
+      <p style="color:var(--text-2);margin-bottom:1.8rem;">Hamarosan felvesszük veled a kapcsolatot telefonon, hogy egyeztessük a részleteket.</p>
+      <button class="btn btn-secondary btn-wide" onclick="closeModal()">Bezárás</button>
     </div>
-
-    <p id="modalDisclaimer" style="font-size:0.78rem;color:var(--coral-dark);margin-bottom:1rem;line-height:1.5;display:none;background:var(--coral-light);border:1px solid var(--coral-mid);padding:0.7rem 1rem;border-radius:var(--r-sm);">
-      Ez egy ingyenes alkalom — csak a neved, e-mailed és telefonszámod kell.
-    </p>
-
-    <button class="btn btn-sage btn-wide" onclick="submitForm()">
-      Jelentkezés elküldése
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <p style="font-size:0.72rem;color:var(--muted);margin-top:1rem;text-align:center;line-height:1.5;">A jelentkezés végleges az e-szerződés aláírása és a díj beérkezése után.</p>
   </div>
 </div>
 
@@ -2285,14 +2542,26 @@ function toggleMenu() {
   document.getElementById('mobileMenu').classList.toggle('open');
 }
 
-/* ─── MODAL ───────────────────────────────────────── */
+/* ─── MODAL + MailerLite ──────────────────────────── */
+const ML_ACTION = 'https://assets.mailerlite.com/jsonp/2386470/forms/188710462871832561/subscribe';
+
 function openModal(courseName) {
+  // Esemény-érték a MailerLite "esemeny" mezőhöz (pontos opciónevek)
+  document.getElementById('mlEsemeny').value = courseName;
   document.getElementById('modalCourseName').textContent = courseName;
-  // Az ingyenes est nem igényel fizetést
-  const isFreeEvent = courseName.toLowerCase().includes('ingyenes');
-  document.getElementById('paymentSection').style.display = isFreeEvent ? 'none' : '';
-  document.getElementById('modalDisclaimer').style.display = isFreeEvent ? 'block' : 'none';
-  document.querySelector('#modalOverlay .modal h2').textContent = isFreeEvent ? 'Foglalás' : 'Jelentkezés';
+
+  // Céges mezők csak a Céges AI képzésnél
+  const isCorporate = courseName.toLowerCase().includes('céges');
+  document.getElementById('mlCompanyFields').style.display = isCorporate ? 'block' : 'none';
+
+  // Cím
+  const isFree = courseName.toLowerCase().includes('szerda');
+  document.getElementById('modalTitle').textContent = isFree ? 'Foglalás' : 'Jelentkezés';
+
+  // Nézet visszaállítása az űrlapra
+  document.getElementById('modalFormView').style.display = 'block';
+  document.getElementById('modalSuccessView').style.display = 'none';
+
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -2303,22 +2572,102 @@ function closeModal() {
 function closeModalOnBg(e) {
   if (e.target === document.getElementById('modalOverlay')) closeModal();
 }
-function selectPayment(el) {
-  document.querySelectorAll('.payment-opt').forEach(o => o.classList.remove('selected'));
-  el.classList.add('selected');
+
+function submitMlForm(e) {
+  e.preventDefault();
+  const form = document.getElementById('mlForm');
+  const btn = document.getElementById('mlSubmitBtn');
+  const data = new URLSearchParams();
+  // Csak a kitöltött / látható mezőket küldjük
+  new FormData(form).forEach((val, key) => {
+    if (val !== '') data.append(key, val);
+  });
+  data.append('ml-submit', '1');
+  data.append('anticsrf', 'true');
+
+  btn.disabled = true;
+  btn.style.opacity = '0.7';
+
+  // no-cors: az adat elmegy, a választ nem olvassuk (MailerLite így működik böngészőből)
+  fetch(ML_ACTION, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: data.toString()
+  }).then(() => {
+    showMlSuccess(form, btn);
+  }).catch(() => {
+    // no-cors mellett a hibát sem látjuk biztosan; ettől még jellemzően megérkezik
+    showMlSuccess(form, btn);
+  });
+
+  return false;
 }
-function submitForm() {
-  alert('Köszönjük a jelentkezésedet! Hamarosan e-mailben keresünk.');
-  closeModal();
+function showMlSuccess(form, btn) {
+  form.reset();
+  btn.disabled = false;
+  btn.style.opacity = '1';
+  document.getElementById('modalFormView').style.display = 'none';
+  document.getElementById('modalSuccessView').style.display = 'block';
+}
+
+/* ─── CÉGES űrlap (saját szekció) ─────────────────── */
+function submitCegForm(e) {
+  e.preventDefault();
+  const form = document.getElementById('cegForm');
+  const btn = document.getElementById('cegSubmitBtn');
+  const data = new URLSearchParams();
+  new FormData(form).forEach((val, key) => { if (val !== '') data.append(key, val); });
+  data.append('ml-submit', '1');
+  data.append('anticsrf', 'true');
+  btn.disabled = true; btn.style.opacity = '0.7';
+  fetch(ML_ACTION, {
+    method: 'POST', mode: 'no-cors',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: data.toString()
+  }).then(() => {
+    document.getElementById('cegFormView').style.display = 'none';
+    document.getElementById('cegSuccessView').style.display = 'block';
+  }).catch(() => {
+    document.getElementById('cegFormView').style.display = 'none';
+    document.getElementById('cegSuccessView').style.display = 'block';
+  });
+  return false;
 }
 
 /* ─── SCROLL ANIMATIONS ───────────────────────────── */
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
   });
 }, { threshold: 0.12 });
-document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+document.querySelectorAll('.fade-up, .stagger').forEach(el => observer.observe(el));
+
+/* ─── COUNT-UP számok ─────────────────────────────── */
+function animateCount(el) {
+  const target = parseInt(el.dataset.count, 10);
+  if (isNaN(target)) return;
+  if (prefersReduced) { el.textContent = target; return; }
+  const duration = 1100;
+  const start = performance.now();
+  function tick(now) {
+    const p = Math.min((now - start) / duration, 1);
+    // easeOutCubic
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(eased * target);
+    if (p < 1) requestAnimationFrame(tick);
+    else el.textContent = target;
+  }
+  requestAnimationFrame(tick);
+}
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { animateCount(e.target); countObserver.unobserve(e.target); }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.count-target').forEach(el => countObserver.observe(el));
 
 /* ─── NAV SCROLL ──────────────────────────────────── */
 window.addEventListener('scroll', () => {
