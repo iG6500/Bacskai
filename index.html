@@ -1633,893 +1633,328 @@ footer {
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════════
-     NAVIGATION
-═══════════════════════════════════════════════════════ -->
+<!-- NAVIGATION -->
 <nav>
-  <a href="#" class="nav-logo">BácskAI <span>Akadémia</span></a>
+  <a href="#top" class="nav-logo">BácskAI <span>Akadémia</span></a>
   <ul class="nav-links">
-    <li><a href="#kinek-szol">Kinek szól?</a></li>
-    <li><a href="#tanfolyamok">Képzések</a></li>
-    <li><a href="szerdai.html">SzerdAI</a></li>
-    <li><a href="#kihelyezett">Céges képzés</a></li>
-    <li><a href="#oktatok">Oktatók</a></li>
+    <li><a href="#kinek">Kinek szól?</a></li>
+    <li><a href="#haszon">Gyakorlati haszon</a></li>
+    <li><a href="#kepzesek">Képzéseink</a></li>
+    <li><a href="#faq">GYIK</a></li>
   </ul>
   <div style="display:flex;align-items:center;gap:0.8rem;">
-    <a href="#tanfolyamok" class="nav-cta">Képzések →</a>
-    <button class="hamburger" onclick="toggleMenu()" aria-label="Menü">
-      <span></span><span></span><span></span>
-    </button>
+    <a href="#kepzesek" class="nav-cta">Képzések →</a>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menü"><span></span><span></span><span></span></button>
   </div>
 </nav>
-
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#kinek-szol" onclick="toggleMenu()">Kinek szól?</a>
-  <a href="#tanfolyamok" onclick="toggleMenu()">Képzések</a>
-  <a href="szerdai.html">SzerdAI</a>
-  <a href="#kihelyezett" onclick="toggleMenu()">Céges képzés</a>
-  <a href="#oktatok" onclick="toggleMenu()">Oktatók</a>
+  <a href="#kinek" onclick="toggleMenu()">Kinek szól?</a>
+  <a href="#haszon" onclick="toggleMenu()">Gyakorlati haszon</a>
+  <a href="#kepzesek" onclick="toggleMenu()">Képzéseink</a>
+  <a href="#faq" onclick="toggleMenu()">GYIK</a>
 </div>
 
-
-<!-- ═══════════════════════════════════════════════════════
-     HERO
-═══════════════════════════════════════════════════════ -->
-<section class="hero">
-  <!-- Decorative background -->
+<!-- HERO -->
+<section class="hero" id="top">
   <div class="hero-bg-lines" aria-hidden="true"></div>
-
-  <!-- ── Auto-váltó promo banner ── -->
-  <div class="promo-banner" id="promoBanner" aria-label="Aktuális képzések">
-    <div class="promo-track" id="promoTrack">
-      <a href="szerdai.html" class="promo-slide active">
-        <span class="promo-tag">Ingyenes</span>
-        <span class="promo-text">Ismerkednél az AI-jal? Gyere el a következő <strong>SzerdAI estre</strong> — 2 óra, kötetlenül, Baján.</span>
-        <span class="promo-arrow">Jelentkezem →</span>
-      </a>
-      <a href="#tanfolyamok" class="promo-slide">
-        <span class="promo-tag">Új csoport</span>
-        <span class="promo-text">Indul a következő <strong>AI Alapozó</strong> — egy gyakorlati munkanap AI-eszközökkel. 39 900 Ft.</span>
-        <span class="promo-arrow">Megnézem →</span>
-      </a>
-      <a href="#tanfolyamok" class="promo-slide">
-        <span class="promo-tag">Haladó</span>
-        <span class="promo-text">Automatizálnál? Az <strong>AI Haladón</strong> ügynök módokat és Make.com-folyamatokat építünk.</span>
-        <span class="promo-arrow">Részletek →</span>
-      </a>
-      <a href="#kihelyezett" class="promo-slide">
-        <span class="promo-tag">Céges</span>
-        <span class="promo-text">Csapatot képeznél? <strong>Céges AI workshop</strong> a ti munkafolyamataitokra szabva.</span>
-        <span class="promo-arrow">Ajánlatot kérek →</span>
-      </a>
-    </div>
-    <div class="promo-dots" id="promoDots" aria-hidden="true"></div>
-  </div>
-
   <div class="hero-inner container" style="padding:0 2rem;max-width:1180px;margin:0 auto;width:100%;">
     <div class="hero-reveal">
-      <!-- SzerdAI nyitány – low-commitment belépő -->
       <div class="urgency-bar" aria-label="Ingyenes SzerdAI est">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-          <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/>
-          <path d="M6 3.5V6.5L7.5 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-        </svg>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M6 3.5V6.5L7.5 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
         Először ismerkednél? Gyere el az ingyenes SzerdAI estre
       </div>
-
-      <div class="tag">
-        <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg>
-        Gyakorlati AI workshopok · Baja & Bácska
-      </div>
-
-      <h1>AI a napi <em>munkához</em> —<br>érthetően, gyakorlatiasan,<br>Baján.</h1>
-
-      <p class="hero-desc">
-        Gyakorlati AI workshopok munkavállalóknak, vállalkozóknak és cégvezetőknek. Megmutatjuk, hogyan használd a ChatGPT-t, Copilotot, Geminit és Claude-ot a napi munkád gyorsítására — informatikai előképzettség nélkül.
-      </p>
-
+      <div class="tag"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="var(--coral)"/></svg> Személyes, gyakorlati AI képzések · Baja & Bácska</div>
+      <h1>Személyes, gyakorlati<br>AI képzések — <em>Baján.</em></h1>
+      <p class="hero-desc">A napi adminisztráció, szövegírás és döntés-előkészítés másképp is megy. Gyorsabban, AI-val — és ezt meg lehet tanulni.</p>
       <div class="hero-actions">
-        <a href="#tanfolyamok" class="btn btn-primary">
-          Megnézem a tanfolyamokat
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
+        <a href="#kepzesek" class="btn btn-primary">Megnézem a képzéseket <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <a href="#" class="btn btn-secondary" onclick="openModal('SzerdaAI'); return false;">Jelentkezem a SzerdAI estre</a>
       </div>
-
-      <div class="hero-stats">
-        <div class="stat-item">
-          <div class="stat-num count-target" data-count="4">0</div>
-          <div class="stat-label">gyakorlati képzési forma</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num"><span class="count-target" data-count="15">0</span><span>–</span><span class="count-target" data-count="30">0</span></div>
-          <div class="stat-label">fős csoportlétszám</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">Baja<span>+</span></div>
-          <div class="stat-label">személyesen, nem online</div>
-        </div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:0.5rem;">
+        <span style="background:var(--surface);border:1px solid var(--border-med);color:var(--text-2);border-radius:var(--r-pill);padding:0.55rem 0.95rem;font-weight:700;font-size:0.85rem;display:inline-flex;align-items:center;gap:8px;box-shadow:var(--sh-sm);"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="var(--coral)"/></svg> Helyi, személyes képzések</span>
+        <span style="background:var(--surface);border:1px solid var(--border-med);color:var(--text-2);border-radius:var(--r-pill);padding:0.55rem 0.95rem;font-weight:700;font-size:0.85rem;display:inline-flex;align-items:center;gap:8px;box-shadow:var(--sh-sm);"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="var(--coral)"/></svg> Gyakorlati AI-eszköztár</span>
+        <span style="background:var(--surface);border:1px solid var(--border-med);color:var(--text-2);border-radius:var(--r-pill);padding:0.55rem 0.95rem;font-weight:700;font-size:0.85rem;display:inline-flex;align-items:center;gap:8px;box-shadow:var(--sh-sm);"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="var(--coral)"/></svg> KKV tulajdonosoknak</span>
+        <span style="background:var(--surface);border:1px solid var(--border-med);color:var(--text-2);border-radius:var(--r-pill);padding:0.55rem 0.95rem;font-weight:700;font-size:0.85rem;display:inline-flex;align-items:center;gap:8px;box-shadow:var(--sh-sm);"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="var(--coral)"/></svg> Vezetőknek</span>
+        <span style="background:var(--surface);border:1px solid var(--border-med);color:var(--text-2);border-radius:var(--r-pill);padding:0.55rem 0.95rem;font-weight:700;font-size:0.85rem;display:inline-flex;align-items:center;gap:8px;box-shadow:var(--sh-sm);"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="var(--coral)"/></svg> Munkavállalóknak</span>
       </div>
     </div>
 
-    <!-- Hero card – belépő termék, SzerdAI -->
-    <div class="hero-card reveal-card">
+    <div class="hero-card reveal-card" id="szerdai">
       <div class="hero-card-badge">BELÉPŐ SZINT</div>
       <h3>SzerdAI est</h3>
       <p class="card-meta">2 óra · Ingyenes · Havonta szerdán este</p>
-
       <ul class="hero-feature-list">
-        <li>
-          <svg class="check-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/>
-            <path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Érthető áttekintés a mai AI-eszközökről
-        </li>
-        <li>
-          <svg class="check-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/>
-            <path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Példák valós napi munkafeladatokra
-        </li>
-        <li>
-          <svg class="check-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/>
-            <path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Segítünk eldönteni, melyik képzés való neked
-        </li>
-        <li>
-          <svg class="check-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/>
-            <path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Lehetőség személyes kérdésekre
-        </li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Közérthető bevezetés az AI világába</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Hogyan működnek a különböző AI-modellek?</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Milyen hatással lesz az AI a munkakörökre?</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Promptolási alapok gyakorlati példákkal</li>
       </ul>
-
       <div class="hero-card-price course-price-free">Ingyenes</div>
       <a href="#" class="btn btn-primary btn-wide" onclick="openModal('SzerdaAI'); return false;">Jelentkezem a SzerdAI estre →</a>
-
       <div class="social-proof-row">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="color:var(--coral);flex-shrink:0;">
-          <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/>
-          <path d="M4.5 7.5l1.5 1.5 3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>Nem értékesítési show — gyakorlati bemutató.</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="color:var(--coral);flex-shrink:0;"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M4.5 7.5l1.5 1.5 3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Nem technológiai előadás — érthető bevezetés a gyakorlati AI-használatba.</span>
       </div>
     </div>
   </div>
 </section>
 
-
-<!-- ═══════════════════════════════════════════════════════
-     HERO BANNER — eszközfrissítés üzenet
-═══════════════════════════════════════════════════════ -->
-<div class="hero-banner">
-  <div class="hero-banner-inner">
-    <div class="hero-banner-icon">
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <path d="M11 2v3M11 17v3M2 11h3M17 11h3M4.6 4.6l2.1 2.1M15.3 15.3l2.1 2.1M4.6 17.4l2.1-2.1M15.3 6.7l2.1-2.1" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
-        <circle cx="11" cy="11" r="3.2" stroke="#fff" stroke-width="1.6"/>
-      </svg>
-    </div>
-    <p>Az AI-eszközök szinte <strong>napi szinten változnak</strong> — nálunk mindig a pillanatnyilag legjobb, valóban működő eszközöket tanítjuk, nem a tegnap divatját.</p>
-  </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     KINEK SZÓL?
-═══════════════════════════════════════════════════════ -->
-<section id="kinek-szol">
+<!-- KINEK SZÓL -->
+<section id="kinek">
   <div class="container">
-    <div style="text-align:center;max-width:720px;margin:0 auto 3rem;">
+    <div style="max-width:780px;margin:0 auto 3rem;text-align:center;">
       <div class="section-label" style="display:inline-block;">Kinek szól?</div>
-      <h2 class="headline fade-up">Ha a munkád egy része<br>szöveggel és <em>döntésekkel</em> telik.</h2>
-      <p class="body-lg fade-up" style="margin:0 auto;">Ha a munkád szövegírásból, elemzésből, adminisztrációból, ajánlatkészítésből, döntés-előkészítésből vagy ügyfélkommunikációból áll, az AI már most tud segíteni.</p>
+      <h2 class="headline fade-up">Neked szól, ha az AI-t nem<br>nézegetni akarod, hanem <em>használni.</em></h2>
     </div>
-
     <div class="audience-grid">
       <div class="audience-card lvl-1 fade-up">
-        <div class="audience-icon">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.7"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-        </div>
-        <h3>Munkavállalóknak</h3>
-        <p>Ha irodai, értékesítési, marketing, pénzügyi, HR, ügyfélszolgálati vagy adminisztratív munkát végzel — megtanulod, hogyan gyorsítsd fel a napi feladataidat AI-eszközökkel.</p>
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 21V6l7-3v18M11 21h9V10l-9-3" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14.5 11v0M14.5 14.5v0M14.5 18v0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h3>KKV tulajdonosoknak</h3>
+        <p>KKV-tulajdonosként nem az a kérdés, hogy kell-e az AI – hanem az, hogy hol éri meg először bevezetni, és hogyan hozza meg a megtérülést. Ebben segítünk.</p>
       </div>
-
       <div class="audience-card lvl-2 fade-up">
-        <div class="audience-icon">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3c3 1.5 5 4.5 5 8.5 0 2.5-1 4.5-2 6H9c-1-1.5-2-3.5-2-6C7 7.5 9 4.5 12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="1.8" stroke="currentColor" stroke-width="1.5"/><path d="M9 17.5l-1.5 3M15 17.5l1.5 3M12 17.5v3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-        </div>
-        <h3>Vállalkozóknak</h3>
-        <p>Ha kevés az időd, sok a feladatod, és gyakran egyedül kell döntened — az AI segíthet szövegírásban, ajánlatkészítésben, ötletelésben, elemzésben és ügyfélszerzésben.</p>
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3c3 1.5 5 4.5 5 8.5 0 2.5-1 4.5-2 6H9c-1-1.5-2-3.5-2-6C7 7.5 9 4.5 12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="1.8" stroke="currentColor" stroke-width="1.5"/><path d="M9 17.5l-1.5 3M15 17.5l1.5 3M12 17.5v3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <h3>Vezetőknek</h3>
+        <p>A jó vezető nem vár, amíg a csapata lemarad. Ismerd meg, hogyan használhatja a csapatod az AI-t – és hogyan vezetheted át őket ezen a változáson. Ebben segítünk.</p>
       </div>
-
       <div class="audience-card lvl-3 fade-up">
-        <div class="audience-icon">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 21V6l7-3v18M11 21h9V10l-9-3" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14.5 11v0M14.5 14.5v0M14.5 18v0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </div>
-        <h3>Cégvezetőknek</h3>
-        <p>Ha szeretnéd megérteni, mire használható az AI a cégedben, hol érdemes bevezetni, és hogyan gyorsíthatók a munkafolyamatok — a képzés jó gyakorlati belépőpont.</p>
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.7"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+        <h3>Munkavállalóknak</h3>
+        <p>Az AI nem azokat fenyegeti, akik tudják használni. Növeld a piaci értéked – és maradj nélkülözhetetlen.</p>
       </div>
-
       <div class="audience-card lvl-4 fade-up">
-        <div class="audience-icon">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="9" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 19c0-2.8 2-4.5 4.5-4.5S12.5 16.2 12.5 19M11.5 19c0-2.8 2-4.5 4.5-4.5s4.5 1.7 4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-        </div>
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="9" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 19c0-2.8 2-4.5 4.5-4.5S12.5 16.2 12.5 19M11.5 19c0-2.8 2-4.5 4.5-4.5s4.5 1.7 4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
         <h3>Céges csapatoknak</h3>
-        <p>Ha nem egy embernek, hanem egy teljes csapatnak kell közös AI-alap — céges képzés keretében a saját működésetekhez igazítjuk a workshopot.</p>
+        <p>Ha a csapat fele használja az AI-t, a másik fele meg nem – az nem előny, az káosz. Építsetek közös alapot.</p>
       </div>
     </div>
   </div>
 </section>
 
-
-<!-- ═══════════════════════════════════════════════════════
-     MILYEN PROBLÉMÁT OLD MEG?
-═══════════════════════════════════════════════════════ -->
-<section id="problema" class="alt">
+<!-- GYAKORLATI HASZON -->
+<section id="haszon" class="alt">
   <div class="container">
-    <div style="max-width:760px;margin:0 auto 3rem;text-align:center;">
-      <div class="section-label" style="display:inline-block;">Milyen problémát old meg?</div>
-      <h2 class="headline fade-up">Nem az a kérdés, „érdekes-e”.<br>Hanem hogy <em>tudod-e használni.</em></h2>
-      <p class="body-lg fade-up" style="margin:0 auto;">Sokan kipróbálták a ChatGPT-t, de néhány kérdés után megálltak. Nem azért, mert az eszköz használhatatlan — hanem mert hiányzik a módszer: hogyan kérdezz jól, mire érdemes használni, és hol csak időpazarlás.</p>
-    </div>
-
-    <div class="problem-list">
-      <div class="problem-item fade-up">
-        <div class="problem-q">Túl sok az eszköz, nem tudod, melyik mire való.</div>
-        <div class="problem-a">Megmutatjuk, mire jó a ChatGPT, a Copilot, a Gemini, a Claude és más aktuális eszközök.</div>
-      </div>
-      <div class="problem-item fade-up">
-        <div class="problem-q">Próbáltad már, de gyenge válaszokat kaptál.</div>
-        <div class="problem-a">Megtanulod, hogyan kérdezz, hogyan adj kontextust, és hogyan javítsd az AI válaszait.</div>
-      </div>
-      <div class="problem-item fade-up">
-        <div class="problem-q">Sok idő megy el szövegírásra, előkészítésre, adminisztrációra.</div>
-        <div class="problem-a">Gyakorlati példákon mutatjuk meg, hogyan gyorsíthatók ezek a feladatok.</div>
-      </div>
-      <div class="problem-item fade-up">
-        <div class="problem-q">Vezetőként nem látod, hol lenne értelme bevezetni.</div>
-        <div class="problem-a">Üzleti használati esetekkel dolgozunk, nem technológiai látványosságokkal.</div>
-      </div>
-      <div class="problem-item fade-up">
-        <div class="problem-q">Nem akarsz programozó lenni, csak hatékonyabban dolgozni.</div>
-        <div class="problem-a">Pontosan erről szól a képzés — gyakorlati munkamódszerekről, nem kódolásról.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     STATEMENT — nagy tipográfiai pillanat
-═══════════════════════════════════════════════════════ -->
-<section class="statement-band">
-  <div class="container">
-    <p class="statement-text fade-up">
-      Nem programozni<br>tanítunk. <span>Dolgozni.</span>
-    </p>
-    <p class="statement-sub fade-up">Az AI nem a jövő. Már most ott van a munkádban — a kérdés csak az, ki tudja használni.</p>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     RÓLUNK
-═══════════════════════════════════════════════════════ -->
-<section id="rolunk">
-  <div class="container">
-    <div class="about-grid">
-      <!-- Visual — letisztult stat-kártya -->
-      <div class="about-visual fade-up">
-        <div class="about-visual-card">
-          <div class="about-big-stat">100<span>%</span></div>
-          <div class="about-big-label">gyakorlat — a képzéseink valós, élő feladatokra épülnek, nem elméletre.</div>
-          <div class="about-mini-stats">
-            <div class="about-mini-stat">
-              <div class="ms-num">15–30</div>
-              <div class="ms-label">fős csoport, személyes figyelem</div>
-            </div>
-            <div class="about-mini-stat">
-              <div class="ms-num">Baja+</div>
-              <div class="ms-label">helyben, kb. 50 km-es körzet</div>
-            </div>
-            <div class="about-mini-stat">
-              <div class="ms-num">4</div>
-              <div class="ms-label">képzési forma, ingyenestől a cégesig</div>
-            </div>
-            <div class="about-mini-stat">
-              <div class="ms-num">1:1</div>
-              <div class="ms-label">telefonos egyeztetés minden jelentkezővel</div>
-            </div>
-          </div>
-        </div>
-        <div class="about-float-badge">
-          Gyakorló szakemberek tanítanak — nem teoretikusok.
-        </div>
-      </div>
-
-      <!-- Content -->
+    <div class="about-grid" style="align-items:start;">
       <div class="fade-up">
-        <div class="section-label">Miért BácskAI?</div>
-        <h2 class="headline">Üzleti oldalról,<br><em>nem informatikusként.</em></h2>
-        <p class="body-lg">A BácskAI Akadémia nem AI-forradalmat árul. Nem azt ígérjük, hogy holnaptól minden munkát kiváltanak a gépek. Azt mutatjuk meg, hogyan használd az elérhető AI-eszközöket józanul, üzletileg hasznosan és a napi munkádba illeszthetően.</p>
-
-        <div class="pillar">
-          <div class="pillar-icon-wrap">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2l2.5 5.5L19 8l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-0.5L11 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-          </div>
-          <div class="pillar-text">
-            <strong>Vezetőktől vezetőknek</strong>
-            <p>Piacon edződött cégtulajdonosok és vezetők adják át azt a gyakorlati tudást, amit a saját vállalkozásukban használnak nap mint nap. Nincs felesleges elmélet — csak releváns stratégia a növekedésedhez.</p>
-          </div>
-        </div>
-
-        <div class="pillar">
-          <div class="pillar-icon-wrap">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 18V9M10 18V4M16 18v-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          </div>
-          <div class="pillar-text">
-            <strong>Gyakorlatból, nem tankönyvből</strong>
-            <p>Az oktatóink a piac frontvonalán dolgoznak, így amit átadunk, azt mi magunk is valós üzleti helyzetekben próbáltuk ki. Ez a hitelességünk alapja: nem olvastuk, hanem csináltuk.</p>
-          </div>
-        </div>
-
-        <div class="pillar">
-          <div class="pillar-icon-wrap">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2a9 9 0 100 18 9 9 0 000-18z" stroke="currentColor" stroke-width="1.5"/><path d="M7 11l2.5 2.5L15 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div class="pillar-text">
-            <strong>Azonnal beépíthető tudás</strong>
-            <p>Nem hónapok múlva megtérülő elméleteket tanítunk, hanem konkrét eszközöket, amiket már másnap reggel használni tudsz. A cél: a képzés végén legyen valami a kezedben, ami működik.</p>
-          </div>
-        </div>
+        <div class="section-label">Gyakorlati haszon</div>
+        <h2 class="headline">A legújabb AI-eszközök<br>használatát tanítjuk – <em>lefordítva<br>a napi munkára.</em></h2>
+        <p class="body-lg">A képzésen azt tanulod meg, melyik AI-eszköz mire való, mikor érdemes használni, és hogyan építhető be a saját napi munkádba. Nem elméletet kapsz, hanem azonnal kipróbálható módszereket.</p>
       </div>
+      <div class="fade-up" style="display:grid;gap:0.9rem;">
+        <div style="display:flex;gap:0.8rem;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:1rem 1.1rem;box-shadow:var(--sh-sm);"><span style="flex-shrink:0;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="font-weight:600;color:var(--ink);">Megtanulod felismerni, melyik feladatra milyen AI-eszköz való.</span></div>
+        <div style="display:flex;gap:0.8rem;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:1rem 1.1rem;box-shadow:var(--sh-sm);"><span style="flex-shrink:0;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="font-weight:600;color:var(--ink);">Látni fogod, mikor érdemes ChatGPT-t vagy más nagy nyelvi modellt használni.</span></div>
+        <div style="display:flex;gap:0.8rem;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:1rem 1.1rem;box-shadow:var(--sh-sm);"><span style="flex-shrink:0;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="font-weight:600;color:var(--ink);">Megérted, mikor segít jobban egy meeting-asszisztens, automatizációs platform vagy célfeladatos AI-eszköz.</span></div>
+        <div style="display:flex;gap:0.8rem;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:1rem 1.1rem;box-shadow:var(--sh-sm);"><span style="flex-shrink:0;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="font-weight:600;color:var(--ink);">Azonnal használható módszereket kapsz, amelyeket be tudsz építeni a saját napi munkafolyamatodba.</span></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;margin-top:2.6rem;">
+      <div class="fade-up" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.5rem;box-shadow:var(--sh-sm);"><h3 style="font-size:1.15rem;color:var(--ink);margin-bottom:0.5rem;font-weight:800;">Nagy nyelvi modellek</h3><p style="color:var(--text-2);line-height:1.6;">Szövegírás, döntés-előkészítés, vázlatolás, összefoglalás és elemzési szempontok kialakítása.</p></div>
+      <div class="fade-up" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.5rem;box-shadow:var(--sh-sm);"><h3 style="font-size:1.15rem;color:var(--ink);margin-bottom:0.5rem;font-weight:800;">Meeting- és jegyzetasszisztensek</h3><p style="color:var(--text-2);line-height:1.6;">Megbeszélések rögzítése, kivonatolása, feladatlisták és follow-up anyagok előkészítése. Például Fireflies-jellegű eszközök.</p></div>
+      <div class="fade-up" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.5rem;box-shadow:var(--sh-sm);"><h3 style="font-size:1.15rem;color:var(--ink);margin-bottom:0.5rem;font-weight:800;">Automatizációs platformok</h3><p style="color:var(--text-2);line-height:1.6;">Ismétlődő adminisztratív feladatok összekötése rendszerek között. Például Make.com-jellegű automatizációk.</p></div>
+      <div class="fade-up" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.5rem;box-shadow:var(--sh-sm);"><h3 style="font-size:1.15rem;color:var(--ink);margin-bottom:0.5rem;font-weight:800;">Célfeladatos AI-eszközök</h3><p style="color:var(--text-2);line-height:1.6;">Képek, prezentációk, kutatási anyagok, dokumentumok, riportok vagy ügyfélszövegek gyorsabb előkészítése.</p></div>
     </div>
   </div>
 </section>
 
-
-<!-- ═══════════════════════════════════════════════════════
-     GALÉRIA — fotó-kész placeholder
-═══════════════════════════════════════════════════════ -->
-<section class="gallery-band alt">
+<!-- KÉPZÉSEK -->
+<section id="kepzesek">
   <div class="container">
-    <div style="text-align:center;max-width:640px;margin:0 auto 2.5rem;">
-      <div class="section-label" style="display:inline-block;">Így dolgozunk</div>
-      <h2 class="headline fade-up">Pillanatképek<br>a <em>workshopokról.</em></h2>
-    </div>
-    <div class="gallery-grid fade-up">
-      <div class="gallery-item gi-tall">
-        <div class="gallery-ph">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="7" width="24" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="14" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 22l7-6 5 4 4-3 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span>Hamarosan: valós<br>workshop-fotók</span>
-        </div>
-      </div>
-      <div class="gallery-item">
-        <div class="gallery-ph"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="4" y="7" width="24" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="14" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 22l7-6 5 4 4-3 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-      <div class="gallery-item">
-        <div class="gallery-ph"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="4" y="7" width="24" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="14" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 22l7-6 5 4 4-3 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-      <div class="gallery-item gi-wide">
-        <div class="gallery-ph">
-          <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="4" y="7" width="24" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="14" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 22l7-6 5 4 4-3 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span>Helyszín, hangulat, csapat</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ═══════════════════════════════════════════════════════
-     TANFOLYAMOK
-═══════════════════════════════════════════════════════ -->
-<section id="tanfolyamok">
-  <div class="container">
-    <div class="section-label">Melyik AI képzés való neked?</div>
-    <h2 class="headline fade-up">Nem mindenkinek<br>ugyanarra van <em>szüksége.</em></h2>
+    <div class="section-label">Képzéseink</div>
+    <h2 class="headline fade-up">Melyik AI-képzés<br>való <em>neked?</em></h2>
     <p class="body-lg fade-up">Van, aki először megértené, mire jó az AI. Van, aki már használja, de rendszert vinne bele. Van, aki céges szinten gondolkodik. Ezért a képzéseket cél és eredmény szerint mutatjuk be.</p>
-
     <div class="course-grid">
 
-      <!-- SzerdAI – ingyenes est -->
-      <div class="course-card course-card-free fade-up">
-        <span class="course-badge badge-free">
-          <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><circle cx="4.5" cy="4.5" r="3.8" stroke="currentColor" stroke-width="1.1"/></svg>
-          Ingyenes
-        </span>
-        <h3>SzerdAI</h3>
-        <p><strong>Neked való, ha</strong> most ismerkedsz az AI üzleti felhasználásával, és először kockázat nélkül szeretnéd megérteni a lehetőségeket. Tisztább képet kapsz arról, mire használható az AI a munkában.</p>
+      <div class="course-card course-card-free course-card-featured fade-up">
+        <div class="course-featured-tag">Ajánlott első lépés</div>
+        <span class="course-badge badge-free"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><circle cx="4.5" cy="4.5" r="3.8" stroke="currentColor" stroke-width="1.1"/></svg> Ingyenes</span>
+        <h3>SzerdAI est</h3>
+        <p><strong>Neked való, ha</strong> most ismerkedsz az AI-jal, és kockázat nélkül szeretnéd megérteni a lehetőségeket. Tisztább képet kapsz arról, mire használható az AI a munkában.</p>
         <div class="course-meta">
-          <div class="meta-item">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 3.5v3l2 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-            2 óra
-          </div>
-          <div class="meta-item">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="2" width="10" height="9" rx="1.5" stroke="currentColor" stroke-width="1.1"/><path d="M4 1v2M9 1v2M1.5 5.5h10" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-            Havonta szerdán este
-          </div>
+          <div class="meta-item"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 3.5v3l2 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg> 2 óra</div>
+          <div class="meta-item"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="2" width="10" height="9" rx="1.5" stroke="currentColor" stroke-width="1.1"/><path d="M4 1v2M9 1v2M1.5 5.5h10" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg> Havonta szerdán este</div>
         </div>
         <div class="course-price course-price-free">Ingyenes</div>
         <div class="course-actions">
           <button class="btn btn-primary" onclick="openModal('SzerdaAI')">Jelentkezem</button>
-          <a href="szerdai.html" class="btn-link-row">Részletek <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="szerdai.html" class="btn-link-row">Részletek <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
 
-      <!-- AI Alapozó -->
-      <div class="course-card course-card-featured fade-up">
-        <div class="course-featured-tag">Ideális első fizetős</div>
-        <span class="course-badge badge-tanfolyam">
-          <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x="1" y="1" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.1"/></svg>
-          Alapozó
-        </span>
+      <div class="course-card fade-up">
+        <span class="course-badge badge-tanfolyam"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x="1" y="1" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.1"/></svg> Alapozó</span>
         <h3>AI Alapozó</h3>
-        <p><strong>Neked való, ha</strong> munkavállalóként, vállalkozóként vagy vezetőként szeretnéd megtanulni az AI-eszközök napi használatát — szövegírásra, elemzésre, ötletelésre, munkaszervezésre.</p>
+        <p><strong>Neked való, ha</strong> napi szinten szeretnéd használni az AI-t szövegírásra, adminisztrációra, döntés-előkészítésre. Gyakorlati eszközáttekintés és azonnal beépíthető módszerek.</p>
         <div class="course-meta">
-          <div class="meta-item">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 3.5v3l2 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-            6 óra
-          </div>
-          <div class="meta-item">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="8.5" r="2" stroke="currentColor" stroke-width="1.1"/><path d="M2.5 12c0-2 1.8-3.5 4-3.5s4 1.5 4 3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-            15–30 fő
-          </div>
+          <div class="meta-item"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 3.5v3l2 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg> 6 óra</div>
+          <div class="meta-item"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="8.5" r="2" stroke="currentColor" stroke-width="1.1"/><path d="M2.5 12c0-2 1.8-3.5 4-3.5s4 1.5 4 3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg> 15–30 fő</div>
         </div>
         <div class="course-price">39 900 Ft<small> bruttó</small></div>
         <div class="course-actions">
           <button class="btn btn-primary" onclick="openModal('AI Alapozó')">Jelentkezem</button>
-          <a href="ai-alapozo.html" class="btn-link-row">Részletek <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="ai-alapozo.html" class="btn-link-row">Részletek <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
 
-      <!-- AI Haladó -->
       <div class="course-card fade-up">
-        <span class="course-badge badge-workshop">
-          <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x="1" y="1" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.1"/></svg>
-          Haladó
-        </span>
+        <span class="course-badge badge-workshop"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x="1" y="1" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.1"/></svg> Haladó</span>
         <h3>AI Haladó</h3>
-        <p><strong>Neked való, ha</strong> már használtál AI-eszközöket, és az üzleti folyamatok, automatizálások vagy ügynök módok érdekelnek. Jobban átlátod, hogyan építhető be az AI a munkafolyamatokba.</p>
+        <p><strong>Neked való, ha</strong> már használsz AI-eszközöket, és rendszert, automatizációt vagy folyamatokat szeretnél építeni. Promptkönyvtár, dokumentumkezelés, Make.com-folyamatok.</p>
         <div class="course-meta">
-          <div class="meta-item">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 3.5v3l2 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-            8 óra
-          </div>
-          <div class="meta-item">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="8.5" r="2" stroke="currentColor" stroke-width="1.1"/><path d="M2.5 12c0-2 1.8-3.5 4-3.5s4 1.5 4 3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-            15–30 fő
-          </div>
+          <div class="meta-item"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 3.5v3l2 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg> 8 óra</div>
+          <div class="meta-item"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="8.5" r="2" stroke="currentColor" stroke-width="1.1"/><path d="M2.5 12c0-2 1.8-3.5 4-3.5s4 1.5 4 3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg> kis csoport</div>
         </div>
         <div class="course-price">79 900 Ft<small> bruttó</small></div>
         <div class="course-actions">
           <button class="btn btn-primary" onclick="openModal('AI Haladó')">Jelentkezem</button>
-          <a href="ai-halado.html" class="btn-link-row">Részletek <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="ai-halado.html" class="btn-link-row">Részletek <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
 
-      <!-- Céges AI képzés -->
       <div class="course-card fade-up">
-        <span class="course-badge badge-workshop" style="background:var(--amber-light);color:var(--amber);">
-          <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x="1" y="1" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.1"/></svg>
-          Céges
-        </span>
-        <h3>Céges AI képzés</h3>
-        <p><strong>Neked való, ha</strong> nem egyéni képzésben gondolkodsz, hanem a céged csapatának szeretnél közös AI-alapot. A képzést a működésetekhez, munkaköreitekhez és üzleti problémáitokhoz igazítjuk.</p>
+        <span class="course-badge badge-workshop" style="background:var(--amber-light);color:var(--amber);"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x="1" y="1" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.1"/></svg> Céges</span>
+        <h3>Céges AI-képzés</h3>
+        <p><strong>Neked való, ha</strong> nem egy embernek, hanem egy egész csapatnak szeretnél közös AI-alapot és közös nyelvet. A workshopot a ti munkaköreitekhez és folyamataitokhoz igazítjuk — helyben, nálatok.</p>
         <div class="course-meta">
-          <div class="meta-item">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 3.5v3l2 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-            jellemzően 8 óra
-          </div>
-          <div class="meta-item">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1.5C4 1.5 2 3.5 2 6s2 4.5 4.5 4.5S11 8.5 11 6 9 1.5 6.5 1.5z" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 1.5v9M2 6h9" stroke="currentColor" stroke-width="1.1"/></svg>
-            Nálatok, helyben
-          </div>
+          <div class="meta-item"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 3.5v3l2 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg> jellemzően 8 óra</div>
+          <div class="meta-item"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1.5C4 1.5 2 3.5 2 6s2 4.5 4.5 4.5S11 8.5 11 6 9 1.5 6.5 1.5z" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 1.5v9M2 6h9" stroke="currentColor" stroke-width="1.1"/></svg> Nálatok, helyben</div>
         </div>
         <div class="course-price" style="font-size:1.3rem;">Egyedi ajánlat</div>
         <div class="course-actions">
-          <a href="#kihelyezett" class="btn btn-primary">Ajánlatot kérek</a>
-          <a href="ceges-ai-kepzes.html" class="btn-link-row">Részletek <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <button class="btn btn-primary" onclick="openModal('Céges AI-képzés')">Ajánlatot kérek</button>
+          <a href="ceges-ai-kepzes.html" class="btn-link-row">Részletek <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
 
     </div>
-
-    <p style="text-align:center;margin-top:2.5rem;color:var(--text-2);font-weight:600;">
-      Nem tudod, melyik való neked? <a href="szerdai.html" style="color:var(--coral);font-weight:800;">Gyere el a SzerdAI estre</a>, és segítünk eldönteni.
-    </p>
+    <p style="text-align:center;margin-top:2.5rem;color:var(--text-2);font-weight:600;">Nem tudod, melyik való neked? <a href="#" onclick="openModal('SzerdaAI'); return false;" style="color:var(--coral);font-weight:800;">Gyere el a SzerdAI estre</a>, és segítünk eldönteni.</p>
   </div>
 </section>
 
-
-<!-- ═══════════════════════════════════════════════════════
-     INGYENES BEVEZETŐ EST
-═══════════════════════════════════════════════════════ -->
-<section id="szerdai-blokk" class="alt">
+<!-- MIÉRT MÁS EZ -->
+<section id="miert" class="alt">
   <div class="container">
-    <div class="est-card fade-up">
-      <div class="est-grid">
-        <div class="est-left">
-          <div class="est-pill">
-            <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
-              <circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.2"/>
-              <path d="M5.5 3.2v2.3l1.5 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-            </svg>
-            2 óra · Ingyenes · Havonta szerdán
-          </div>
-          <h2 class="headline" style="margin-bottom:1.2rem;">SzerdAI — ingyenes AI<br>ismertető est <em>Baján.</em></h2>
-          <p class="body-lg" style="margin-bottom:2rem;">
-            A SzerdAI egy 2 órás, személyes AI ismertető est azoknak, akik szeretnék megérteni, mire használható ma az AI a munkában, de nem akarnak azonnal fizetős képzésre jelentkezni. Nem technológiai előadás, nem programozói bemutató — gyakorlati példák.
-          </p>
-
-          <ul class="est-list">
-            <li>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7.2l2.5 2.5 5.5-5.5" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Rövid, érthető áttekintés a mai AI-eszközökről
-            </li>
-            <li>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7.2l2.5 2.5 5.5-5.5" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Példák valós napi munkafeladatokra
-            </li>
-            <li>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7.2l2.5 2.5 5.5-5.5" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Képet kapsz arról, mire jó és mire nem jó az AI
-            </li>
-            <li>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7.2l2.5 2.5 5.5-5.5" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Segítünk eldönteni, melyik képzés lenne hasznos
-            </li>
-          </ul>
-
-          <a href="szerdai.html" class="btn btn-primary">
-            Jelentkezem a következő SzerdAI estre
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-          <p style="font-size:0.78rem;color:var(--muted);margin-top:0.9rem;">Jelentkezés után telefonon egyeztetünk veled.</p>
-        </div>
-
-        <div class="est-right">
-          <div class="est-side">
-            <div class="est-side-label">Kinek ajánljuk?</div>
-            <ul class="est-side-list">
-              <li>Még csak ismerkedsz az AI-eszközökkel</li>
-              <li>Munkavállalóként látnád, hol segít a napi munkában</li>
-              <li>Vállalkozóként időt spórolnál szövegen, ajánlaton</li>
-              <li>Vezetőként gyakorlati képet kapnál a lehetőségekről</li>
-            </ul>
-
-            <div class="est-divider"></div>
-
-            <div class="est-meta-grid">
-              <div>
-                <div class="est-meta-label">Hossz</div>
-                <div class="est-meta-value">2 óra</div>
-              </div>
-              <div>
-                <div class="est-meta-label">Hely</div>
-                <div class="est-meta-value">Baja, helyszíni</div>
-              </div>
-              <div>
-                <div class="est-meta-label">Ár</div>
-                <div class="est-meta-value" style="color:var(--coral);">Ingyenes</div>
-              </div>
-              <div>
-                <div class="est-meta-label">Gyakoriság</div>
-                <div class="est-meta-value">Havonta</div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div style="max-width:780px;margin:0 auto 3rem;text-align:center;">
+      <div class="section-label" style="display:inline-block;">Miért más ez?</div>
+      <h2 class="headline fade-up">Üzleti szemlélettel,<br>nem <em>fejlesztői logikával.</em></h2>
+      <p class="body-lg fade-up" style="margin:0 auto;">A legtöbb AI-képzés arról szól, mi az AI. Mi arról tanítunk, mire tudod használni — holnaptól, a saját munkádban.</p>
+    </div>
+    <div class="audience-grid">
+      <div class="audience-card lvl-1 fade-up">
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 7h16v11a2 2 0 01-2 2H6a2 2 0 01-2-2V7z" stroke="currentColor" stroke-width="1.6"/><path d="M9 7V5a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        <h3>Üzleti szemlélet, nem tech-előadás</h3>
+        <p>A képzéseket piacon dolgozó szakemberek tartják — nem informatikusok. Amit tanítunk, azt mi magunk is napi szinten használjuk a saját munkánkban.</p>
       </div>
+      <div class="audience-card lvl-2 fade-up">
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.5-7-10a7 7 0 0114 0c0 5.5-7 10-7 10z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="11" r="2.5" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        <h3>Helyi, személyes — nem online tanfolyam</h3>
+        <p>Baján, kis csoportban, kérdezhető helyzetben. Nem nézel egy videót egyedül — hanem ott vagy, és azonnal visszajelzést kapsz.</p>
+      </div>
+      <div class="audience-card lvl-3 fade-up">
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M8 12l2.5 2.5L16 9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Csak azt tanítjuk, ami már működik</h3>
+        <p>Nem kísérletezünk az AI-jal — hanem azokat az eszközöket és módszereket mutatjuk meg, amelyek valódi munkában, valódi feladatokon már bizonyítottak.</p>
+      </div>
+      <div class="audience-card lvl-4 fade-up">
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="9" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 19c0-2.8 2-4.5 4.5-4.5S12.5 16.2 12.5 19M11.5 19c0-2.8 2-4.5 4.5-4.5s4.5 1.7 4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <h3>Kis csoport, egyéni figyelem</h3>
+        <p>Nem 200 fős webinárium, hanem 15–30 fős, kötetlen légkörű workshop. Van idő kérdezni, kipróbálni, és a saját helyzetedre alkalmazni.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2.5rem;">
+      <a href="szerdai.html" style="display:inline-flex;align-items:center;gap:8px;font-weight:800;color:var(--coral);">Ismerd meg a csapatot <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
   </div>
 </section>
 
-
-<!-- ═══════════════════════════════════════════════════════
-     KIHELYEZETT KÉPZÉS
-═══════════════════════════════════════════════════════ -->
-<section id="kihelyezett">
+<!-- GYIK -->
+<section id="faq">
   <div class="container">
-    <div class="kihely-inner">
-      <div class="fade-up">
-        <div class="section-label">AI képzés cégeknek</div>
-        <h2 class="headline">Közös AI-alap<br><em>a csapatnak.</em></h2>
-        <p class="body-lg">
-          Egy cégnél az AI akkor kezd igazán hasznossá válni, ha nem csak egy-két ember kísérletezik vele, hanem a csapat közös nyelvet és használható módszereket kap. A céges képzéseken az AI Alapozó vagy AI Haladó tematikát a vállalat működéséhez igazítjuk. A cél nem az, hogy mindenki technológiai szakértő legyen, hanem hogy értsék, mire használható az AI a saját feladataikban.
-        </p>
-
-        <div class="kihely-features">
-          <div class="kihely-feat">
-            <div class="kihely-feat-icon">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l2 4h4l-3 3 1 4-4-2.5L5 13l1-4-3-3h4L9 2z" stroke="#4B6584" stroke-width="1.2" stroke-linejoin="round"/></svg>
-            </div>
-            <strong>Igényre szabott</strong>
-            <p>A munkaköreitekhez és üzleti problémáitokhoz igazított tematika</p>
-          </div>
-          <div class="kihely-feat">
-            <div class="kihely-feat-icon">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="3" width="14" height="12" rx="2" stroke="#4B6584" stroke-width="1.2"/><path d="M6 7.5h6M6 10.5h4" stroke="#4B6584" stroke-width="1.2" stroke-linecap="round"/></svg>
-            </div>
-            <strong>Közös nyelv</strong>
-            <p>Hogy a csapat ne összevissza próbálgassa az eszközöket</p>
-          </div>
-          <div class="kihely-feat">
-            <div class="kihely-feat-icon">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 9h4l2-5 2 10 2-5h4" stroke="#4B6584" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <strong>Üzleti fókusz</strong>
-            <p>Nem informatikai, hanem működési oldalról közelítünk</p>
-          </div>
-          <div class="kihely-feat">
-            <div class="kihely-feat-icon">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2C5 2 2 5 2 9s3 7 7 7 7-3 7-7-3-7-7-7z" stroke="#4B6584" stroke-width="1.2"/><path d="M9 2v14M2 9h14" stroke="#4B6584" stroke-width="1.2"/></svg>
-            </div>
-            <strong>Helyben, nálatok</strong>
-            <p>Baján és a régióban, a ti irodátokban</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Form -->
-      <div class="form-card fade-up">
-        <div id="cegFormView">
-          <h3>Céges egyeztetést kérek</h3>
-          <p class="form-desc">Töltsd ki a rövid formot — jelentkezés után telefonon egyeztetünk az igényekről és a képzési formáról.</p>
-
-          <form id="cegForm" onsubmit="return submitCegForm(event)">
-            <input type="hidden" name="fields[esemeny]" value="Céges AI képzés">
-            <div style="display:flex;gap:0.7rem;">
-              <div class="form-group" style="flex:1;">
-                <label>Vezetéknév</label>
-                <input type="text" name="fields[last_name]" placeholder="Kovács" required>
-              </div>
-              <div class="form-group" style="flex:1;">
-                <label>Keresztnév</label>
-                <input type="text" name="fields[name]" placeholder="Béla" required>
-              </div>
-            </div>
-            <div class="form-group">
-              <label>E-mail cím</label>
-              <input type="email" name="fields[email]" placeholder="bela@cegem.hu" required>
-            </div>
-            <div class="form-group">
-              <label>Telefonszám</label>
-              <input type="tel" name="fields[phone]" placeholder="+36 30 123 4567" required>
-            </div>
-            <div class="form-group">
-              <label>Település</label>
-              <input type="text" name="fields[city]" placeholder="Baja" required>
-            </div>
-            <div class="form-group">
-              <label>Cégnév</label>
-              <input type="text" name="fields[company]" placeholder="Cégem Kft." required>
-            </div>
-            <div class="form-group">
-              <label>Csapat mérete (fő)</label>
-              <input type="number" name="fields[csapat_merete]" placeholder="8" min="1" required>
-            </div>
-            <div class="form-group">
-              <label>Mire van szükségetek?</label>
-              <textarea name="fields[megjegyzes]" placeholder="Röviden írd le, milyen képzést kerestek..."></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary btn-wide" id="cegSubmitBtn">
-              Céges egyeztetést kérek
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-          </form>
-        </div>
-
-        <div id="cegSuccessView" style="display:none;text-align:center;padding:2rem 0;">
-          <div style="width:64px;height:64px;border-radius:50%;background:var(--coral-light);display:flex;align-items:center;justify-content:center;margin:0 auto 1.4rem;">
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M9 16.5l4.5 4.5L23 11" stroke="var(--coral)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <h3 style="margin-bottom:0.6rem;">Köszönjük az érdeklődést!</h3>
-          <p style="color:var(--text-2);">Hamarosan felvesszük veletek a kapcsolatot, hogy egyeztessük a képzés részleteit.</p>
-        </div>
-      </div>
+    <div style="text-align:center;max-width:780px;margin:0 auto 3rem;">
+      <div class="section-label" style="display:inline-block;">GYIK</div>
+      <h2 class="headline fade-up">Gyakori <em>kérdések.</em></h2>
+    </div>
+    <div style="max-width:780px;margin:0 auto;">
+      <details class="faq-item fade-up"><summary>Kell informatikai tudás?</summary><p>Nem. A képzések nem programozóknak készülnek. Elég, ha tudsz böngészőt használni és nyitott vagy a gyakorlásra.</p></details>
+      <details class="faq-item fade-up"><summary>Kell saját laptop?</summary><p>A SzerdAI estre nem kötelező, de hasznos, ha hozod. Az Alapozó és Haladó képzésekre igen — ezek gyakorlati workshopok, nem passzív előadások, és végig aktívan dolgozol a gépen.</p></details>
+      <details class="faq-item fade-up"><summary>Kell fizetős előfizetés az AI-eszközökhöz?</summary><p>Egyes képzésekhez igen. Mivel mindig a legfrissebb, legjobban használható eszközöket tanítjuk, a pontos technikai feltételeket — beleértve az esetleges előfizetéseket — minden képzésnél külön közöljük a meghirdetés időpontjában.</p></details>
+      <details class="faq-item fade-up"><summary>Csak ChatGPT-ről szól a képzés?</summary><p>Nem. A ChatGPT fontos eszköz, de a képzés tágabb AI-eszköztárban gondolkodik: meeting-asszisztensek, automatizációs megoldások, dokumentum- és tartalomkészítő eszközök is előkerülhetnek.</p></details>
+      <details class="faq-item fade-up"><summary>Céges adatokat be lehet írni AI-eszközökbe?</summary><p>Nem vakon. Pont ezért fontos a tudatos, szabályozott céges AI-használat — ezt a képzésen külön is átbeszéljük.</p></details>
     </div>
   </div>
 </section>
 
-
-<!-- ═══════════════════════════════════════════════════════
-     OKTATÓK
-═══════════════════════════════════════════════════════ -->
-<section id="oktatok" class="alt">
-  <div class="container">
-    <div style="max-width:720px;margin:0 auto 3rem;text-align:center;">
-      <div class="section-label" style="display:inline-block;">Kik tartják a képzéseket?</div>
-      <h2 class="headline fade-up">Üzleti és gyakorlati<br>oldalról <em>közelítünk.</em></h2>
-      <p class="body-lg fade-up" style="margin:0 auto;">A BácskAI Akadémia új kezdeményezés, de nem elméleti kísérlet. A képzéseket olyan szakemberek tartják, akik napi szinten keresik, tesztelik és építik be az AI üzleti felhasználási lehetőségeit — nem informatikai környezetben.</p>
-    </div>
-
-    <div class="instructors-grid">
-      <div class="instructor-card fade-up">
-        <div class="instructor-avatar">VJ</div>
-        <div class="instructor-body">
-          <h3>Vida József</h3>
-          <div class="instructor-role">Szervezetfejlesztő és üzletviteli tanácsadó</div>
-          <p>Több informatikai projekt bevezetésén dolgozott, és szervezetfejlesztőként azt vizsgálja, hogyan lehet az AI-eszközöket nem informatikai cégek napi működésébe beépíteni. Fókusza a gyakorlati használhatóság: mi segíti valóban a munkát, és hol nem érdemes túlbonyolítani.</p>
-          <a href="#" class="instructor-link">LinkedIn profil →</a>
-        </div>
-      </div>
-
-      <div class="instructor-card fade-up">
-        <div class="instructor-avatar">GI</div>
-        <div class="instructor-body">
-          <h3>Gorotyák Igor</h3>
-          <div class="instructor-role">Marketing- és üzletszerzési szakember</div>
-          <p>Az AI-eszközöket elsősorban marketing, értékesítési és ügyfélszerzési feladatokban alkalmazza. A képzéseken azt a gyakorlati szemléletet hozza, hogyan lehet az AI-t üzletszerzésre, tartalomkészítésre, ajánlatok előkészítésére és kommunikációs feladatokra használni.</p>
-          <a href="#" class="instructor-link">LinkedIn profil →</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     KINEK NEM VALÓ?
-═══════════════════════════════════════════════════════ -->
-<section id="kinek-nem">
-  <div class="container">
-    <div style="max-width:720px;margin:0 auto 3rem;text-align:center;">
-      <div class="section-label" style="display:inline-block;">Legyünk őszinték</div>
-      <h2 class="headline fade-up">Kinek <em>nem</em> való<br>ez a képzés?</h2>
-      <p class="body-lg fade-up" style="margin:0 auto;">Ez nem programozói képzés, nem technológiai mélytanfolyam és nem elméleti AI-kutatás. Inkább megmondjuk előre, mint hogy csalódj.</p>
-    </div>
-
-    <div class="fit-grid">
-      <div class="fit-col fit-no fade-up">
-        <div class="fit-head">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 7l6 6M13 7l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          Nem ez a megfelelő, ha…
-        </div>
-        <ul>
-          <li>programozni szeretnél megtanulni;</li>
-          <li>technológiai mélytanfolyamot keresel;</li>
-          <li>csak általános, szórakoztató AI-bemutatóra vágysz;</li>
-          <li>nincs olyan munkafeladatod, amiben szöveg, adat, döntés vagy kommunikáció szerepel;</li>
-          <li>azt várod, hogy az AI minden problémát megoldjon helyetted.</li>
-        </ul>
-      </div>
-
-      <div class="fit-col fit-yes fade-up">
-        <div class="fit-head">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8.5" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 10l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Ez a megfelelő, ha…
-        </div>
-        <ul>
-          <li>dolgozol szövegekkel, ajánlatokkal, elemzésekkel vagy ügyfelekkel;</li>
-          <li>szeretnéd tudni, melyik AI-eszközt mire érdemes használni;</li>
-          <li>gyakorlati példákon keresztül tanulnál;</li>
-          <li>nem technológiai divatot, hanem munkában használható módszereket keresel;</li>
-          <li>gyorsabban, pontosabban és tudatosabban dolgoznál.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ═══════════════════════════════════════════════════════
-     VÉLEMÉNYEK — Social proof
-═══════════════════════════════════════════════════════ -->
-<section id="gyik" class="alt">
-  <div class="container">
-    <div style="max-width:720px;margin:0 auto 3rem;text-align:center;">
-      <div class="section-label" style="display:inline-block;">Gyakori kérdések</div>
-      <h2 class="headline fade-up">Amit a legtöbben<br><em>kérdeznek.</em></h2>
-    </div>
-
-    <div class="faq-list">
-      <details class="faq-item fade-up" open>
-        <summary>Kell informatikai előképzettség?</summary>
-        <p>Nem. A képzések nem informatikusoknak és nem programozóknak készülnek. Az AI-t üzleti, irodai, vezetői és vállalkozói feladatokon keresztül mutatjuk be.</p>
-      </details>
-      <details class="faq-item fade-up">
-        <summary>Milyen AI-eszközökkel foglalkozunk?</summary>
-        <p>Az aktuálisan elérhető, munkában jól használható eszközökkel — főként ChatGPT, Microsoft Copilot, Google Gemini és Claude. Haladó szinten automatizálási és folyamatépítő megoldások is, például Make.com.</p>
-      </details>
-      <details class="faq-item fade-up">
-        <summary>Miben más ez, mint egy online AI-tanfolyam?</summary>
-        <p>Személyesen zajlik Baján, gyakorlatokra épül, lehet kérdezni, és nem általános elméletet ad. A résztvevők a saját munkájukhoz köthető példákon keresztül értik meg az AI használatát.</p>
-      </details>
-      <details class="faq-item fade-up">
-        <summary>Melyik képzéssel kezdjem?</summary>
-        <p>Ha csak ismerkednél a témával, először gyere el az ingyenes SzerdAI estre. Ha napi használati alapokat szeretnél, az AI Alapozót javasoljuk. Ha már használtál AI-eszközöket és folyamatokban gondolkodsz, az AI Haladó lehet a következő lépés.</p>
-      </details>
-      <details class="faq-item fade-up">
-        <summary>Mi történik jelentkezés után?</summary>
-        <p>Telefonon egyeztetünk veled. Ennek célja, hogy tisztázzuk az érdeklődésedet, válaszoljunk a kérdéseidre, és segítsünk kiválasztani a megfelelő képzést.</p>
-      </details>
-      <details class="faq-item fade-up">
-        <summary>Cégeknek is tartotok képzést?</summary>
-        <p>Igen. Céges képzésnél a tematikát a vállalat működéséhez, munkaköreihez és konkrét igényeihez igazítjuk — az AI Alapozó vagy az AI Haladó alapján.</p>
-      </details>
-      <details class="faq-item fade-up">
-        <summary>Hol lesznek a képzések?</summary>
-        <p>Baján, személyes jelenléttel. A pontos helyszínt az aktuális képzés meghirdetésénél és a telefonos egyeztetés során adjuk meg.</p>
-      </details>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     CTA BANNER
-═══════════════════════════════════════════════════════ -->
+<!-- ZÁRÓ CTA -->
 <section style="padding:3rem 2rem;">
   <div class="container">
     <div class="cta-banner fade-up">
-      <h2>Ha nem csak kipróbálni, hanem használni akarod.</h2>
-      <p>Nézd meg a képzéseket, jelentkezz a SzerdAI ingyenes estre, vagy kérj céges egyeztetést. Jelentkezés után telefonon egyeztetünk, hogy a céljaidhoz illő képzést válaszd.</p>
+      <h2>Az első lépés nulla forintba kerül.</h2>
+      <p>A SzerdAI estre 2 óra alatt kiderül, megéri-e továbblépni. Ingyenes, kötetlen, kérdezhető. Ha nem nyerjük meg a bizalmad — semmi nem kötelez.</p>
       <div class="cta-actions">
-        <a href="#tanfolyamok" class="btn btn-on-dark">
-          Megnézem a tanfolyamokat
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <a href="szerdai.html" class="btn btn-ghost-white">Jelentkezem a SzerdAI estre</a>
+        <a href="#" class="btn btn-on-dark" onclick="openModal('SzerdaAI'); return false;">Jelentkezem az estre <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="#kepzesek" class="btn btn-ghost-white">Megnézem a képzéseket →</a>
       </div>
     </div>
   </div>
 </section>
 
-
-<!-- ═══════════════════════════════════════════════════════
-     FOOTER
-═══════════════════════════════════════════════════════ -->
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
         <span class="footer-brand-name">BácskAI <span>Akadémia</span></span>
-        <p>Gyakorlati AI workshopok munkavállalóknak, vállalkozóknak és cégvezetőknek — Baján és Bácskában, személyesen, érthetően.</p>
+        <p>Gyakorlati AI-képzések nem informatikusoknak – Baján, helyben, érthetően, üzleti szemlélettel.</p>
       </div>
       <div class="footer-col">
         <h4>Navigáció</h4>
         <ul>
-          <li><a href="#kinek-szol">Kinek szól?</a></li>
-          <li><a href="#tanfolyamok">Képzések</a></li>
-          <li><a href="#oktatok">Oktatók</a></li>
-          <li><a href="#kihelyezett">Céges képzés</a></li>
-          <li><a href="#kinek-nem">Kinek nem való?</a></li>
+          <li><a href="#kinek">Kinek szól?</a></li>
+          <li><a href="#haszon">Gyakorlati haszon</a></li>
+          <li><a href="#kepzesek">Képzéseink</a></li>
+          <li><a href="#faq">GYIK</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Képzések</h4>
         <ul>
-          <li><a href="szerdai.html">SzerdAI (ingyenes)</a></li>
+          <li><a href="szerdai.html">SzerdAI est — Ingyenes</a></li>
           <li><a href="ai-alapozo.html">AI Alapozó</a></li>
           <li><a href="ai-halado.html">AI Haladó</a></li>
-          <li><a href="ceges-ai-kepzes.html">Céges AI képzés</a></li>
+          <li><a href="ceges-ai-kepzes.html">Céges AI-képzés</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Kapcsolat</h4>
         <ul>
           <li><a href="mailto:info@bacskaii.hu">info@bacskaii.hu</a></li>
-          <li><a href="#">LinkedIn</a></li>
-          <li><a href="#">Facebook</a></li>
-          <li><a href="#">Hírlevél</a></li>
+          <li><a href="tel:+36308442912">+36 30 844 2912</a></li>
+          <li><a href="#" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="#" target="_blank" rel="noopener">Facebook</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 BácskAI Akadémia. Minden jog fenntartva.</p>
+      <p>© 2025 BácskAI Akadémia. Minden jog fenntartva. · <a href="#" onclick="openPrivacy(); return false;" style="color:inherit;text-decoration:underline;">Adatkezelési tájékoztató</a></p>
       <p>AI a napi munkához — érthetően, gyakorlatiasan, Baján.</p>
     </div>
   </div>
 </footer>
+
+<!-- ADATKEZELÉSI TÁJÉKOZTATÓ MODÁL -->
+<div class="modal-overlay" id="privacyOverlay" onclick="closePrivacyOnBg(event)">
+  <div class="modal" style="max-width:720px;">
+    <button class="modal-close" onclick="closePrivacy()" aria-label="Bezárás"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+    <h2 style="margin-bottom:1.4rem;">Adatkezelési tájékoztató</h2>
+    <div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">1. Az adatkezelő adatai</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Cégnév: Vida Interim Kft.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Székhely: 6500 Baja, Venyige u. 40.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Adószám: 24387107-2-03</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Cégjegyzékszám: 03-09-132784</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">E-mail: info@bacskaiakademia.hu</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Telefon: +36 30 844 2912</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">2. Az adatkezelés célja és jogalapja</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">A Vida Interim Kft. (továbbiakban: Adatkezelő) a BácskAI Akadémia képzéseire történő jelentkezés, valamint az érdeklődők megkereséseinek kezelése céljából kezeli a megadott személyes adatokat.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az adatkezelés jogalapja: az érintett hozzájárulása (GDPR 6. cikk (1) bekezdés a) pont), illetve szerződés teljesítése (GDPR 6. cikk (1) bekezdés b) pont).</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">3. A kezelt adatok köre</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Jelentkezési űrlapon keresztül: név, e-mail cím, telefonszám, a kiválasztott képzés megnevezése.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">E-mailen vagy telefonon történő kapcsolatfelvétel esetén: az érintett által önkéntesen megadott adatok.</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">4. Az adatkezelés időtartama</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az Adatkezelő a személyes adatokat a képzés teljesítéséig, illetve — ha az érintett hozzájárulásán alapul az adatkezelés — a hozzájárulás visszavonásáig kezeli. Számviteli bizonylatokat a jogszabályi előírásoknak megfelelően 8 évig őrzi meg.</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">5. Adattovábbítás, adatfeldolgozók</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az Adatkezelő személyes adatokat harmadik félnek nem ad át, kivéve, ha azt jogszabály kötelezővé teszi. Az adatok tárolása az Adatkezelő által igénybe vett tárhelyszolgáltatón keresztül történik.</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">6. Az érintett jogai</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az érintett jogosult: hozzáférni a róla kezelt adatokhoz, kérni azok helyesbítését vagy törlését, korlátozni az adatkezelést, valamint adathordozhatósághoz való jogát érvényesíteni.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Kérelmét az info@bacskaiakademia.hu e-mail címre küldheti. Az Adatkezelő 30 napon belül válaszol.</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">7. Jogorvoslat</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Amennyiben úgy véli, hogy adatai kezelése jogszabálysértő, panasszal élhet a Nemzeti Adatvédelmi és Információszabadság Hatóságnál (NAIH):</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Cím: 1055 Budapest, Falk Miksa u. 9–11. · naih.hu</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">8. Tájékoztató módosítása</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az Adatkezelő fenntartja a jogot jelen tájékoztató módosítására. A változásokról az érintetteket e-mailben vagy a weboldalon tájékoztatja.</p></div>
+    <div style="border-top:1px solid var(--border);padding-top:1rem;margin-top:0.5rem;font-size:0.82rem;color:var(--muted);">Utolsó módosítás: 2025. június</div>
+  </div>
+</div>
+
+<script>
+function openPrivacy(){document.getElementById('privacyOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function closePrivacy(){document.getElementById('privacyOverlay').classList.remove('open');document.body.style.overflow='';}
+function closePrivacyOnBg(e){if(e.target===document.getElementById('privacyOverlay'))closePrivacy();}
+</script>
 
 
 <!-- ═══════════════════════════════════════════════════════
