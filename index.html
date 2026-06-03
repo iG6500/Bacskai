@@ -1657,18 +1657,39 @@ footer {
 <!-- HERO -->
 <section class="hero" id="top">
   <div class="hero-bg-lines" aria-hidden="true"></div>
+
+  <div class="promo-banner" id="promoBanner" aria-label="Aktuális képzések">
+    <div class="promo-track" id="promoTrack">
+      <a href="szerdai.html" class="promo-slide active">
+        <span class="promo-tag">Ingyenes</span>
+        <span class="promo-text">Ismerkednél az AI-jal? Gyere el a következő <strong>SzerdAI estre</strong> — 2 óra, kötetlenül, Baján.</span>
+        <span class="promo-arrow">Jelentkezem →</span>
+      </a>
+      <a href="#kepzesek" class="promo-slide">
+        <span class="promo-tag">Új csoport</span>
+        <span class="promo-text">Indul a következő <strong>AI Alapozó</strong> — egy gyakorlati nap AI-eszközökkel. 39 900 Ft.</span>
+        <span class="promo-arrow">Megnézem →</span>
+      </a>
+      <a href="#kepzesek" class="promo-slide">
+        <span class="promo-tag">Haladó</span>
+        <span class="promo-text">Automatizálnál? Az <strong>AI Haladón</strong> ügynök módokat és Make.com-folyamatokat építünk.</span>
+        <span class="promo-arrow">Részletek →</span>
+      </a>
+      <a href="#kepzesek" class="promo-slide">
+        <span class="promo-tag">Céges</span>
+        <span class="promo-text">Csapatot képeznél? <strong>Céges AI workshop</strong> a ti munkafolyamataitokra szabva.</span>
+        <span class="promo-arrow">Ajánlatot kérek →</span>
+      </a>
+    </div>
+    <div class="promo-dots" id="promoDots" aria-hidden="true"></div>
+  </div>
+
   <div class="hero-inner container" style="padding:0 2rem;max-width:1180px;margin:0 auto;width:100%;">
     <div class="hero-reveal">
-      <div class="urgency-bar" aria-label="Ingyenes SzerdAI est">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M6 3.5V6.5L7.5 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-        Először ismerkednél? Gyere el az ingyenes SzerdAI estre
-      </div>
-      <div class="tag"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="var(--coral)"/></svg> Személyes, gyakorlati AI képzések · Baja & Bácska</div>
       <h1>Személyes, gyakorlati<br>AI képzések — <em>Baján.</em></h1>
       <p class="hero-desc">A napi adminisztráció, szövegírás és döntés-előkészítés másképp is megy. Gyorsabban, AI-val — és ezt meg lehet tanulni.</p>
       <div class="hero-actions">
         <a href="#kepzesek" class="btn btn-primary">Megnézem a képzéseket <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        <a href="#" class="btn btn-secondary" onclick="openModal('SzerdaAI'); return false;">Jelentkezem a SzerdAI estre</a>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:0.5rem;">
         <span style="background:var(--surface);border:1px solid var(--border-med);color:var(--text-2);border-radius:var(--r-pill);padding:0.55rem 0.95rem;font-weight:700;font-size:0.85rem;display:inline-flex;align-items:center;gap:8px;box-shadow:var(--sh-sm);"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="var(--coral)"/></svg> Helyi, személyes képzések</span>
@@ -1689,7 +1710,7 @@ footer {
         <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Milyen hatással lesz az AI a munkakörökre?</li>
         <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Promptolási alapok gyakorlati példákkal</li>
       </ul>
-      <div class="hero-card-price course-price-free">Ingyenes</div>
+      <div class="hero-card-price course-price-free" style="margin-bottom:1rem;">Ingyenes</div>
       <a href="#" class="btn btn-primary btn-wide" onclick="openModal('SzerdaAI'); return false;">Jelentkezem a SzerdAI estre →</a>
       <div class="social-proof-row">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="color:var(--coral);flex-shrink:0;"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M4.5 7.5l1.5 1.5 3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1861,24 +1882,34 @@ footer {
       </div>
     </div>
     <div style="text-align:center;margin-top:2.5rem;">
-      <a href="szerdai.html" style="display:inline-flex;align-items:center;gap:8px;font-weight:800;color:var(--coral);">Ismerd meg a csapatot <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="rolunk.html" style="display:inline-flex;align-items:center;gap:8px;font-weight:800;color:var(--coral);">Ismerd meg a csapatot <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
   </div>
 </section>
 
 <!-- GYIK -->
+<style>
+.faq-acc{max-width:780px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);box-shadow:var(--sh-lg);overflow:hidden;}
+.faq-acc details{border-top:1px solid var(--border);}
+.faq-acc details:first-child{border-top:none;}
+.faq-acc summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.35rem 1.7rem;font-family:var(--font-display);font-weight:800;font-size:1.05rem;color:var(--ink);}
+.faq-acc summary::-webkit-details-marker{display:none;}
+.faq-acc summary::after{content:'⌄';font-size:1.3rem;line-height:1;color:var(--coral);transition:transform .25s;flex-shrink:0;}
+.faq-acc details[open] summary::after{transform:rotate(180deg);}
+.faq-acc .faq-a{padding:0 1.7rem 1.4rem;color:var(--text-2);line-height:1.7;font-size:0.95rem;margin:0;}
+</style>
 <section id="faq">
   <div class="container">
     <div style="text-align:center;max-width:780px;margin:0 auto 3rem;">
       <div class="section-label" style="display:inline-block;">GYIK</div>
       <h2 class="headline fade-up">Gyakori <em>kérdések.</em></h2>
     </div>
-    <div style="max-width:780px;margin:0 auto;">
-      <details class="faq-item fade-up"><summary>Kell informatikai tudás?</summary><p>Nem. A képzések nem programozóknak készülnek. Elég, ha tudsz böngészőt használni és nyitott vagy a gyakorlásra.</p></details>
-      <details class="faq-item fade-up"><summary>Kell saját laptop?</summary><p>A SzerdAI estre nem kötelező, de hasznos, ha hozod. Az Alapozó és Haladó képzésekre igen — ezek gyakorlati workshopok, nem passzív előadások, és végig aktívan dolgozol a gépen.</p></details>
-      <details class="faq-item fade-up"><summary>Kell fizetős előfizetés az AI-eszközökhöz?</summary><p>Egyes képzésekhez igen. Mivel mindig a legfrissebb, legjobban használható eszközöket tanítjuk, a pontos technikai feltételeket — beleértve az esetleges előfizetéseket — minden képzésnél külön közöljük a meghirdetés időpontjában.</p></details>
-      <details class="faq-item fade-up"><summary>Csak ChatGPT-ről szól a képzés?</summary><p>Nem. A ChatGPT fontos eszköz, de a képzés tágabb AI-eszköztárban gondolkodik: meeting-asszisztensek, automatizációs megoldások, dokumentum- és tartalomkészítő eszközök is előkerülhetnek.</p></details>
-      <details class="faq-item fade-up"><summary>Céges adatokat be lehet írni AI-eszközökbe?</summary><p>Nem vakon. Pont ezért fontos a tudatos, szabályozott céges AI-használat — ezt a képzésen külön is átbeszéljük.</p></details>
+    <div class="faq-acc fade-up">
+      <details><summary>Kell informatikai tudás?</summary><p class="faq-a">Nem. A képzések nem programozóknak készülnek. Elég, ha tudsz böngészőt használni és nyitott vagy a gyakorlásra.</p></details>
+      <details><summary>Kell saját laptop?</summary><p class="faq-a">A SzerdAI estre nem kötelező, de hasznos, ha hozod. Az Alapozó és Haladó képzésekre igen — ezek gyakorlati workshopok, nem passzív előadások, és végig aktívan dolgozol a gépen.</p></details>
+      <details><summary>Kell fizetős előfizetés az AI-eszközökhöz?</summary><p class="faq-a">Egyes képzésekhez igen. Mivel mindig a legfrissebb, legjobban használható eszközöket tanítjuk, a pontos technikai feltételeket — beleértve az esetleges előfizetéseket — minden képzésnél külön közöljük a meghirdetés időpontjában.</p></details>
+      <details><summary>Csak ChatGPT-ről szól a képzés?</summary><p class="faq-a">Nem. A ChatGPT fontos eszköz, de a képzés tágabb AI-eszköztárban gondolkodik: meeting-asszisztensek, automatizációs megoldások, dokumentum- és tartalomkészítő eszközök is előkerülhetnek.</p></details>
+      <details><summary>Céges adatokat be lehet írni AI-eszközökbe?</summary><p class="faq-a">Nem vakon. Pont ezért fontos a tudatos, szabályozott céges AI-használat — ezt a képzésen külön is átbeszéljük.</p></details>
     </div>
   </div>
 </section>
