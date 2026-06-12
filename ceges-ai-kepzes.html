@@ -1761,6 +1761,46 @@ body.page-halado  .slider-slide { --slide-bg: linear-gradient(120deg, #3A506B 0%
 body.page-ceges   .slider-slide { --slide-bg: linear-gradient(120deg, #2B3340 0%, #3A506B 100%); }
 
 </style>
+
+<style>
+/* — TSX-aloldal kiegészítés: a meglévő design-tokenekkel — */
+.aud3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; margin-top:.6rem; }
+@media (max-width:860px){ .aud3{grid-template-columns:1fr;} }
+.aud3 .audience-icon { background:var(--coral); }
+.aud3 .audience-icon svg { stroke:#fff; color:#fff; }
+.aud3 .audience-card h3 { font-size:1.05rem; font-weight:800; color:var(--ink); margin:0 0 .5rem; }
+.aud3 .audience-card p { font-size:.92rem; color:var(--text-2); line-height:1.7; margin:0; }
+
+.tt-list { display:flex; flex-direction:column; gap:.9rem; max-width:780px; margin:.6rem auto 0; }
+.tt { display:flex; gap:1.1rem; align-items:flex-start; background:var(--surface);
+  border:1px solid var(--border); border-radius:var(--r-lg); padding:1.2rem 1.3rem; box-shadow:var(--sh-sm); }
+.tt-icon { flex-shrink:0; width:44px; height:44px; border-radius:13px; background:var(--coral);
+  display:flex; align-items:center; justify-content:center; box-shadow:0 6px 14px -4px var(--coral); }
+.tt-icon svg { stroke:#fff; color:#fff; width:22px; height:22px; }
+.tt h3 { font-size:.98rem; font-weight:800; color:var(--ink); margin:0 0 .25rem; }
+.tt p { font-size:.9rem; color:var(--text-2); line-height:1.65; margin:0; }
+
+.ev-list { display:flex; flex-direction:column; gap:1rem; margin-top:.6rem; }
+.ev { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg);
+  padding:1.2rem 1.5rem; box-shadow:var(--sh-sm); }
+.ev.telt { opacity:.62; background:var(--surface2); }
+.ev-left { display:flex; align-items:center; gap:1.1rem; flex-wrap:wrap; }
+.ev-icon { width:48px; height:48px; border-radius:14px; background:var(--coral-light);
+  color:var(--coral); display:flex; align-items:center; justify-content:center; }
+.ev-date { font-weight:800; color:var(--ink); font-size:1.05rem; }
+.ev-meta { font-size:.88rem; color:var(--text-2); font-weight:600; }
+.ev-right { display:flex; align-items:center; gap:1.2rem; flex-wrap:wrap; }
+.ev-status { display:flex; align-items:center; gap:.5rem; font-size:.88rem; font-weight:700; }
+.ev-dot { width:9px; height:9px; border-radius:50%; display:inline-block; }
+.ev .btn { padding:.65rem 1.3rem; font-size:.9rem; }
+.ev .btn[disabled] { opacity:.5; cursor:not-allowed; pointer-events:none; }
+.ev-note { text-align:center; font-size:.88rem; color:var(--text-2); margin-top:1.3rem; }
+
+.cta-ghost { display:inline-block; margin-top:1rem; color:rgba(255,255,255,.85); font-size:.92rem;
+  font-weight:700; text-decoration:underline; text-underline-offset:3px; }
+.cta-ghost:hover { color:#fff; }
+</style>
 </head>
 <body class="page-ceges">
 
@@ -1799,8 +1839,8 @@ body.page-ceges   .slider-slide { --slide-bg: linear-gradient(120deg, #2B3340 0%
       <div class="slider-inner"><div class="slider-content">
         <span class="slider-tag"><span class="sdot"></span> Céges · helyszíni · egyedi</span>
         <h2>AI képzés<br>a csapatodnak</h2>
-        <p>A vállalat működéséhez igazított, helyszíni AI workshop. Közös nyelv, használható módszerek és gyakorlati tudás az egész csapatnak.</p>
-        <a href="#ceges-jelentkezes" class="slider-cta">Céges egyeztetést kérek →</a>
+        <p>Ha nem egy embernek, hanem egy egész csapatnak szeretnél közös AI-alapot és közös nyelvet — ez a képzés nektek szól.</p>
+        <a href="#ceges-jelentkezes" class="slider-cta">Ajánlatot kérek →</a>
       </div></div>
     </div>
     <div class="slider-slide">
@@ -1827,48 +1867,64 @@ body.page-ceges   .slider-slide { --slide-bg: linear-gradient(120deg, #2B3340 0%
 
 <div class="breadcrumb"><a href="index.html">Főoldal</a> &nbsp;/&nbsp; Céges AI képzés</div>
 
-<!-- ═══ BEVEZETŐ ═══ -->
 <section class="subpage-section">
   <div class="subpage-narrow">
     <div class="section-label">Mi ez?</div>
-    <h2 class="headline">Közös AI-alap<br>az egész <em>csapatnak.</em></h2>
-    <p class="sub-lead">Egy cégnél az AI akkor kezd igazán hasznossá válni, ha nem csak egy-két ember kísérletezik vele, hanem a csapat közös nyelvet és használható módszereket kap.</p>
-    <p class="sub-lead">A céges képzéseken az AI Alapozó vagy az AI Haladó tematikáját a vállalat működéséhez igazítjuk. A cél nem az, hogy mindenki technológiai szakértő legyen, hanem hogy értsék, mire használható az AI a saját feladataikban — és magabiztosan használják is.</p>
-
+    <h2 class="headline" style="margin-bottom:1.6rem;">Közös AI-alap<br>az egész <em>csapatnak.</em></h2>
+    <p class="sub-lead">Egy cégnél az AI akkor kezd igazán hasznossá válni, ha nem csak egy-két ember kísérletezik vele — hanem a csapat közös nyelvet és használható módszereket kap.</p>
+    <p class="sub-lead">A céges képzésen az AI Alapozó vagy az AI Haladó tematikáját a vállalat működéséhez igazítjuk. A cél: a csapat másnap már tudja használni, amit tanult.</p>
     <div class="info-band">
-      <div class="ib"><span class="ib-label">Időtartam</span><span class="ib-value">jellemzően 8 óra</span></div>
+      <div class="ib"><span class="ib-label">Időtartam</span><span class="ib-value">Igénytől függ</span></div>
       <div class="ib"><span class="ib-label">Ár</span><span class="ib-value coral">Egyedi ajánlat</span></div>
-      <div class="ib"><span class="ib-label">Forma</span><span class="ib-value">Helyszíni</span></div>
-      <div class="ib"><span class="ib-label">Tematika</span><span class="ib-value">Testreszabott</span></div>
       <div class="ib"><span class="ib-label">Helyszín</span><span class="ib-value">Nálatok</span></div>
+      <div class="ib"><span class="ib-label">Tematika</span><span class="ib-value">Testreszabott</span></div>
+      <div class="ib"><span class="ib-label">Forma</span><span class="ib-value">Helyszíni workshop</span></div>
+      <div class="ib"><span class="ib-label">Régió</span><span class="ib-value">Baja és környéke</span></div>
     </div>
+
   </div>
 </section>
 
-<!-- ═══ MIÉRT ═══ -->
 <section class="subpage-section" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="subpage-narrow">
-    <div class="section-label">Miért céges képzés?</div>
-    <h2 class="headline" style="margin-bottom:1.8rem;">Amikor a <em>csapatnak</em> kell szólnia.</h2>
-    <ul class="check-list">
-      <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#E7ECF2"/><path d="M6 10.2l2.5 2.5L14 7" stroke="#4B6584" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><strong style="color:var(--ink);">Igényre szabott:</strong>&nbsp;a munkaköreitekhez és problémáitokhoz igazított tematika.</li>
-      <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#E7ECF2"/><path d="M6 10.2l2.5 2.5L14 7" stroke="#4B6584" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><strong style="color:var(--ink);">Közös nyelv:</strong>&nbsp;a csapat ne össze-vissza próbálgassa az eszközöket.</li>
-      <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#E7ECF2"/><path d="M6 10.2l2.5 2.5L14 7" stroke="#4B6584" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><strong style="color:var(--ink);">Üzleti fókusz:</strong>&nbsp;nem informatikai, hanem működési oldalról közelítünk.</li>
-      <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#E7ECF2"/><path d="M6 10.2l2.5 2.5L14 7" stroke="#4B6584" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><strong style="color:var(--ink);">Helyben, nálatok:</strong>&nbsp;Baján és a régióban, a ti irodátokban.</li>
-    </ul>
+  <div class="subpage-narrow" style="text-align:center;">
+    <div class="section-label" style="display:inline-block;">Miért céges képzés?</div>
+    <h2 class="headline" style="margin-bottom:1.6rem;">Amikor a <em>csapatnak</em><br>kell szólnia.</h2>
+    <div class="audience-grid aud3" style="grid-template-columns:repeat(4,1fr);">
+      <div class="audience-card">
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="1" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        <h3>Igényre szabott</h3><p>A munkaköreitekhez és üzleti problémáitokhoz igazított tematika — nem általános tananyag.</p>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.4 8.4 0 01-8.5 8.4 8.4 8.4 0 01-3.8-.9L3 21l2-5.7a8.4 8.4 0 01-.9-3.8A8.5 8.5 0 1121 11.5z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Közös nyelv</h3><p>Ha a csapat fele használja az AI-t, a másik fele meg nem — az nem előny, az káosz. Építsetek közös alapot.</p>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 13h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Üzleti fókusz</h3><p>Nem informatikai, hanem működési oldalról közelítünk — amit tanultok, azt másnap tudjátok használni.</p>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        <h3>Helyben, nálatok</h3><p>Mi megyünk hozzátok — Baján és a régióban, a ti irodátokban vagy választott helyszínen.</p>
+      </div>
+    </div>
 
-    <div class="section-label" style="margin-top:3rem;">Hogyan zajlik?</div>
-    <h2 class="headline" style="margin-bottom:1.8rem;">Egyszerű <em>folyamat.</em></h2>
-    <ul class="topic-list">
-      <li>Jelentkeztek az alábbi űrlapon.</li>
-      <li>Telefonon egyeztetünk az igényekről, a csapat méretéről és a céljaitokról.</li>
-      <li>Összeállítjuk a testreszabott tematikát és az ajánlatot.</li>
-      <li>Megtartjuk a képzést a ti helyszíneteken.</li>
-    </ul>
   </div>
 </section>
 
-<!-- ═══ JELENTKEZÉS (saját céges űrlap) ═══ -->
+<section class="subpage-section">
+  <div class="subpage-narrow">
+    <div class="section-label">Hogyan zajlik?</div>
+    <h2 class="headline" style="margin-bottom:1.6rem;">Egyszerű <em>folyamat.</em></h2>
+    <ul class="topic-list">
+      <li><span><strong style="color:var(--ink);">Ajánlatot kértek</strong> — kitöltitek az ajánlatkérő űrlapot: cégnév, kapcsolattartó, csapatméret.</span></li>
+      <li><span><strong style="color:var(--ink);">Telefonon egyeztetünk</strong> — felhívunk, és átbeszéljük az igényeket, a csapat méretét és a célokat.</span></li>
+      <li><span><strong style="color:var(--ink);">Összeállítjuk az ajánlatot</strong> — a tematikát és az árajánlatot a ti munkaköreitekhez és üzleti folyamataitokhoz igazítjuk.</span></li>
+      <li><span><strong style="color:var(--ink);">Megtartjuk a képzést nálatok</strong> — a ti helyszíneteken, a megbeszélt időpontban — a csapat másnap már tudja használni, amit tanult.</span></li>
+    </ul>
+
+  </div>
+</section>
+
 <section class="subpage-section" id="ceges-jelentkezes">
   <div class="subpage-narrow" style="max-width:620px;">
     <div style="text-align:center;margin-bottom:2rem;">
@@ -1901,6 +1957,19 @@ body.page-ceges   .slider-slide { --slide-bg: linear-gradient(120deg, #2B3340 0%
     </div>
   </div>
 </section>
+
+<section class="subpage-section">
+  <div class="subpage-narrow">
+    <div class="subpage-cta">
+      <div class="section-label" style="color:var(--amber);">Következő lépés</div>
+      <h2>Még nem csapat szintű a kérdés?</h2>
+      <p>Ha először te szeretnél megismerkedni az AI-jal, és utána dönteni a céges képzésről — ez a természetes út. Kezdd egyénileg: az AI Alapozóval vagy a SzerdAI esttel.</p>
+      <a href="ai-alapozo.html" class="slider-cta" style="position:relative;">Megnézem az AI Alapozót →</a><br>
+      <a href="szerdai.html" class="cta-ghost">Inkább a SzerdAI estet nézem meg</a>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
