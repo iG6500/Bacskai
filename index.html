@@ -1635,14 +1635,23 @@ footer {
 
 /* Következő időpont a képzéskártyán */
 .course-next {
-  display:flex; align-items:center; justify-content:center; gap:7px;
-  margin:0.6rem 0 0.2rem;
-  font-size:0.9rem; font-weight:700; color:var(--coral-dark);
+  display:flex; align-items:center; gap:10px;
+  margin:0.7rem 0 0.1rem;
   background:var(--coral-light); border:1px solid var(--coral-mid);
-  border-radius:var(--r-pill); padding:0.4rem 0.9rem;
+  border-radius:var(--r-md); padding:0.6rem 0.85rem;
 }
-.course-next svg { stroke:var(--coral); flex-shrink:0; }
-.course-next .cn-label { font-weight:600; color:var(--text-2); }
+.course-next .cn-icon {
+  flex-shrink:0; width:30px; height:30px; border-radius:9px;
+  background:var(--surface); border:1px solid var(--coral-mid);
+  display:flex; align-items:center; justify-content:center;
+}
+.course-next .cn-icon svg { stroke:var(--coral); display:block; }
+.course-next .cn-text { display:flex; flex-direction:column; line-height:1.25; min-width:0; }
+.course-next .cn-label {
+  font-size:0.68rem; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;
+  color:var(--text-2);
+}
+.course-next .cn-date { font-size:0.98rem; font-weight:800; color:var(--coral-dark); }
 
 /* Oktató flip-kártyák */
 .team-grid {
@@ -1862,7 +1871,7 @@ footer {
         <div class="course-price course-price-free">Ingyenes</div>
         <div class="course-actions">
           <button class="btn btn-primary" onclick="openModal('SzerdaAI')">Jelentkezem</button>
-          <div class="course-next"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="2" width="10" height="9" rx="1.5" stroke="currentColor" stroke-width="1.1"/><path d="M4 1v2M9 1v2M1.5 5.5h10" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg><span class="cn-label">Következő:</span> júl. 8. (szerda)</div>
+          <div class="course-next" data-kepzes="szerdai"></div>
           <a href="szerdai.html" class="btn-link-row">Részletek <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
@@ -1878,7 +1887,7 @@ footer {
         <div class="course-price">39 900 Ft<small> bruttó</small></div>
         <div class="course-actions">
           <button class="btn btn-primary" onclick="openModal('AI Alapozó')">Jelentkezem</button>
-          <div class="course-next"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="2" width="10" height="9" rx="1.5" stroke="currentColor" stroke-width="1.1"/><path d="M4 1v2M9 1v2M1.5 5.5h10" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg><span class="cn-label">Következő:</span> júl. 18. (szombat)</div>
+          <div class="course-next" data-kepzes="alapozo"></div>
           <a href="ai-alapozo.html" class="btn-link-row">Részletek <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
@@ -1894,7 +1903,7 @@ footer {
         <div class="course-price">79 900 Ft<small> bruttó</small></div>
         <div class="course-actions">
           <button class="btn btn-primary" onclick="openModal('AI Haladó')">Jelentkezem</button>
-          <div class="course-next"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="2" width="10" height="9" rx="1.5" stroke="currentColor" stroke-width="1.1"/><path d="M4 1v2M9 1v2M1.5 5.5h10" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg><span class="cn-label">Következő:</span> aug. 22. (szombat)</div>
+          <div class="course-next" data-kepzes="halado"></div>
           <a href="ai-halado.html" class="btn-link-row">Részletek <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
@@ -1910,7 +1919,7 @@ footer {
         <div class="course-price" style="font-size:1.3rem;">Egyedi ajánlat</div>
         <div class="course-actions">
           <button class="btn btn-primary" onclick="openModal('Céges AI-képzés')">Ajánlatot kérek</button>
-          <div class="course-next"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="2" width="10" height="9" rx="1.5" stroke="currentColor" stroke-width="1.1"/><path d="M4 1v2M9 1v2M1.5 5.5h10" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg><span class="cn-label">Időpont:</span> veletek egyeztetve</div>
+          <div class="course-next" data-kepzes="ceges"></div>
           <a href="ceges-ai-kepzes.html" class="btn-link-row">Részletek <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
@@ -2378,6 +2387,40 @@ window.addEventListener('scroll', () => {
   start();
 })();
 
+</script>
+
+<!-- ═══ KÖZÖS ESEMÉNY-ADATOK (egyetlen forrás) ═══ -->
+<script src="esemenyek.js"></script>
+<script>
+/* A képzéskártyák "Következő időpont" jelzését az esemenyek.js-ből töltjük fel. */
+(function () {
+  if (!window.BACSKAI) return;
+  const CAL = '<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="2" y="3" width="11" height="10" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M5 1.5v3M10 1.5v3M2 6.5h11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+
+  document.querySelectorAll('.course-next[data-kepzes]').forEach(function (el) {
+    const kulcs = el.getAttribute('data-kepzes');
+    const kov = window.BACSKAI.kovetkezo(kulcs);
+
+    let label, ertek;
+    if (kulcs === 'ceges') {
+      label = 'Időpont';
+      ertek = 'Veletek egyeztetve';
+    } else if (kov) {
+      label = 'Következő időpont';
+      ertek = window.BACSKAI.rovidDatum(kov._dt);
+    } else {
+      label = 'Következő időpont';
+      ertek = 'Hamarosan';
+    }
+
+    el.innerHTML =
+      '<span class="cn-icon">' + CAL + '</span>' +
+      '<span class="cn-text">' +
+        '<span class="cn-label">' + label + '</span>' +
+        '<span class="cn-date">' + ertek + '</span>' +
+      '</span>';
+  });
+})();
 </script>
 </body>
 </html>
