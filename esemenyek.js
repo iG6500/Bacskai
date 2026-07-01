@@ -36,48 +36,50 @@
 
 window.BACSKAI_ESEMENYEK = [
 
-  // ─── 2026. JÚLIUS ───
-  {
-    kepzes: "szerdai",
-    datum: "2026-07-08",
-    ido: "17:30–19:30",
-    helyszin: "Baja, központ",
-  },
-  {
-    kepzes: "alapozo",
-    datum: "2026-07-18",
-    ido: "09:00–12:00",
-    helyszin: "Baja, képzőterem",
-    megjegyzes: "1. nap",
-  },
-
   // ─── 2026. AUGUSZTUS ───
   {
     kepzes: "szerdai",
-    datum: "2026-08-05",
+    datum: "2026-08-12",
     ido: "17:30–19:30",
-    helyszin: "Baja, központ",
+    helyszin: "Baja, képzőterem",
   },
   {
-    kepzes: "halado",
-    datum: "2026-08-22",
-    ido: "09:00–16:00",
+    kepzes: "szerdai",
+    datum: "2026-08-26",
+    ido: "17:30–19:30",
     helyszin: "Baja, képzőterem",
   },
 
   // ─── 2026. SZEPTEMBER ───
   {
     kepzes: "szerdai",
-    datum: "2026-09-02",
+    datum: "2026-09-09",
     ido: "17:30–19:30",
-    helyszin: "Baja, központ",
+    helyszin: "Baja, képzőterem",
   },
   {
     kepzes: "alapozo",
-    datum: "2026-09-12",
-    ido: "09:00–12:00",
+    datum: "2026-09-11",
+    ido: "09:00–16:00",
     helyszin: "Baja, képzőterem",
-    megjegyzes: "1. nap",
+    megjegyzes: "6 órás",
+  },
+
+  {
+    kepzes: "haladó",
+    datum: "2026-09-18",
+    ido: "09:00–18:00",
+    helyszin: "Baja, képzőterem",
+    megjegyzes: "teljes nap",
+  },
+
+ // ─── 2026. OKTÓBER ───
+  {
+    kepzes: "haladó",
+    datum: "2026-10-07",
+    ido: "09:00–18:00",
+    helyszin: "Baja, képzőterem",
+    megjegyzes: "teljes nap",
   },
 
 ];
