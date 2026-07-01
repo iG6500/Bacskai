@@ -64,9 +64,8 @@ window.BACSKAI_ESEMENYEK = [
     helyszin: "Baja, képzőterem",
     megjegyzes: "6 órás",
   },
-
   {
-    kepzes: "haladó",
+    kepzes: "halado",
     datum: "2026-09-18",
     ido: "09:00–18:00",
     helyszin: "Baja, képzőterem",
@@ -75,8 +74,15 @@ window.BACSKAI_ESEMENYEK = [
 
  // ─── 2026. OKTÓBER ───
   {
-    kepzes: "haladó",
-    datum: "2026-10-07",
+    kepzes: "alapozo",
+    datum: "2026-10-08",
+    ido: "09:00–16:00",
+    helyszin: "Baja, képzőterem",
+    megjegyzes: "6 órás",
+  },
+  {
+    kepzes: "halado",
+    datum: "2026-10-22",
     ido: "09:00–18:00",
     helyszin: "Baja, képzőterem",
     megjegyzes: "teljes nap",
