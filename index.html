@@ -275,6 +275,16 @@ nav {
 .mobile-menu a {
   color: var(--text); font-weight: 600; font-size: 1rem;
 }
+.mobile-menu a.mobile-menu-cta {
+  margin-top: 0.4rem;
+  background: var(--coral);
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  padding: 0.85rem 1.4rem;
+  border-radius: var(--r-pill);
+  box-shadow: var(--sh-coral-sm);
+}
 
 /* ─── HERO ────────────────────────────────────────────── */
 .hero {
@@ -1603,6 +1613,7 @@ footer {
   .testimonials-grid { grid-template-columns: 1fr; }
   .footer-top { grid-template-columns: 1fr 1fr; }
   .nav-links { display: none; }
+  .nav-cta { display: none; }
   .hamburger { display: flex; }
   .hero-stats { gap: 2rem; }
   .kihely-features { grid-template-columns: 1fr; }
@@ -1724,8 +1735,8 @@ footer {
   <a href="#kinek" onclick="toggleMenu()">Kinek szól?</a>
   <a href="#haszon" onclick="toggleMenu()">Gyakorlati haszon</a>
   <a href="#kepzesek" onclick="toggleMenu()">Képzéseink</a>
-  <a href="rendezvenyek.html">Képzési időpontok</a>
   <a href="#faq" onclick="toggleMenu()">GYIK</a>
+  <a href="rendezvenyek.html" class="mobile-menu-cta">Képzési időpontok →</a>
 </div>
 
 <!-- HERO -->
