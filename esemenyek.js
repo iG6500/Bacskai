@@ -1,250 +1,2520 @@
-/* ═══════════════════════════════════════════════════════════════════
-   BÁCSKAI AKADÉMIA — RENDEZVÉNYEK (egyetlen közös adatforrás)
-   ═══════════════════════════════════════════════════════════════════
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BácskAI Akadémia – Mesterséges intelligencia képzések</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+/* ─── DESIGN TOKENS ────────────────────────────────────── */
+:root {
+  /* Brand colors — palakék (slate) az elsődleges akció-szín */
+  --coral:        #4B6584;
+  --coral-dark:   #3A506B;
+  --coral-light:  #E7ECF2;
+  --coral-mid:    #C5D0DC;
 
-   EZT A FÁJLT KELL SZERKESZTENED, HA IDŐPONTOT VAGY LÉTSZÁMOT VÁLTOZTATSZ.
-   Ha itt átírsz valamit, az AUTOMATIKUSAN frissül MINDENHOL:
-     • a főoldalon (a képzéskártyák "Következő időpont" jelzésén),
-     • a Rendezvények oldalon,
-     • és az egyes képzések aloldalain ("Válassz időpontot és jelentkezz").
-   Sehol máshol nem kell módosítanod.
+  --slate:        #4B6584;
+  --slate-dark:   #3A506B;
+  --slate-light:  #E7ECF2;
+  --slate-mid:    #C5D0DC;
 
-   ─── Hogyan adj hozzá vagy módosíts egy eseményt? ───
+  /* Neutrals — meleg krém háttér */
+  --bg:        #F7F1E3;
+  --surface:   #FFFFFF;
+  --surface2:  #FBF6EC;
+  --ink:       #2B3340;
+  --text:      #303A48;
+  --text-2:    #54606F;
+  --muted:     #8C8475;
+  --border:    #EAE2D0;
+  --border-med:#DDD3BE;
 
-   Minden esemény egy blokk a lenti listában, ilyen formában:
+  /* Accent — meleg amber a krém palettához */
+  --amber:        #D9941F;
+  --amber-light:  #F6EAD0;
 
-     {
-       kepzes: "alapozo",              // melyik képzés (lásd lentebb)
-       datum: "2026-07-18",            // dátum ÉV-HÓ-NAP formában
-       ido: "09:00–12:00",             // napszak / idősáv
-       helyszin: "Baja, képzőterem",   // hol lesz
-       ferohely: 20,                   // ÖSSZES hely ezen az alkalmon
-       foglalt: 8,                     // ennyien MÁR jelentkeztek
-       megjegyzes: "1. nap"            // opcionális kiegészítés (elhagyható)
-     },
+  /* Typography */
+  --font-body:    'Mulish', system-ui, -apple-system, sans-serif;
+  --font-display: 'Mulish', system-ui, sans-serif;
 
-   ─── A BETELT állapot ───
+  /* Spacing */
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --r-xl: 28px;
+  --r-pill: 100px;
 
-   A rendszer a ferohely és foglalt számokból dolgozik, de a látogató
-   felé CSAK a "Betelt" állapotot mutatja — azt nem, hogy hány hely van
-   még. Ha a foglalt eléri a férőhelyet, a jelzés "Betelt" lesz és a
-   jelentkezés gomb letiltódik. Kézi teltre jelölés: telt: true.
+  /* Shadow — soft, warm */
+  --sh-sm: 0 1px 2px rgba(43,51,64,0.04), 0 1px 3px rgba(43,51,64,0.06);
+  --sh-md: 0 4px 16px rgba(43,51,64,0.07), 0 2px 6px rgba(43,51,64,0.04);
+  --sh-lg: 0 16px 48px rgba(43,51,64,0.12), 0 4px 12px rgba(43,51,64,0.06);
+  --sh-coral: 0 8px 24px rgba(75,101,132,0.30);
+  --sh-coral-sm: 0 4px 14px rgba(75,101,132,0.22);
+}
 
-   A "kepzes" mező csak ez a négy érték lehet:
-     "szerdai"  →  SzerdAI est (ingyenes)
-     "alapozo"  →  AI Alapozó
-     "halado"   →  AI Haladó
-     "ceges"    →  Céges AI-képzés (általában NEM ide, egyedi egyeztetés)
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-   A dátumot MINDIG "ÉV-HÓ-NAP" alakban írd (pl. 2026-09-05).
-   A napnevet és a "júl. 5." formátumot a rendszer automatikusan
-   számolja. A múltbeli eseményeket automatikusan kihagyja.
-   ═══════════════════════════════════════════════════════════════════ */
+html { scroll-behavior: smooth; }
 
-window.BACSKAI_ESEMENYEK = [
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
 
-  // ─── 2026. JÚLIUS ───
-  {
-    kepzes: "szerdai",
-    datum: "2026-07-08",
-    ido: "17:30–19:30",
-    helyszin: "Baja, központ",
-    ferohely: 30,
-    foglalt: 12,
-  },
-  {
-    kepzes: "alapozo",
-    datum: "2026-07-18",
-    ido: "09:00–12:00",
-    helyszin: "Baja, képzőterem",
-    ferohely: 20,
-    foglalt: 8,
-    megjegyzes: "1. nap",
-  },
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
 
-  {
-    kepzes: "szerdai",
-    datum: "2026-07-22",
-    ido: "17:30–19:30",
-    helyszin: "Baja, központ",
-    ferohely: 30,
-    foglalt: 4,
-  },
+.container { max-width: 1180px; margin: 0 auto; }
 
-  // ─── 2026. AUGUSZTUS ───
-  {
-    kepzes: "szerdai",
-    datum: "2026-08-05",
-    ido: "17:30–19:30",
-    helyszin: "Baja, központ",
-    ferohely: 30,
-    foglalt: 2,
-  },
-  {
-    kepzes: "halado",
-    datum: "2026-08-22",
-    ido: "09:00–16:00",
-    helyszin: "Baja, képzőterem",
-    ferohely: 10,
-    foglalt: 7,
-  },
+/* ─── TYPOGRAPHY HELPERS ──────────────────────────────── */
+h1, h2, h3, h4 { font-family: var(--font-display); }
 
-  {
-    kepzes: "szerdai",
-    datum: "2026-08-19",
-    ido: "17:30–19:30",
-    helyszin: "Baja, központ",
-    ferohely: 30,
-    foglalt: 1,
-  },
+h2.headline {
+  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  color: var(--ink);
+  margin-bottom: 1.2rem;
+}
+h2.headline em {
+  font-style: normal;
+  color: var(--coral);
+}
 
-  // ─── 2026. SZEPTEMBER ───
-  {
-    kepzes: "alapozo",
-    datum: "2026-09-12",
-    ido: "09:00–12:00",
-    helyszin: "Baja, képzőterem",
-    ferohely: 20,
-    foglalt: 20,
-    megjegyzes: "1. nap",
-  },
+.body-lg {
+  font-size: 1.08rem;
+  color: var(--text-2);
+  line-height: 1.7;
+  max-width: 560px;
+  margin-bottom: 2.4rem;
+}
 
-];
+.section-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+section { padding: 6.5rem 2rem; }
+section.alt { background: var(--surface2); }
+
+/* ─── BUTTONS ─────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: var(--r-pill);
+  padding: 0.85rem 1.8rem;
+  transition: all 0.22s cubic-bezier(.4,0,.2,1);
+  cursor: pointer; border: none; text-decoration: none;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+/* A gombon belüli nyíl finoman csúszik hoverre */
+.btn svg { transition: transform 0.25s cubic-bezier(.4,0,.2,1); }
+.btn:hover svg { transform: translateX(3px); }
+
+/* Fény-átfutás a kitöltött gombokon */
+.btn-primary::after,
+.btn-slate::after,
+.btn-amber::after,
+.btn-sage::after {
+  content: '';
+  position: absolute; top: 0; left: -75%;
+  width: 50%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+.btn-primary:hover::after,
+.btn-slate:hover::after,
+.btn-amber:hover::after,
+.btn-sage:hover::after { left: 130%; }
+
+/* PRIMARY — coral */
+.btn-primary {
+  background: var(--coral);
+  color: #fff;
+  box-shadow: var(--sh-coral-sm);
+}
+.btn-primary:hover {
+  background: var(--coral-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--sh-coral);
+}
+.btn-primary:active { transform: translateY(0); }
+
+/* SECONDARY — slate outline */
+.btn-secondary {
+  background: var(--surface);
+  color: var(--slate-dark);
+  border: 1.5px solid var(--border-med);
+  box-shadow: var(--sh-sm);
+}
+.btn-secondary:hover {
+  border-color: var(--slate);
+  color: var(--slate);
+  transform: translateY(-2px);
+  box-shadow: var(--sh-md);
+}
+
+/* SLATE — filled */
+.btn-slate {
+  background: var(--slate);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(75,101,132,0.25);
+}
+.btn-slate:hover {
+  background: var(--slate-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(75,101,132,0.32);
+}
+
+/* SAGE alias → coral (legacy class support) */
+.btn-sage { background: var(--coral); color: #fff; box-shadow: var(--sh-coral-sm); }
+.btn-sage:hover { background: var(--coral-dark); transform: translateY(-2px); box-shadow: var(--sh-coral); }
+
+/* AMBER → coral subtle for free items */
+.btn-amber {
+  background: var(--coral);
+  color: #fff;
+  box-shadow: var(--sh-coral-sm);
+}
+.btn-amber:hover { background: var(--coral-dark); transform: translateY(-2px); box-shadow: var(--sh-coral); }
+
+.btn-sm { padding: 0.6rem 1.3rem; font-size: 0.85rem; }
+.btn-wide { width: 100%; justify-content: center; }
+
+/* ─── NAV ─────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 70px;
+  background: rgba(251,251,252,0.85);
+  backdrop-filter: blur(18px) saturate(1.5);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-weight: 900; font-size: 1.3rem;
+  color: var(--ink); letter-spacing: -0.02em;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.nav-logo::before {
+  content: '';
+  width: 11px; height: 11px;
+  background: var(--coral);
+  border-radius: 50%;
+  display: inline-block;
+}
+.nav-logo span { color: var(--coral); }
+
+.nav-links { display: flex; gap: 2.2rem; list-style: none; }
+.nav-links a {
+  color: var(--text-2);
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition: color 0.18s;
+}
+.nav-links a:hover { color: var(--coral); }
+
+.nav-cta {
+  background: var(--coral);
+  color: #fff !important;
+  border-radius: var(--r-pill);
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 0.6rem 1.4rem;
+  box-shadow: var(--sh-coral-sm);
+  transition: all 0.2s;
+}
+.nav-cta:hover {
+  background: var(--coral-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--sh-coral);
+}
+
+.hamburger {
+  display: none; flex-direction: column; gap: 4px;
+  background: none; border: none; cursor: pointer; padding: 6px;
+}
+.hamburger span {
+  width: 22px; height: 2px; background: var(--ink); border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.mobile-menu {
+  display: none; position: fixed;
+  top: 70px; left: 0; right: 0;
+  background: rgba(251,251,252,0.98);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem 2rem; z-index: 99;
+  flex-direction: column; gap: 1.2rem;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  color: var(--text); font-weight: 600; font-size: 1rem;
+}
+.mobile-menu a.mobile-menu-cta {
+  margin-top: 0.4rem;
+  background: var(--coral);
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  padding: 0.85rem 1.4rem;
+  border-radius: var(--r-pill);
+  box-shadow: var(--sh-coral-sm);
+}
+
+/* ─── HERO ────────────────────────────────────────────── */
+.hero {
+  min-height: 100svh;
+  padding: 9.5rem 2rem 5rem;
+  position: relative;
+  display: flex; align-items: center;
+  background:
+    radial-gradient(ellipse 70% 60% at 85% 25%, rgba(75,101,132,0.10) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 8% 85%, rgba(217,148,31,0.10) 0%, transparent 50%),
+    var(--bg);
+  overflow: hidden;
+}
+
+/* ── Auto-váltó promo banner ── */
+.promo-banner {
+  position: absolute;
+  top: 86px; left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 3rem);
+  max-width: 1180px;
+  z-index: 5;
+  background: linear-gradient(110deg, var(--slate-dark) 0%, var(--slate) 100%);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-md);
+  overflow: hidden;
+}
+.promo-track {
+  position: relative;
+  height: 58px;
+}
+.promo-slide {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0 1.5rem 0 1.3rem;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+  color: #fff;
+}
+.promo-slide.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.promo-tag {
+  flex-shrink: 0;
+  background: var(--amber);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 4px 11px;
+  border-radius: var(--r-pill);
+}
+.promo-text {
+  flex: 1;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.92);
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.promo-text strong { color: #fff; font-weight: 800; }
+.promo-arrow {
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #fff;
+  white-space: nowrap;
+  transition: transform 0.2s;
+}
+.promo-slide:hover .promo-arrow { transform: translateX(3px); }
+
+.promo-dots {
+  position: absolute;
+  bottom: 7px; right: 14px;
+  display: flex; gap: 5px;
+}
+.promo-dots .pd {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  cursor: pointer;
+  transition: all 0.25s;
+  border: none; padding: 0;
+}
+.promo-dots .pd.active {
+  background: var(--amber);
+  width: 18px;
+  border-radius: 3px;
+}
+/* A promo banner CSAK asztali nézeten jelenik meg (mobilon a hero címre csúszott) */
+@media (max-width: 960px) {
+  .promo-banner { display: none; }
+}
+
+/* Soft decorative blobs */
+.hero-bg-lines {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+}
+.hero-bg-lines svg { display: none; }
+.hero-bg-lines::before {
+  content: '';
+  position: absolute;
+  top: 10%; right: 6%;
+  width: 360px; height: 360px;
+  background: radial-gradient(circle, rgba(75,101,132,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(20px);
+  animation: floatBlobA 20s ease-in-out infinite;
+}
+.hero-bg-lines::after {
+  content: '';
+  position: absolute;
+  bottom: 8%; left: 4%;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(217,148,31,0.10) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(20px);
+  animation: floatBlobB 24s ease-in-out infinite;
+}
+@keyframes floatBlobA {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-40px, 30px) scale(1.08); }
+}
+@keyframes floatBlobB {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(35px, -25px) scale(1.1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg-lines::before, .hero-bg-lines::after { animation: none; }
+}
+
+.hero-inner {
+  max-width: 1180px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 420px; gap: 4rem; align-items: center;
+  position: relative; z-index: 1;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+  line-height: 1.08; letter-spacing: -0.03em;
+  margin-bottom: 1.4rem; color: var(--ink);
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--coral);
+}
+
+.hero-desc {
+  font-size: 1.15rem; color: var(--text-2); line-height: 1.7;
+  max-width: 480px; margin-bottom: 2.2rem;
+}
+
+.hero-actions { display: flex; gap: 0.9rem; flex-wrap: wrap; margin-bottom: 3.5rem; }
+
+/* Urgency — soft coral pill */
+.urgency-bar {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--coral-light);
+  border: 1px solid var(--coral-mid);
+  color: var(--coral-dark);
+  font-size: 0.82rem; font-weight: 700;
+  padding: 8px 16px;
+  border-radius: var(--r-pill);
+  margin-bottom: 2rem;
+}
+.urgency-bar svg { stroke: var(--coral-dark); }
+
+.hero-stats {
+  display: flex; gap: 2.8rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.stat-num {
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 2.2rem;
+  letter-spacing: -0.03em; color: var(--ink);
+  line-height: 1;
+}
+.stat-num span { color: var(--coral); }
+.stat-label {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+/* Hero card */
+.hero-card {
+  background: var(--surface);
+  border-radius: var(--r-xl);
+  padding: 2.2rem;
+  box-shadow: var(--sh-lg);
+  border: 1px solid var(--border);
+  position: relative;
+}
+.hero-card-badge {
+  position: absolute; top: -14px; left: 2rem;
+  background: var(--coral); color: #fff;
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 0.04em;
+  text-transform: uppercase; white-space: nowrap;
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  box-shadow: var(--sh-coral-sm);
+}
+.hero-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem; font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.4rem; margin-top: 0.8rem;
+  color: var(--ink);
+}
+.hero-card .card-meta {
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 1.4rem;
+}
+
+.hero-feature-list { list-style: none; margin-bottom: 1.6rem; }
+.hero-feature-list li {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.9rem; color: var(--text-2);
+  padding: 0.52rem 0;
+  border-bottom: 1px solid var(--border);
+  font-weight: 500;
+}
+.hero-feature-list li:last-child { border-bottom: none; }
+.check-icon { flex-shrink: 0; }
+
+.hero-card-price {
+  font-family: var(--font-display);
+  font-size: 2.4rem; font-weight: 800; letter-spacing: -0.03em;
+  margin-bottom: 0.2rem; line-height: 1; color: var(--ink);
+}
+.hero-card-price small {
+  font-size: 0.85rem; font-weight: 600; color: var(--muted);
+}
+.hero-card-old {
+  font-size: 0.85rem; color: var(--muted);
+  text-decoration: line-through; margin-bottom: 1rem;
+}
+
+.social-proof-row {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-weight: 600;
+  margin-top: 1.2rem; padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.avatar-stack { display: flex; }
+.avatar-stack .av {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--coral-light);
+  border: 2px solid var(--surface);
+  margin-left: -6px;
+  font-size: 0.6rem; font-weight: 800; color: var(--coral);
+  display: flex; align-items: center; justify-content: center;
+}
+.avatar-stack .av:first-child { margin-left: 0; }
+
+/* ─── HERO BANNER (eszközfrissítés) ──────────────────── */
+.hero-banner {
+  background: linear-gradient(110deg, var(--slate-dark) 0%, var(--slate) 100%);
+  color: #fff;
+  padding: 1.4rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-banner-inner {
+  max-width: 1180px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: center;
+  gap: 1.2rem; flex-wrap: wrap; text-align: center;
+  position: relative; z-index: 1;
+}
+.hero-banner-icon {
+  width: 42px; height: 42px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.hero-banner p {
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.5;
+  max-width: 760px;
+}
+.hero-banner p strong { color: #fff; font-weight: 800; }
+.hero-banner::before {
+  content: '';
+  position: absolute; top: -50%; right: -5%;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(217,148,31,0.20) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+/* ─── KINEK SZÓL (audience) ─────────────────────────── */
+.audience-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.4rem;
+}
+
+/* Glass kártya — szintenként árnyalódó palakék akcentussal */
+.audience-card {
+  --acc: var(--slate);          /* akcentus-szín, kártyánként felülírva */
+  --acc-soft: rgba(75,101,132,0.10);
+  position: relative;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  border: 1px solid rgba(255,255,255,0.7);
+  border-radius: var(--r-xl);
+  padding: 2.2rem 1.7rem 2rem;
+  box-shadow: 0 4px 20px rgba(43,51,64,0.06), inset 0 1px 0 rgba(255,255,255,0.6);
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s, background 0.3s;
+}
+/* Felső akcentus-csík */
+.audience-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--acc);
+  opacity: 0.85;
+  transition: height 0.3s;
+}
+/* Halvány színes derengés a sarokban */
+.audience-card::after {
+  content: '';
+  position: absolute; top: -40px; right: -40px;
+  width: 130px; height: 130px;
+  background: radial-gradient(circle, var(--acc-soft) 0%, transparent 70%);
+  transition: opacity 0.3s, transform 0.4s;
+  opacity: 0.7;
+}
+.audience-card:hover {
+  transform: translateY(-7px);
+  background: rgba(255,255,255,0.78);
+  box-shadow: 0 18px 44px rgba(43,51,64,0.14), inset 0 1px 0 rgba(255,255,255,0.7);
+}
+.audience-card:hover::before { height: 5px; }
+.audience-card:hover::after { opacity: 1; transform: scale(1.25); }
+
+/* Erős, kitöltött ikon-keret az akcentus színével */
+.audience-icon {
+  position: relative; z-index: 1;
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  background: var(--acc);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.4rem;
+  box-shadow: 0 6px 16px -4px var(--acc);
+  transition: transform 0.3s cubic-bezier(.34,1.5,.5,1);
+}
+.audience-card:hover .audience-icon {
+  transform: scale(1.08) rotate(-4deg);
+}
+.audience-icon svg { stroke: #fff; color: #fff; }
+.audience-card h3 {
+  position: relative; z-index: 1;
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 1.18rem;
+  margin-bottom: 0.6rem; color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.audience-card p {
+  position: relative; z-index: 1;
+  font-size: 0.9rem; color: var(--text-2); line-height: 1.6;
+}
+
+/* Szintenként árnyalódó kék — világos → sötét (mint a bannerek) */
+.audience-card.lvl-1 { --acc: #6E86A6; --acc-soft: rgba(110,134,166,0.14); }
+.audience-card.lvl-2 { --acc: #4B6584; --acc-soft: rgba(75,101,132,0.14); }
+.audience-card.lvl-3 { --acc: #3A506B; --acc-soft: rgba(58,80,107,0.14); }
+.audience-card.lvl-4 { --acc: #2B3340; --acc-soft: rgba(43,51,64,0.14); }
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   INNENTŐL A RENDSZER LOGIKÁJA — ide NEM kell nyúlnod.
-   ═══════════════════════════════════════════════════════════════════ */
+/* ─── PROBLÉMA → MEGOLDÁS ───────────────────────────── */
+.problem-list {
+  max-width: 820px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: 1rem;
+}
+.problem-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 1.5rem 1.8rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.problem-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sh-md);
+}
+.problem-q {
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 1rem;
+  color: var(--ink);
+  position: relative;
+  padding-left: 1.7rem;
+  line-height: 1.4;
+}
+.problem-q::before {
+  content: '?';
+  position: absolute; left: 0; top: -2px;
+  width: 22px; height: 22px;
+  background: var(--coral-light);
+  color: var(--coral);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 800;
+}
+.problem-a {
+  font-size: 0.92rem; color: var(--text-2); line-height: 1.6;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--coral-mid);
+}
 
-window.BACSKAI = (function () {
+/* ─── GYIK (FAQ accordion) ──────────────────────────── */
+.faq-list {
+  max-width: 760px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: 0.8rem;
+}
+.faq-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 0 1.6rem;
+  transition: box-shadow 0.2s;
+}
+.faq-item[open] { box-shadow: var(--sh-md); }
+.faq-item summary {
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 1.02rem;
+  color: var(--ink);
+  padding: 1.3rem 0;
+  cursor: pointer;
+  list-style: none;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: '+';
+  font-size: 1.4rem; font-weight: 400;
+  color: var(--coral);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+  line-height: 1;
+}
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item p {
+  font-size: 0.92rem; color: var(--text-2); line-height: 1.65;
+  padding: 0 0 1.4rem; margin: 0;
+  max-width: 92%;
+}
 
-  const KEPZESEK = {
-    szerdai: {
-      cim: "SzerdAI est — AI a mindennapi munkában",
-      rovidCim: "SzerdAI est",
-      modal: "SzerdaAI",
-      aloldal: "szerdai.html",
-      tag: "free",
-      tagFelirat: "Ingyenes",
-      gomb: "Foglalok helyet",
-      letszam: "15–30 fő",
-      leiras: "Kötetlen, 2 órás ismertető est azoknak, akik szeretnék megérteni, mire használható ma az AI — előzetes tudás nélkül.",
-    },
-    alapozo: {
-      cim: "AI Alapozó workshop",
-      rovidCim: "AI Alapozó",
-      modal: "AI Alapozó",
-      aloldal: "ai-alapozo.html",
-      tag: "paid",
-      tagFelirat: "AI Alapozó",
-      gomb: "Jelentkezem",
-      letszam: "10–20 fő",
-      leiras: "Az AI-eszközök biztonságos, gyakorlati használata a napi munkában. Részvételi díj: 39 900 Ft.",
-    },
-    halado: {
-      cim: "AI Haladó workshop",
-      rovidCim: "AI Haladó",
-      modal: "AI Haladó",
-      aloldal: "ai-halado.html",
-      tag: "paid",
-      tagFelirat: "AI Haladó",
-      gomb: "Jelentkezem",
-      letszam: "8–10 fő",
-      leiras: "Egynapos haladó workshop azoknak, akik már használják az AI-t és többet hoznának ki belőle. Részvételi díj: 79 900 Ft.",
-    },
-    ceges: {
-      cim: "Céges AI-képzés",
-      rovidCim: "Céges AI-képzés",
-      modal: "Céges AI-képzés",
-      aloldal: "ceges-ai-kepzes.html",
-      tag: "corp",
-      tagFelirat: "Céges",
-      gomb: "Ajánlatot kérek",
-      letszam: "5–15 fő",
-      leiras: "Testreszabott, helyszíni képzés a csapatodnak, AI Act-megfelelést segítő belső szabályzattal.",
-    },
-  };
+/* ─── OKTATÓK ────────────────────────────────────────── */
+.instructors-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1.6rem; max-width: 900px; margin: 0 auto;
+}
+.instructor-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 2rem;
+  box-shadow: var(--sh-sm);
+  display: flex; gap: 1.4rem; align-items: flex-start;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.instructor-card:hover { transform: translateY(-4px); box-shadow: var(--sh-lg); }
+.instructor-avatar {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--slate) 0%, var(--slate-dark) 100%);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 1.3rem;
+  flex-shrink: 0;
+}
+.instructor-body h3 {
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 1.2rem;
+  color: var(--ink); margin-bottom: 0.2rem;
+}
+.instructor-role {
+  font-size: 0.82rem; font-weight: 700;
+  color: var(--coral); margin-bottom: 0.8rem;
+}
+.instructor-body p {
+  font-size: 0.88rem; color: var(--text-2); line-height: 1.6;
+  margin-bottom: 0.9rem;
+}
+.instructor-link {
+  font-size: 0.82rem; font-weight: 700;
+  color: var(--slate);
+  transition: color 0.18s;
+}
+.instructor-link:hover { color: var(--coral); }
 
-  const HONAP_ROVID = ["jan.", "febr.", "márc.", "ápr.", "máj.", "jún.",
-                       "júl.", "aug.", "szept.", "okt.", "nov.", "dec."];
-  const HONAP_TELJES = ["január", "február", "március", "április", "május", "június",
-                        "július", "augusztus", "szeptember", "október", "november", "december"];
-  const NAP_NEV = ["vasárnap", "hétfő", "kedd", "szerda", "csütörtök", "péntek", "szombat"];
+/* ─── KINEK NEM VALÓ (fit) ──────────────────────────── */
+.fit-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1.6rem; max-width: 900px; margin: 0 auto;
+}
+.fit-col {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 2rem;
+  box-shadow: var(--sh-sm);
+}
+.fit-head {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 1.1rem;
+  margin-bottom: 1.3rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.fit-no .fit-head { color: var(--muted); }
+.fit-no .fit-head svg { color: var(--muted); }
+.fit-yes .fit-head { color: var(--coral); }
+.fit-yes .fit-head svg { color: var(--coral); }
+.fit-col ul { list-style: none; }
+.fit-col li {
+  font-size: 0.9rem; color: var(--text-2); line-height: 1.5;
+  padding: 0.6rem 0 0.6rem 1.5rem;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+}
+.fit-col li:last-child { border-bottom: none; }
+.fit-col li::before {
+  position: absolute; left: 0; top: 0.55rem;
+  font-weight: 800; font-size: 0.9rem;
+}
+.fit-no li::before { content: '–'; color: var(--muted); }
+.fit-yes li::before { content: '✓'; color: var(--coral); }
 
-  function parse(datumStr) {
-    const [y, m, d] = datumStr.split("-").map(Number);
-    return new Date(y, m - 1, d, 12, 0, 0);
+/* ─── OKTATÓK ── end */
+
+/* ─── GALÉRIA (fotó-kész) ───────────────────────────── */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 180px;
+  gap: 1rem;
+}
+.gallery-item { position: relative; }
+.gallery-item.gi-tall { grid-row: span 2; }
+.gallery-item.gi-wide { grid-column: span 2; }
+.gallery-ph {
+  position: absolute; inset: 0;
+  border-radius: var(--r-lg);
+  background:
+    linear-gradient(135deg, var(--slate-light) 0%, var(--coral-light) 100%);
+  border: 1px dashed var(--border-med);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 0.8rem;
+  color: var(--slate);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  overflow: hidden;
+}
+.gallery-ph svg { opacity: 0.55; }
+.gallery-ph span {
+  font-size: 0.8rem; font-weight: 700;
+  color: var(--slate); opacity: 0.75;
+  line-height: 1.4;
+}
+.gallery-item:hover .gallery-ph {
+  transform: scale(0.985);
+  box-shadow: var(--sh-md) inset;
+}
+
+@media (max-width: 700px) {
+  .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 140px; }
+  .gallery-item.gi-tall { grid-row: span 1; }
+  .gallery-item.gi-wide { grid-column: span 2; }
+}
+
+/* ─── STATEMENT BAND ─────────────────────────────────── */
+.statement-band {
+  padding: 7rem 2rem;
+  background: var(--ink);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.statement-band::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 30%, rgba(252,92,101,0.18) 0%, transparent 45%),
+    radial-gradient(circle at 85% 70%, rgba(217,148,31,0.12) 0%, transparent 45%);
+}
+.statement-text {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: #fff;
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+.statement-text span { color: var(--coral); }
+.statement-sub {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.62);
+  max-width: 540px;
+  margin: 0 auto;
+  font-weight: 500;
+  position: relative;
+}
+
+/* ─── ABOUT ──────────────────────────────────────────── */
+.about-grid {
+  display: grid; grid-template-columns: 0.85fr 1.15fr;
+  gap: 4.5rem; align-items: center;
+}
+
+/* Bal oldali vizuál — letisztult kártya stack */
+.about-visual {
+  position: relative;
+}
+.about-visual-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 2.5rem;
+  box-shadow: var(--sh-lg);
+  position: relative;
+  overflow: hidden;
+}
+.about-visual-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 5px;
+  background: linear-gradient(90deg, var(--coral), var(--slate));
+}
+.about-big-stat {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 4.5rem;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.about-big-stat span { color: var(--coral); }
+.about-big-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-2);
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+.about-mini-stats {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+.about-mini-stat .ms-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.8rem;
+  color: var(--coral);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+.about-mini-stat .ms-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1.4;
+}
+.about-float-badge {
+  position: absolute;
+  top: -18px; right: -18px;
+  background: var(--coral);
+  color: #fff;
+  padding: 1rem 1.4rem;
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-coral);
+  font-weight: 700;
+  font-size: 0.9rem;
+  max-width: 200px;
+  line-height: 1.4;
+}
+
+/* Pillérek — értékajánlatok */
+.pillar {
+  display: flex; align-items: flex-start; gap: 1.2rem;
+  padding: 1.5rem 0; border-bottom: 1px solid var(--border);
+}
+.pillar:last-child { border-bottom: none; }
+.pillar-icon-wrap {
+  width: 48px; height: 48px;
+  border-radius: var(--r-md);
+  background: var(--coral-light);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.pillar-icon-wrap svg { stroke: var(--coral); }
+.pillar-text strong {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 1.15rem;
+  margin-bottom: 5px;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.pillar-text p {
+  font-size: 0.92rem; color: var(--text-2); line-height: 1.6;
+}
+
+/* ─── COURSE GRID ─────────────────────────────────────── */
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.4rem;
+  margin-top: 1rem;
+}
+
+.course-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 2rem 1.9rem;
+  box-shadow: var(--sh-sm);
+  transition: transform 0.25s cubic-bezier(.4,0,.2,1), box-shadow 0.25s;
+  position: relative;
+  display: flex; flex-direction: column;
+}
+.course-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sh-lg);
+}
+
+/* Free card variant */
+.course-card-free {
+  background: linear-gradient(165deg, var(--coral-light) 0%, var(--surface) 60%);
+  border-color: var(--coral-mid);
+}
+
+/* Featured card variant */
+.course-card-featured {
+  border-color: var(--coral);
+  box-shadow: 0 0 0 1px var(--coral), var(--sh-md);
+}
+.course-featured-tag {
+  position: absolute;
+  top: -13px; left: 1.8rem;
+  background: var(--coral);
+  color: #fff;
+  font-size: 0.7rem; font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 5px 13px;
+  border-radius: var(--r-pill);
+  box-shadow: var(--sh-coral-sm);
+  white-space: nowrap;
+}
+
+.course-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 0.74rem; font-weight: 800;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: var(--r-pill);
+  margin-bottom: 1.3rem;
+  width: fit-content;
+}
+.badge-free {
+  background: var(--coral);
+  color: #fff;
+}
+.badge-tanfolyam {
+  background: var(--coral-light);
+  color: var(--coral-dark);
+}
+.badge-workshop {
+  background: var(--slate-light);
+  color: var(--slate);
+}
+
+.course-card h3 {
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 1.5rem;
+  letter-spacing: -0.02em; line-height: 1.15;
+  margin-bottom: 0.7rem; color: var(--ink);
+}
+.course-card > p {
+  font-size: 0.92rem; color: var(--text-2);
+  line-height: 1.6; margin-bottom: 1.5rem; flex: 1;
+}
+
+.course-meta {
+  display: flex; gap: 0.5rem 1.3rem; flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.meta-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.8rem;
+  color: var(--text-2);
+  font-weight: 600;
+}
+.meta-item svg { stroke: var(--muted); }
+
+.course-price {
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 1.9rem;
+  letter-spacing: -0.025em; color: var(--ink);
+  margin-bottom: 1.1rem;
+  line-height: 1;
+}
+.course-price small {
+  font-size: 0.78rem; font-weight: 600; color: var(--muted);
+}
+.course-price-free {
+  color: var(--coral);
+}
+
+/* Kártya gombpáros: Részletek + Jelentkezem */
+.course-actions {
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.course-actions .btn { width: 100%; justify-content: center; }
+.btn-link-row {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  font-size: 0.85rem; font-weight: 700; color: var(--slate);
+  padding: 0.4rem; transition: color 0.18s, gap 0.18s;
+}
+.btn-link-row:hover { color: var(--coral); gap: 9px; }
+
+/* Scarcity */
+.scarcity {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 0.76rem; font-weight: 700;
+  color: var(--coral-dark);
+  background: var(--coral-light);
+  border-radius: var(--r-pill);
+  padding: 4px 12px; margin-bottom: 1rem;
+  width: fit-content;
+}
+.scarcity-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--coral); flex-shrink: 0;
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* ─── KIHELYEZETT (céges) ────────────────────────────── */
+.kihely-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; align-items: start;
+}
+.kihely-features {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1rem; margin-top: 2rem;
+}
+.kihely-feat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 1.4rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.kihely-feat:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--sh-md);
+}
+.kihely-feat-icon {
+  width: 40px; height: 40px;
+  border-radius: var(--r-sm);
+  background: var(--coral-light);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 0.8rem;
+}
+.kihely-feat-icon svg { stroke: var(--coral); }
+.kihely-feat strong {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 1rem;
+  margin-bottom: 0.3rem; color: var(--ink);
+}
+.kihely-feat p {
+  font-size: 0.83rem; color: var(--text-2); line-height: 1.5;
+}
+
+.form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 2.5rem;
+  box-shadow: var(--sh-md);
+}
+.form-card h3 {
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 1.5rem;
+  margin-bottom: 0.4rem; color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.form-card .form-desc {
+  font-size: 0.9rem;
+  color: var(--text-2);
+  margin-bottom: 1.8rem;
+}
+
+.form-group { margin-bottom: 1rem; }
+.form-group label {
+  display: block;
+  font-size: 0.8rem; font-weight: 700;
+  color: var(--slate);
+  margin-bottom: 0.45rem;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%; background: var(--surface2);
+  border: 1.5px solid var(--border-med);
+  border-radius: var(--r-sm);
+  padding: 0.78rem 1rem;
+  color: var(--text); font-family: var(--font-body);
+  font-size: 0.92rem; outline: none;
+  transition: all 0.18s;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--coral);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--coral-light);
+}
+.form-group textarea { resize: vertical; min-height: 90px; }
+
+/* ─── TESTIMONIALS ───────────────────────────────────── */
+.testimonials-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.6rem;
+}
+.testi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 2rem;
+  box-shadow: var(--sh-sm);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.testi-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--sh-lg);
+}
+.stars {
+  display: flex; gap: 3px; margin-bottom: 1rem;
+}
+.star-icon { color: var(--amber); }
+.testi-card > p {
+  font-size: 1rem;
+  line-height: 1.65; color: var(--text-2);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+.testi-author {
+  display: flex; align-items: center; gap: 0.8rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border);
+}
+.testi-avatar {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: var(--coral-light);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 0.9rem; color: var(--coral);
+  flex-shrink: 0;
+}
+.testi-info strong {
+  display: block;
+  font-weight: 700; font-size: 0.92rem;
+  color: var(--ink);
+}
+.testi-info span {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* ─── CTA BANNER ─────────────────────────────────────── */
+.cta-banner {
+  background: linear-gradient(135deg, var(--slate-dark) 0%, var(--slate) 100%);
+  border-radius: var(--r-xl);
+  padding: 4.5rem 4rem;
+  text-align: center; position: relative; overflow: hidden;
+}
+.cta-banner::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 80%, rgba(217,148,31,0.22) 0%, transparent 50%),
+    radial-gradient(circle at 85% 15%, rgba(217,148,31,0.12) 0%, transparent 45%);
+}
+.cta-banner h2 {
+  font-family: var(--font-display);
+  font-weight: 800; color: #fff;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  letter-spacing: -0.025em;
+  margin-bottom: 1rem; position: relative;
+}
+.cta-banner p {
+  color: rgba(255,255,255,0.78);
+  max-width: 500px;
+  margin: 0 auto 2rem;
+  position: relative;
+  font-weight: 500;
+}
+.cta-actions {
+  display: flex; gap: 0.9rem;
+  justify-content: center; flex-wrap: wrap;
+  position: relative;
+}
+.btn-on-dark {
+  background: #fff;
+  color: var(--slate-dark);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+.btn-on-dark:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.28);
+}
+.btn-ghost-white {
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.4);
+}
+.btn-ghost-white:hover {
+  border-color: #fff;
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-2px);
+}
+
+/* ─── INGYENES EST szekció (ha kell még külön) ───────── */
+.est-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-md);
+  overflow: hidden;
+  position: relative;
+}
+.est-grid {
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 0;
+}
+.est-left { padding: 3rem; }
+.est-right {
+  background: var(--surface2);
+  padding: 3rem;
+  border-left: 1px solid var(--border);
+  display: flex; align-items: center;
+}
+.est-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--coral-light);
+  border: 1px solid var(--coral-mid);
+  color: var(--coral-dark);
+  font-size: 0.74rem; font-weight: 800;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 6px 14px; border-radius: var(--r-pill);
+  margin-bottom: 1.6rem;
+}
+.est-list { list-style: none; margin-bottom: 2.2rem; }
+.est-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 0.95rem; color: var(--text-2);
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+  font-weight: 500;
+}
+.est-list li:last-child { border-bottom: none; }
+.est-list li svg { margin-top: 4px; flex-shrink: 0; }
+.est-side { width: 100%; }
+.est-side-label {
+  font-size: 0.74rem; font-weight: 800;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--coral); margin-bottom: 1rem;
+}
+.est-side-list { list-style: none; }
+.est-side-list li {
+  font-size: 0.88rem; color: var(--text-2);
+  line-height: 1.55; padding-left: 1.4rem;
+  position: relative; margin-bottom: 0.7rem;
+  font-weight: 500;
+}
+.est-side-list li::before {
+  content: '→'; position: absolute;
+  left: 0; top: 0;
+  color: var(--coral); font-weight: 700;
+}
+.est-divider { height: 1px; background: var(--border); margin: 1.8rem 0; }
+.est-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem 1rem; }
+.est-meta-label {
+  font-size: 0.7rem; font-weight: 700;
+  color: var(--muted); margin-bottom: 0.3rem;
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.est-meta-value {
+  font-family: var(--font-display);
+  font-size: 1.1rem; font-weight: 800;
+  color: var(--ink);
+}
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer {
+  background: var(--ink); color: rgba(255,255,255,0.7);
+  padding: 4.5rem 2rem 2.5rem;
+}
+.footer-inner { max-width: 1180px; margin: 0 auto; }
+.footer-top {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem; margin-bottom: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.footer-brand-name {
+  font-family: var(--font-display);
+  font-weight: 900; font-size: 1.35rem; color: #fff;
+  margin-bottom: 0.9rem; display: inline-flex; align-items: center; gap: 7px;
+}
+.footer-brand-name::before {
+  content: '';
+  width: 11px; height: 11px;
+  background: var(--coral);
+  border-radius: 50%;
+  display: inline-block;
+}
+.footer-brand-name span { color: var(--coral); }
+.footer-brand p {
+  font-size: 0.88rem; line-height: 1.7; max-width: 300px;
+  color: rgba(255,255,255,0.6);
+}
+.footer-col h4 {
+  font-weight: 800; font-size: 0.78rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--coral); margin-bottom: 1.2rem;
+}
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 0.7rem; }
+.footer-col ul li a {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: color 0.18s;
+}
+.footer-col ul li a:hover { color: #fff; }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-bottom p {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.45);
+}
+
+/* ─── MODAL ──────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(31,42,56,0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center;
+  padding: 2rem;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border-radius: var(--r-xl);
+  padding: 2.5rem;
+  max-width: 480px; width: 100%;
+  position: relative;
+  box-shadow: var(--sh-lg);
+  animation: modalIn 0.3s cubic-bezier(.34,1.4,.5,1);
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96) translateY(12px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-close {
+  position: absolute; top: 1.2rem; right: 1.2rem;
+  background: var(--surface2);
+  border: none;
+  color: var(--text-2);
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  cursor: pointer; font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s;
+}
+.modal-close:hover {
+  background: var(--coral-light);
+  color: var(--coral-dark);
+}
+.modal h2 {
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 1.6rem;
+  letter-spacing: -0.02em; margin-bottom: 0.3rem;
+  color: var(--ink);
+}
+.modal-course-name {
+  font-size: 0.88rem;
+  color: var(--coral);
+  font-weight: 700;
+  margin-bottom: 1.6rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+.payment-options {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0.7rem; margin-bottom: 1rem;
+}
+.payment-opt {
+  background: var(--surface2);
+  border: 1.5px solid var(--border-med);
+  border-radius: var(--r-sm);
+  padding: 0.75rem 1rem;
+  cursor: pointer; transition: all 0.18s;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.85rem; font-weight: 600; color: var(--text-2);
+}
+.payment-opt:hover, .payment-opt.selected {
+  border-color: var(--coral);
+  background: var(--coral-light);
+  color: var(--coral-dark);
+}
+
+/* ─── ANIMATIONS ─────────────────────────────────────── */
+.fade-up {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* Staggered children — egymás után úsznak be */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+}
+.stagger.visible > * { opacity: 1; transform: translateY(0); }
+.stagger.visible > *:nth-child(1) { transition-delay: 0.05s; }
+.stagger.visible > *:nth-child(2) { transition-delay: 0.15s; }
+.stagger.visible > *:nth-child(3) { transition-delay: 0.25s; }
+.stagger.visible > *:nth-child(4) { transition-delay: 0.35s; }
+.stagger.visible > *:nth-child(5) { transition-delay: 0.45s; }
+.stagger.visible > *:nth-child(6) { transition-delay: 0.55s; }
+
+/* Hero belépő — automatikus, betöltéskor */
+.hero-reveal > * {
+  opacity: 0;
+  transform: translateY(22px);
+  animation: heroIn 0.85s cubic-bezier(.4,0,.2,1) forwards;
+}
+.hero-reveal > *:nth-child(1) { animation-delay: 0.15s; }
+.hero-reveal > *:nth-child(2) { animation-delay: 0.28s; }
+.hero-reveal > *:nth-child(3) { animation-delay: 0.41s; }
+.hero-reveal > *:nth-child(4) { animation-delay: 0.54s; }
+.hero-reveal > *:nth-child(5) { animation-delay: 0.67s; }
+.hero-reveal > *:nth-child(6) { animation-delay: 0.80s; }
+@keyframes heroIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-card.reveal-card {
+  opacity: 0;
+  transform: translateY(30px) scale(0.98);
+  animation: heroCardIn 1s cubic-bezier(.34,1.4,.5,1) 0.6s forwards;
+}
+@keyframes heroCardIn {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Count-up számoknál a villódzás elkerülése */
+.count-target { font-variant-numeric: tabular-nums; }
+
+/* Akadálymentesség: ki van kapcsolva a mozgás → minden azonnal látszik */
+@media (prefers-reduced-motion: reduce) {
+  .fade-up, .stagger > *, .hero-reveal > *, .hero-card.reveal-card {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
   }
+}
 
-  function maNulla() {
-    const t = new Date();
-    t.setHours(0, 0, 0, 0);
-    return t;
-  }
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 960px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-card { display: none; }
+  .about-grid, .kihely-inner { grid-template-columns: 1fr; }
+  .audience-grid { grid-template-columns: 1fr 1fr; }
+  .course-grid { grid-template-columns: 1fr 1fr; }
+  .instructors-grid { grid-template-columns: 1fr; }
+  .fit-grid { grid-template-columns: 1fr; }
+  .problem-item { grid-template-columns: 1fr; gap: 0.7rem; }
+  .problem-a { padding-left: 0; border-left: none; padding-top: 0.3rem; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .hero-stats { gap: 2rem; }
+  .kihely-features { grid-template-columns: 1fr; }
+  .cta-banner { padding: 3rem 2rem; }
+  .est-grid { grid-template-columns: 1fr; }
+  .est-right { border-left: none; border-top: 1px solid var(--border); }
+  .about-float-badge { position: static; margin-top: 1.5rem; max-width: none; }
+}
 
-  function rovidDatum(dt) {
-    return HONAP_ROVID[dt.getMonth()] + " " + dt.getDate() + ". (" + NAP_NEV[dt.getDay()] + ")";
-  }
-  function honapCimke(dt) {
-    return dt.getFullYear() + ". " + HONAP_TELJES[dt.getMonth()];
-  }
-  function teljesDatum(dt) {
-    return dt.getFullYear() + ". " + HONAP_TELJES[dt.getMonth()] + " " + dt.getDate() + ".";
-  }
-  function napNev(dt) {
-    return NAP_NEV[dt.getDay()];
-  }
+@media (max-width: 600px) {
+  .footer-top { grid-template-columns: 1fr; }
+  .course-grid { grid-template-columns: 1fr; }
+  .audience-grid { grid-template-columns: 1fr; }
+  .hero { padding: 6.5rem 1.5rem 4rem; }
+  section { padding: 4rem 1.5rem; }
+  .hero-banner p { font-size: 0.92rem; }
+  .about-big-stat { font-size: 3.5rem; }
+  .est-left, .est-right { padding: 2rem 1.5rem; }
+}
+</style>
+<style>
+/* ─── ÚJ, ADDITÍV STÍLUSOK (kártyás időpont + oktató flip-kártyák) ─── */
 
-  /* Betelt-állapot egy eseményre. A szabad helyek számát NEM tesszük ki
-     az oldalra — csak a "Betelt" státuszt jelezzük.
-     Visszaad: { telt, szoveg, szin, pont } */
-  function ferohelyStatusz(e) {
-    const fh = (typeof e.ferohely === "number") ? e.ferohely : null;
-    const fg = (typeof e.foglalt === "number") ? e.foglalt : 0;
-    const telt = (e.telt === true) || (fh !== null && fg >= fh);
-    if (telt) {
-      return { telt: true, szoveg: "Betelt", szin: "#94a3b8", pont: "#ef4444" };
-    }
-    return { telt: false, szoveg: "Jelentkezés nyitva", szin: "var(--coral)", pont: "#22c55e" };
-  }
+/* Következő időpont a képzéskártyán */
+.course-next {
+  display:flex; align-items:center; gap:10px;
+  margin:0.7rem 0 0.1rem;
+  background:var(--coral-light); border:1px solid var(--coral-mid);
+  border-radius:var(--r-md); padding:0.6rem 0.85rem;
+}
+.course-next .cn-icon {
+  flex-shrink:0; width:30px; height:30px; border-radius:9px;
+  background:var(--surface); border:1px solid var(--coral-mid);
+  display:flex; align-items:center; justify-content:center;
+}
+.course-next .cn-icon svg { stroke:var(--coral); display:block; }
+.course-next .cn-text { display:flex; flex-direction:column; line-height:1.25; min-width:0; }
+.course-next .cn-label {
+  font-size:0.68rem; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;
+  color:var(--text-2);
+}
+.course-next .cn-date { font-size:0.98rem; font-weight:800; color:var(--coral-dark); }
 
-  function osszesEsemeny() {
-    const nyers = window.BACSKAI_ESEMENYEK || [];
-    return nyers
-      .map(function (e) {
-        const dt = parse(e.datum);
-        const meta = KEPZESEK[e.kepzes] || {};
-        return Object.assign({}, e, {
-          _dt: dt,
-          meta: meta,
-          jovobeli: dt >= maNulla(),
-          statusz: ferohelyStatusz(e),
-        });
-      })
-      .sort(function (a, b) { return a._dt - b._dt; });
-  }
+/* Oktató flip-kártyák */
+.team-grid {
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:1.6rem;
+  max-width:1000px; margin:0 auto;
+}
+.flip-card {
+  background:transparent; perspective:1200px; height:380px;
+}
+.flip-inner {
+  position:relative; width:100%; height:100%;
+  transition:transform .6s cubic-bezier(.4,.2,.2,1);
+  transform-style:preserve-3d;
+}
+.flip-card:hover .flip-inner,
+.flip-card:focus-within .flip-inner { transform:rotateY(180deg); }
+.flip-face {
+  position:absolute; inset:0;
+  -webkit-backface-visibility:hidden; backface-visibility:hidden;
+  border-radius:var(--r-lg); overflow:hidden;
+  border:1px solid var(--border); box-shadow:var(--sh-md);
+  display:flex; flex-direction:column;
+}
+.flip-front { background:var(--surface); }
+.flip-photo {
+  flex:1; width:100%; object-fit:cover; display:block; min-height:0;
+  background:var(--coral-light);
+}
+.flip-front-cap {
+  padding:1.1rem 1.2rem 1.3rem; text-align:center; background:var(--surface);
+}
+.flip-front-cap h3 { font-family:var(--font-display); font-weight:800; font-size:1.15rem; color:var(--ink); margin:0 0 0.2rem; }
+.flip-front-cap span { font-size:0.85rem; color:var(--coral); font-weight:700; }
+.flip-hint {
+  display:inline-flex; align-items:center; gap:5px;
+  margin-top:0.6rem; font-size:0.74rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em;
+}
+.flip-back {
+  transform:rotateY(180deg);
+  background:linear-gradient(155deg, var(--coral) 0%, var(--coral-dark) 100%);
+  color:#fff; padding:1.8rem 1.6rem; justify-content:center; text-align:left;
+}
+.flip-back h3 { font-family:var(--font-display); font-weight:800; font-size:1.2rem; color:#fff; margin:0 0 0.15rem; }
+.flip-back .fb-role { font-size:0.86rem; font-weight:700; color:var(--coral-mid); margin-bottom:0.9rem; display:block; }
+.flip-back p { font-size:0.9rem; line-height:1.6; color:#EEF2F6; margin:0; }
+.flip-back a { color:#fff; font-weight:800; text-decoration:underline; }
+@media (max-width:820px) {
+  .team-grid { grid-template-columns:1fr; max-width:400px; }
+  .flip-card { height:360px; }
+}
+</style>
+<!-- BACSKAI:POLISH:START -->
+<style>
+/* ═══ Modern polish réteg (közös, additív) ═══ */
 
-  function kepzesEsemenyei(kepzesKulcs) {
-    return osszesEsemeny().filter(function (e) {
-      return e.kepzes === kepzesKulcs && e.jovobeli;
+/* Az oldal mindig világos sémájú — iOS/Android sötét mód ne tegye sötét
+   vászonra a sötét szöveget */
+:root { color-scheme: light only; }
+html, body { background: var(--bg, #F7F1E3); }
+
+/* Üres dátum-badge soha ne látszódjon (pl. ha az esemenyek.js nem töltődik be) */
+.course-next:empty { display: none; }
+
+/* Gördülés: sima, és az anchor-ugrások nem csúsznak a fix nav alá */
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+
+/* Márkaszínű szövegkijelölés */
+::selection { background: var(--coral, #4B6584); color: #fff; }
+
+/* Billentyűzetes fókusz: borostyán gyűrű (a11y + modern) */
+:focus-visible { outline: 2px solid var(--amber, #D9941F); outline-offset: 2px; border-radius: 4px; }
+
+/* Egységes gomb-mikrointerakció */
+.btn, .nav-cta, .slider-cta {
+  transition: transform .18s cubic-bezier(.4,.2,.2,1),
+              box-shadow .18s cubic-bezier(.4,.2,.2,1),
+              background .18s ease, color .18s ease;
+}
+.btn:hover:not([disabled]), .nav-cta:hover, .slider-cta:hover { transform: translateY(-1px); }
+.btn:active:not([disabled]), .nav-cta:active, .slider-cta:active { transform: translateY(0); }
+
+/* Időpontsorok finom emelkedése hoverre */
+.ev:not(.telt) { transition: transform .18s cubic-bezier(.4,.2,.2,1), box-shadow .18s cubic-bezier(.4,.2,.2,1); }
+.ev:not(.telt):hover { transform: translateY(-2px); box-shadow: var(--sh-md, 0 6px 18px rgba(43,51,64,.08)); }
+
+/* Footer: csendes márka-akcent hajszálvonal */
+footer { position: relative; }
+footer::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--coral, #4B6584), var(--amber, #D9941F));
+  opacity: .55;
+}
+
+/* Mobil menü CTA pill (a kanonikus menü használja) */
+.mobile-menu a.mobile-menu-cta {
+  margin-top: .4rem; background: var(--coral, #4B6584); color: #fff;
+  font-weight: 700; text-align: center; padding: .85rem 1.4rem;
+  border-radius: var(--r-pill, 999px); box-shadow: var(--sh-coral-sm, 0 4px 14px rgba(75,101,132,.3));
+}
+
+/* Scroll-reveal az aloldalak szekcióira (a főoldal saját fade-up rendszere érintetlen) */
+.subpage-section .sr-reveal {
+  opacity: 0; transform: translateY(14px);
+  transition: opacity .55s cubic-bezier(.4,.2,.2,1), transform .55s cubic-bezier(.4,.2,.2,1);
+}
+.subpage-section .sr-reveal.sr-in { opacity: 1; transform: none; }
+
+/* Csökkentett mozgás tisztelete */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .btn, .nav-cta, .slider-cta, .ev { transition: none !important; }
+  .btn:hover, .nav-cta:hover, .slider-cta:hover, .ev:hover { transform: none !important; }
+  .subpage-section .sr-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+</style>
+<script>
+/* Scroll-reveal: csak aloldalakon (ahol .subpage-section van), IntersectionObserverrel */
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var targets = document.querySelectorAll('.subpage-section > .subpage-narrow > *, .subpage-section > .subpage-wide > *');
+  if (!targets.length || !('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add('sr-in'); io.unobserve(en.target); }
     });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  targets.forEach(function (el, i) {
+    el.classList.add('sr-reveal');
+    el.style.transitionDelay = Math.min(i % 6, 4) * 45 + 'ms';
+    io.observe(el);
+  });
+});
+</script>
+<!-- BACSKAI:POLISH:END -->
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <a href="#top" class="nav-logo">BácskAI <span>Akadémia</span></a>
+  <ul class="nav-links">
+    <li><a href="#kinek">Kinek szól?</a></li>
+    <li><a href="#haszon">Gyakorlati haszon</a></li>
+    <li><a href="#kepzesek">Képzéseink</a></li>
+    <li><a href="#oktatok">Oktatók</a></li>
+    <li><a href="#faq">GYIK</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:0.8rem;">
+    <a href="rendezvenyek.html" class="nav-cta">Képzési időpontok →</a>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menü"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#kinek" onclick="toggleMenu()">Kinek szól?</a>
+  <a href="#haszon" onclick="toggleMenu()">Gyakorlati haszon</a>
+  <a href="#kepzesek" onclick="toggleMenu()">Képzéseink</a>
+  <a href="#oktatok" onclick="toggleMenu()">Oktatók</a>
+  <a href="#faq" onclick="toggleMenu()">GYIK</a>
+  <a href="rendezvenyek.html" class="mobile-menu-cta">Képzési időpontok →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-bg-lines" aria-hidden="true"></div>
+
+  <div class="promo-banner" id="promoBanner" aria-label="Aktuális képzések">
+    <div class="promo-track" id="promoTrack">
+      <a href="szerdai.html" class="promo-slide active">
+        <span class="promo-tag">Ingyenes</span>
+        <span class="promo-text">Ismerkednél az AI-jal? Gyere el a következő <strong>SzerdAI estre</strong> — 2 óra, kötetlenül, Baján.</span>
+        <span class="promo-arrow">Jelentkezem →</span>
+      </a>
+      <a href="#kepzesek" class="promo-slide">
+        <span class="promo-tag">Új csoport</span>
+        <span class="promo-text">Indul a következő <strong>AI Alapozó</strong> — egy gyakorlati nap AI-eszközökkel. 39 900 Ft.</span>
+        <span class="promo-arrow">Megnézem →</span>
+      </a>
+      <a href="#kepzesek" class="promo-slide">
+        <span class="promo-tag">Haladó</span>
+        <span class="promo-text">Automatizálnál? Az <strong>AI Haladón</strong> ügynök módokat és Make.com-folyamatokat építünk.</span>
+        <span class="promo-arrow">Részletek →</span>
+      </a>
+      <a href="#kepzesek" class="promo-slide">
+        <span class="promo-tag">Céges</span>
+        <span class="promo-text">Csapatot képeznél? <strong>Céges AI workshop</strong> a ti munkafolyamataitokra szabva.</span>
+        <span class="promo-arrow">Ajánlatot kérek →</span>
+      </a>
+    </div>
+    <div class="promo-dots" id="promoDots" aria-hidden="true"></div>
+  </div>
+
+  <div class="hero-inner container" style="padding:0 2rem;max-width:1180px;margin:0 auto;width:100%;">
+    <div class="hero-reveal">
+      <h1>Személyes, gyakorlati<br>AI képzések — <em>Baján.</em></h1>
+      <p class="hero-desc">A napi adminisztráció, szövegírás és döntés-előkészítés másképp is megy. Gyorsabban, AI-val — és ezt meg lehet tanulni.</p>
+      <div class="hero-actions">
+        <a href="#kepzesek" class="btn btn-primary">Megnézem a képzéseket <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:0.5rem;">
+        <span style="background:var(--surface);border:1px solid var(--border-med);color:var(--text-2);border-radius:var(--r-pill);padding:0.55rem 0.95rem;font-weight:700;font-size:0.85rem;display:inline-flex;align-items:center;gap:8px;box-shadow:var(--sh-sm);"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="var(--coral)"/></svg> Helyi, személyes képzések</span>
+        <span style="background:var(--surface);border:1px solid var(--border-med);color:var(--text-2);border-radius:var(--r-pill);padding:0.55rem 0.95rem;font-weight:700;font-size:0.85rem;display:inline-flex;align-items:center;gap:8px;box-shadow:var(--sh-sm);"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="var(--coral)"/></svg> Gyakorlati AI-eszköztár</span>
+        <span style="background:var(--surface);border:1px solid var(--border-med);color:var(--text-2);border-radius:var(--r-pill);padding:0.55rem 0.95rem;font-weight:700;font-size:0.85rem;display:inline-flex;align-items:center;gap:8px;box-shadow:var(--sh-sm);"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="var(--coral)"/></svg> KKV tulajdonosoknak</span>
+        <span style="background:var(--surface);border:1px solid var(--border-med);color:var(--text-2);border-radius:var(--r-pill);padding:0.55rem 0.95rem;font-weight:700;font-size:0.85rem;display:inline-flex;align-items:center;gap:8px;box-shadow:var(--sh-sm);"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="var(--coral)"/></svg> Vezetőknek</span>
+        <span style="background:var(--surface);border:1px solid var(--border-med);color:var(--text-2);border-radius:var(--r-pill);padding:0.55rem 0.95rem;font-weight:700;font-size:0.85rem;display:inline-flex;align-items:center;gap:8px;box-shadow:var(--sh-sm);"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="var(--coral)"/></svg> Munkavállalóknak</span>
+      </div>
+    </div>
+
+    <div class="hero-card reveal-card" id="szerdai">
+      <div class="hero-card-badge">BELÉPŐ SZINT</div>
+      <h3>SzerdAI est</h3>
+      <p class="card-meta">2 óra · Ingyenes · Kéthetente szerdán este</p>
+      <ul class="hero-feature-list">
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Közérthető bevezetés az AI világába</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Hogyan működnek a különböző AI-modellek?</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Milyen hatással lesz az AI a munkakörökre?</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Promptolási alapok gyakorlati példákkal</li>
+      </ul>
+      <div class="hero-card-price course-price-free" style="margin-bottom:1rem;">Ingyenes</div>
+      <a href="#" class="btn btn-primary btn-wide" onclick="openModal('SzerdaAI'); return false;">Jelentkezem a SzerdAI estre →</a>
+      <div class="social-proof-row">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="color:var(--coral);flex-shrink:0;"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M4.5 7.5l1.5 1.5 3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Nem technológiai előadás — érthető bevezetés a gyakorlati AI-használatba.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KINEK SZÓL -->
+<section id="kinek">
+  <div class="container">
+    <div style="max-width:780px;margin:0 auto 3rem;text-align:center;">
+      <div class="section-label" style="display:inline-block;">Kinek szól?</div>
+      <h2 class="headline fade-up">Neked szól, ha az AI-t nem<br>nézegetni akarod, hanem <em>használni.</em></h2>
+    </div>
+    <div class="audience-grid">
+      <div class="audience-card lvl-1 fade-up">
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 21V6l7-3v18M11 21h9V10l-9-3" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14.5 11v0M14.5 14.5v0M14.5 18v0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h3>KKV tulajdonosoknak</h3>
+        <p>KKV-tulajdonosként nem az a kérdés, hogy kell-e az AI – hanem az, hogy hol éri meg először bevezetni, és hogyan hozza meg a megtérülést. Ebben segítünk.</p>
+      </div>
+      <div class="audience-card lvl-2 fade-up">
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3c3 1.5 5 4.5 5 8.5 0 2.5-1 4.5-2 6H9c-1-1.5-2-3.5-2-6C7 7.5 9 4.5 12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="1.8" stroke="currentColor" stroke-width="1.5"/><path d="M9 17.5l-1.5 3M15 17.5l1.5 3M12 17.5v3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <h3>Vezetőknek</h3>
+        <p>A jó vezető nem vár, amíg a csapata lemarad. Ismerd meg, hogyan használhatja a csapatod az AI-t – és hogyan vezetheted át őket ezen a változáson. Ebben segítünk.</p>
+      </div>
+      <div class="audience-card lvl-3 fade-up">
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.7"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+        <h3>Munkavállalóknak</h3>
+        <p>Az AI nem azokat fenyegeti, akik tudják használni. Növeld a piaci értéked – és maradj nélkülözhetetlen.</p>
+      </div>
+      <div class="audience-card lvl-4 fade-up">
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="9" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 19c0-2.8 2-4.5 4.5-4.5S12.5 16.2 12.5 19M11.5 19c0-2.8 2-4.5 4.5-4.5s4.5 1.7 4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <h3>Céges csapatoknak</h3>
+        <p>Ha a csapat fele használja az AI-t, a másik fele meg nem – az nem előny, az káosz. Építsetek közös alapot.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GYAKORLATI HASZON -->
+<section id="haszon" class="alt">
+  <div class="container">
+    <div class="about-grid" style="align-items:start;">
+      <div class="fade-up">
+        <div class="section-label">Gyakorlati haszon</div>
+        <h2 class="headline">A legújabb AI-eszközök<br>használatát tanítjuk – <em>lefordítva<br>a napi munkára.</em></h2>
+        <p class="body-lg">A képzésen azt tanulod meg, melyik AI-eszköz mire való, mikor érdemes használni, és hogyan építhető be a saját napi munkádba. Nem elméletet kapsz, hanem azonnal kipróbálható módszereket.</p>
+      </div>
+      <div class="fade-up" style="display:grid;gap:0.9rem;">
+        <div style="display:flex;gap:0.8rem;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:1rem 1.1rem;box-shadow:var(--sh-sm);"><span style="flex-shrink:0;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="font-weight:600;color:var(--ink);">Megtanulod felismerni, melyik feladatra milyen AI-eszköz való.</span></div>
+        <div style="display:flex;gap:0.8rem;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:1rem 1.1rem;box-shadow:var(--sh-sm);"><span style="flex-shrink:0;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="font-weight:600;color:var(--ink);">Látni fogod, mikor érdemes ChatGPT-t vagy más nagy nyelvi modellt használni.</span></div>
+        <div style="display:flex;gap:0.8rem;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:1rem 1.1rem;box-shadow:var(--sh-sm);"><span style="flex-shrink:0;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="font-weight:600;color:var(--ink);">Megérted, mikor segít jobban egy meeting-asszisztens, automatizációs platform vagy célfeladatos AI-eszköz.</span></div>
+        <div style="display:flex;gap:0.8rem;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:1rem 1.1rem;box-shadow:var(--sh-sm);"><span style="flex-shrink:0;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#E7ECF2" stroke="#C5D0DC" stroke-width="1"/><path d="M5 8.2l2 2 4-4" stroke="#4B6584" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="font-weight:600;color:var(--ink);">Azonnal használható módszereket kapsz, amelyeket be tudsz építeni a saját napi munkafolyamatodba.</span></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;margin-top:2.6rem;">
+      <div class="fade-up" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.5rem;box-shadow:var(--sh-sm);"><h3 style="font-size:1.15rem;color:var(--ink);margin-bottom:0.5rem;font-weight:800;">Nagy nyelvi modellek</h3><p style="color:var(--text-2);line-height:1.6;">Szövegírás, döntés-előkészítés, vázlatolás, összefoglalás és elemzési szempontok kialakítása.</p></div>
+      <div class="fade-up" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.5rem;box-shadow:var(--sh-sm);"><h3 style="font-size:1.15rem;color:var(--ink);margin-bottom:0.5rem;font-weight:800;">Meeting- és jegyzetasszisztensek</h3><p style="color:var(--text-2);line-height:1.6;">Megbeszélések rögzítése, kivonatolása, feladatlisták és follow-up anyagok előkészítése. Például Fireflies-jellegű eszközök.</p></div>
+      <div class="fade-up" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.5rem;box-shadow:var(--sh-sm);"><h3 style="font-size:1.15rem;color:var(--ink);margin-bottom:0.5rem;font-weight:800;">Automatizációs platformok</h3><p style="color:var(--text-2);line-height:1.6;">Ismétlődő adminisztratív feladatok összekötése rendszerek között. Például Make.com-jellegű automatizációk.</p></div>
+      <div class="fade-up" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.5rem;box-shadow:var(--sh-sm);"><h3 style="font-size:1.15rem;color:var(--ink);margin-bottom:0.5rem;font-weight:800;">Célfeladatos AI-eszközök</h3><p style="color:var(--text-2);line-height:1.6;">Képek, prezentációk, kutatási anyagok, dokumentumok, riportok vagy ügyfélszövegek gyorsabb előkészítése.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- KÉPZÉSEK -->
+<section id="kepzesek">
+  <div class="container">
+    <div class="section-label">Képzéseink</div>
+    <h2 class="headline fade-up">Melyik AI-képzés<br>való <em>neked?</em></h2>
+    <p class="body-lg fade-up">Van, aki először megértené, mire jó az AI. Van, aki már használja, de rendszert vinne bele. Van, aki céges szinten gondolkodik. Ezért a képzéseket cél és eredmény szerint mutatjuk be.</p>
+    <div class="course-grid">
+
+      <div class="course-card course-card-free course-card-featured fade-up">
+        <div class="course-featured-tag">Ajánlott első lépés</div>
+        <span class="course-badge badge-free"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><circle cx="4.5" cy="4.5" r="3.8" stroke="currentColor" stroke-width="1.1"/></svg> Ingyenes</span>
+        <h3>SzerdAI est</h3>
+        <p><strong>Neked való, ha</strong> most ismerkedsz az AI-jal, és kockázat nélkül szeretnéd megérteni a lehetőségeket. Tisztább képet kapsz arról, mire használható az AI a munkában.</p>
+        <div class="course-meta">
+          <div class="meta-item"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 3.5v3l2 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg> 2 óra</div>
+          <div class="meta-item"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="2" width="10" height="9" rx="1.5" stroke="currentColor" stroke-width="1.1"/><path d="M4 1v2M9 1v2M1.5 5.5h10" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg> Kéthetente szerdán este</div>
+        </div>
+        <div class="course-price course-price-free">Ingyenes</div>
+        <div class="course-actions">
+          <button class="btn btn-primary" onclick="openModal('SzerdaAI')">Jelentkezem</button>
+          <div class="course-next" data-kepzes="szerdai"></div>
+          <a href="szerdai.html" class="btn-link-row">Részletek <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="course-card fade-up">
+        <span class="course-badge badge-tanfolyam"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x="1" y="1" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.1"/></svg> Alapozó</span>
+        <h3>AI Alapozó</h3>
+        <p><strong>Neked való, ha</strong> napi szinten szeretnéd használni az AI-t szövegírásra, adminisztrációra, döntés-előkészítésre. Gyakorlati eszközáttekintés és azonnal beépíthető módszerek.</p>
+        <div class="course-meta">
+          <div class="meta-item"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 3.5v3l2 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg> 6 óra</div>
+          <div class="meta-item"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="8.5" r="2" stroke="currentColor" stroke-width="1.1"/><path d="M2.5 12c0-2 1.8-3.5 4-3.5s4 1.5 4 3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg> 15–30 fő</div>
+        </div>
+        <div class="course-price">39 900 Ft<small> bruttó</small></div>
+        <div class="course-actions">
+          <button class="btn btn-primary" onclick="openModal('AI Alapozó')">Jelentkezem</button>
+          <div class="course-next" data-kepzes="alapozo"></div>
+          <a href="ai-alapozo.html" class="btn-link-row">Részletek <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="course-card fade-up">
+        <span class="course-badge badge-workshop"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x="1" y="1" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.1"/></svg> Haladó</span>
+        <h3>AI Haladó</h3>
+        <p><strong>Neked való, ha</strong> már használsz AI-eszközöket, és rendszert, automatizációt vagy folyamatokat szeretnél építeni. Promptkönyvtár, dokumentumkezelés, Make.com-folyamatok.</p>
+        <div class="course-meta">
+          <div class="meta-item"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 3.5v3l2 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg> 8 óra</div>
+          <div class="meta-item"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="8.5" r="2" stroke="currentColor" stroke-width="1.1"/><path d="M2.5 12c0-2 1.8-3.5 4-3.5s4 1.5 4 3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg> kis csoport</div>
+        </div>
+        <div class="course-price">79 900 Ft<small> bruttó</small></div>
+        <div class="course-actions">
+          <button class="btn btn-primary" onclick="openModal('AI Haladó')">Jelentkezem</button>
+          <div class="course-next" data-kepzes="halado"></div>
+          <a href="ai-halado.html" class="btn-link-row">Részletek <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="course-card fade-up">
+        <span class="course-badge badge-workshop" style="background:var(--amber-light);color:var(--amber);"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x="1" y="1" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.1"/></svg> Céges</span>
+        <h3>Céges AI-képzés</h3>
+        <p><strong>Neked való, ha</strong> nem egy embernek, hanem egy egész csapatnak szeretnél közös AI-alapot és közös nyelvet. A workshopot a ti munkaköreitekhez és folyamataitokhoz igazítjuk — helyben, nálatok.</p>
+        <div class="course-meta">
+          <div class="meta-item"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 3.5v3l2 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg> jellemzően 8 óra</div>
+          <div class="meta-item"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1.5C4 1.5 2 3.5 2 6s2 4.5 4.5 4.5S11 8.5 11 6 9 1.5 6.5 1.5z" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 1.5v9M2 6h9" stroke="currentColor" stroke-width="1.1"/></svg> Nálatok, helyben</div>
+        </div>
+        <div class="course-price" style="font-size:1.3rem;">Egyedi ajánlat</div>
+        <div class="course-actions">
+          <button class="btn btn-primary" onclick="openModal('Céges AI-képzés')">Ajánlatot kérek</button>
+          <div class="course-next" data-kepzes="ceges"></div>
+          <a href="ceges-ai-kepzes.html" class="btn-link-row">Részletek <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+    </div>
+    <p style="text-align:center;margin-top:2.5rem;color:var(--text-2);font-weight:600;">Nem tudod, melyik való neked? <a href="#" onclick="openModal('SzerdaAI'); return false;" style="color:var(--coral);font-weight:800;">Gyere el a SzerdAI estre</a>, és segítünk eldönteni.</p>
+  </div>
+</section>
+
+<!-- MIÉRT MÁS EZ -->
+<section id="miert" class="alt">
+  <div class="container">
+    <div style="max-width:780px;margin:0 auto 3rem;text-align:center;">
+      <div class="section-label" style="display:inline-block;">Miért más ez?</div>
+      <h2 class="headline fade-up">Üzleti szemlélettel,<br>nem <em>fejlesztői logikával.</em></h2>
+      <p class="body-lg fade-up" style="margin:0 auto;">A legtöbb AI-képzés arról szól, mi az AI. Mi arról tanítunk, mire tudod használni — holnaptól, a saját munkádban.</p>
+    </div>
+    <div class="audience-grid">
+      <div class="audience-card lvl-1 fade-up">
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 7h16v11a2 2 0 01-2 2H6a2 2 0 01-2-2V7z" stroke="currentColor" stroke-width="1.6"/><path d="M9 7V5a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        <h3>Üzleti szemlélet, nem tech-előadás</h3>
+        <p>A képzéseket piacon dolgozó szakemberek tartják — nem informatikusok. Amit tanítunk, azt mi magunk is napi szinten használjuk a saját munkánkban.</p>
+      </div>
+      <div class="audience-card lvl-2 fade-up">
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.5-7-10a7 7 0 0114 0c0 5.5-7 10-7 10z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="11" r="2.5" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        <h3>Helyi, személyes — nem online tanfolyam</h3>
+        <p>Baján, kis csoportban, kérdezhető helyzetben. Nem nézel egy videót egyedül — hanem ott vagy, és azonnal visszajelzést kapsz.</p>
+      </div>
+      <div class="audience-card lvl-3 fade-up">
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M8 12l2.5 2.5L16 9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Csak azt tanítjuk, ami már működik</h3>
+        <p>Nem kísérletezünk az AI-jal — hanem azokat az eszközöket és módszereket mutatjuk meg, amelyek valódi munkában, valódi feladatokon már bizonyítottak.</p>
+      </div>
+      <div class="audience-card lvl-4 fade-up">
+        <div class="audience-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="9" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 19c0-2.8 2-4.5 4.5-4.5S12.5 16.2 12.5 19M11.5 19c0-2.8 2-4.5 4.5-4.5s4.5 1.7 4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <h3>Kis csoport, egyéni figyelem</h3>
+        <p>Nem 200 fős webinárium, hanem 15–30 fős, kötetlen légkörű workshop. Van idő kérdezni, kipróbálni, és a saját helyzetedre alkalmazni.</p>
+      </div>
+    </div>
+    <div id="oktatok" style="text-align:center;max-width:780px;margin:3.5rem auto 2.2rem;">
+      <div class="section-label" style="display:inline-block;">Az oktatók</div>
+      <h2 class="headline fade-up">Kik <em>tanítanak?</em></h2>
+      <p class="body-lg fade-up" style="margin:0 auto;">Gyakorló szakemberek, akik az AI-t nap mint nap használják a saját munkájukban. Vidd rá az egeret egy kártyára a rövid bemutatkozásért.</p>
+    </div>
+    <div class="team-grid fade-up">
+
+      <div class="flip-card" tabindex="0">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <img class="flip-photo" src="images/oktato-vida.svg" alt="Vida József">
+            <div class="flip-front-cap">
+              <h3>Vida József</h3>
+              <span>Szervezetfejlesztő, üzletviteli tanácsadó</span>
+              <div class="flip-hint"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Fordítsd meg</div>
+            </div>
+          </div>
+          <div class="flip-face flip-back">
+            <h3>Vida József</h3>
+            <span class="fb-role">Szervezetfejlesztő, üzletviteli tanácsadó</span>
+            <p>Több informatikai projekt bevezetésén dolgozott, és szervezetfejlesztőként azt vizsgálja, hogyan lehet az AI-eszközöket nem informatikai cégek napi működésébe beépíteni. Fókusza a gyakorlati használhatóság: mi segíti valóban a munkát, és hol nem érdemes túlbonyolítani.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" tabindex="0">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <img class="flip-photo" src="images/oktato-gorotyak.svg" alt="Gorotyák Igor">
+            <div class="flip-front-cap">
+              <h3>Gorotyák Igor</h3>
+              <span>Marketing- és üzletszerzési szakember</span>
+              <div class="flip-hint"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Fordítsd meg</div>
+            </div>
+          </div>
+          <div class="flip-face flip-back">
+            <h3>Gorotyák Igor</h3>
+            <span class="fb-role">Marketing- és üzletszerzési szakember</span>
+            <p>Az AI-eszközöket elsősorban marketing, értékesítési és ügyfélszerzési feladatokban alkalmazza. A képzéseken azt hozza, hogyan lehet az AI-t üzletszerzésre, tartalomkészítésre, ajánlatok előkészítésére és kommunikációs feladatokra használni.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" tabindex="0">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <img class="flip-photo" src="images/oktato-vendeg.svg" alt="Vendég előadó">
+            <div class="flip-front-cap">
+              <h3>Vendég előadó</h3>
+              <span>Meghívott szakértő — alkalmanként</span>
+              <div class="flip-hint"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Fordítsd meg</div>
+            </div>
+          </div>
+          <div class="flip-face flip-back">
+            <h3>Vendég előadó</h3>
+            <span class="fb-role">Meghívott szakértő — alkalmanként</span>
+            <p>Egyes képzéseken és rendezvényeken meghívott szakértő is bekapcsolódik, aki a saját területéről hoz gyakorlati AI-tapasztalatot. A soron következő vendégelőadókról a Képzési időpontok oldalon adunk hírt.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GYIK -->
+<style>
+.faq-acc{max-width:780px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);box-shadow:var(--sh-lg);overflow:hidden;}
+.faq-acc details{border-top:1px solid var(--border);}
+.faq-acc details:first-child{border-top:none;}
+.faq-acc summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.35rem 1.7rem;font-family:var(--font-display);font-weight:800;font-size:1.05rem;color:var(--ink);}
+.faq-acc summary::-webkit-details-marker{display:none;}
+.faq-acc summary::after{content:'⌄';font-size:1.3rem;line-height:1;color:var(--coral);transition:transform .25s;flex-shrink:0;}
+.faq-acc details[open] summary::after{transform:rotate(180deg);}
+.faq-acc .faq-a{padding:0 1.7rem 1.4rem;color:var(--text-2);line-height:1.7;font-size:0.95rem;margin:0;}
+</style>
+<section id="faq">
+  <div class="container">
+    <div style="text-align:center;max-width:780px;margin:0 auto 3rem;">
+      <div class="section-label" style="display:inline-block;">GYIK</div>
+      <h2 class="headline fade-up">Gyakori <em>kérdések.</em></h2>
+    </div>
+    <div class="faq-acc fade-up">
+      <details><summary>Kell informatikai tudás?</summary><p class="faq-a">Nem. A képzések nem programozóknak készülnek. Elég, ha tudsz böngészőt használni és nyitott vagy a gyakorlásra.</p></details>
+      <details><summary>Kell saját laptop?</summary><p class="faq-a">A SzerdAI estre nem kötelező, de hasznos, ha hozod. Az Alapozó és Haladó képzésekre igen — ezek gyakorlati workshopok, nem passzív előadások, és végig aktívan dolgozol a gépen.</p></details>
+      <details><summary>Kell fizetős előfizetés az AI-eszközökhöz?</summary><p class="faq-a">Egyes képzésekhez igen. Mivel mindig a legfrissebb, legjobban használható eszközöket tanítjuk, a pontos technikai feltételeket — beleértve az esetleges előfizetéseket — minden képzésnél külön közöljük a meghirdetés időpontjában.</p></details>
+      <details><summary>Csak ChatGPT-ről szól a képzés?</summary><p class="faq-a">Nem. A ChatGPT fontos eszköz, de a képzés tágabb AI-eszköztárban gondolkodik: meeting-asszisztensek, automatizációs megoldások, dokumentum- és tartalomkészítő eszközök is előkerülhetnek.</p></details>
+      <details><summary>Céges adatokat be lehet írni AI-eszközökbe?</summary><p class="faq-a">Nem vakon. Pont ezért fontos a tudatos, szabályozott céges AI-használat — ezt a képzésen külön is átbeszéljük.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ZÁRÓ CTA -->
+<section style="padding:3rem 2rem;">
+  <div class="container">
+    <div class="cta-banner fade-up">
+      <h2>Az első lépés nulla forintba kerül.</h2>
+      <p>A SzerdAI estre 2 óra alatt kiderül, megéri-e továbblépni. Ingyenes, kötetlen, kérdezhető. Ha nem nyerjük meg a bizalmad — semmi nem kötelez.</p>
+      <div class="cta-actions">
+        <a href="#" class="btn btn-on-dark" onclick="openModal('SzerdaAI'); return false;">Jelentkezem az estre <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="rendezvenyek.html" class="btn btn-ghost-white">Megnézem a képzéseket →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="footer-brand-name">BácskAI <span>Akadémia</span></span>
+        <p>Gyakorlati AI-képzések nem informatikusoknak – Baján, helyben, érthetően, üzleti szemlélettel.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigáció</h4>
+        <ul>
+          <li><a href="index.html#kinek">Kinek szól?</a></li>
+          <li><a href="index.html#haszon">Gyakorlati haszon</a></li>
+          <li><a href="index.html#kepzesek">Képzéseink</a></li>
+          <li><a href="index.html#oktatok">Oktatók</a></li>
+          <li><a href="rendezvenyek.html">Képzési időpontok</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Képzések</h4>
+        <ul>
+          <li><a href="szerdai.html">SzerdAI est — Ingyenes</a></li>
+          <li><a href="ai-alapozo.html">AI Alapozó</a></li>
+          <li><a href="ai-halado.html">AI Haladó</a></li>
+          <li><a href="ceges-ai-kepzes.html">Céges AI-képzés</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Kapcsolat</h4>
+        <ul>
+          <li><a href="mailto:info@bacskaii.hu">info@bacskaii.hu</a></li>
+          <li><a href="tel:+36308442912">+36 30 844 2912</a></li>
+          <li><a href="#" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="#" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 BácskAI Akadémia. Minden jog fenntartva. · <a href="#" onclick="openPrivacy(); return false;" style="color:inherit;text-decoration:underline;">Adatvédelem</a></p>
+      <p>AI a napi munkához — érthetően, gyakorlatiasan, Baján.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ADATKEZELÉSI TÁJÉKOZTATÓ MODÁL -->
+<div class="modal-overlay" id="privacyOverlay" onclick="closePrivacyOnBg(event)">
+  <div class="modal" style="max-width:720px;">
+    <button class="modal-close" onclick="closePrivacy()" aria-label="Bezárás"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+    <h2 style="margin-bottom:1.4rem;">Adatkezelési tájékoztató</h2>
+    <div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">1. Az adatkezelő adatai</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Cégnév: Vida Interim Kft.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Székhely: 6500 Baja, Venyige u. 40.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Adószám: 24387107-2-03</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Cégjegyzékszám: 03-09-132784</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">E-mail: info@bacskaiakademia.hu</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Telefon: +36 30 844 2912</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">2. Az adatkezelés célja és jogalapja</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">A Vida Interim Kft. (továbbiakban: Adatkezelő) a BácskAI Akadémia képzéseire történő jelentkezés, valamint az érdeklődők megkereséseinek kezelése céljából kezeli a megadott személyes adatokat.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az adatkezelés jogalapja: az érintett hozzájárulása (GDPR 6. cikk (1) bekezdés a) pont), illetve szerződés teljesítése (GDPR 6. cikk (1) bekezdés b) pont).</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">3. A kezelt adatok köre</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Jelentkezési űrlapon keresztül: név, e-mail cím, telefonszám, a kiválasztott képzés megnevezése.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">E-mailen vagy telefonon történő kapcsolatfelvétel esetén: az érintett által önkéntesen megadott adatok.</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">4. Az adatkezelés időtartama</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az Adatkezelő a személyes adatokat a képzés teljesítéséig, illetve — ha az érintett hozzájárulásán alapul az adatkezelés — a hozzájárulás visszavonásáig kezeli. Számviteli bizonylatokat a jogszabályi előírásoknak megfelelően 8 évig őrzi meg.</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">5. Adattovábbítás, adatfeldolgozók</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az Adatkezelő személyes adatokat harmadik félnek nem ad át, kivéve, ha azt jogszabály kötelezővé teszi. Az adatok tárolása az Adatkezelő által igénybe vett tárhelyszolgáltatón keresztül történik.</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">6. Az érintett jogai</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az érintett jogosult: hozzáférni a róla kezelt adatokhoz, kérni azok helyesbítését vagy törlését, korlátozni az adatkezelést, valamint adathordozhatósághoz való jogát érvényesíteni.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Kérelmét az info@bacskaiakademia.hu e-mail címre küldheti. Az Adatkezelő 30 napon belül válaszol.</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">7. Jogorvoslat</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Amennyiben úgy véli, hogy adatai kezelése jogszabálysértő, panasszal élhet a Nemzeti Adatvédelmi és Információszabadság Hatóságnál (NAIH):</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Cím: 1055 Budapest, Falk Miksa u. 9–11. · naih.hu</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">8. Tájékoztató módosítása</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az Adatkezelő fenntartja a jogot jelen tájékoztató módosítására. A változásokról az érintetteket e-mailben vagy a weboldalon tájékoztatja.</p></div>
+    <div style="border-top:1px solid var(--border);padding-top:1rem;margin-top:0.5rem;font-size:0.82rem;color:var(--muted);">Utolsó módosítás: 2025. június</div>
+  </div>
+</div>
+
+<script>
+function openPrivacy(){document.getElementById('privacyOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function closePrivacy(){document.getElementById('privacyOverlay').classList.remove('open');document.body.style.overflow='';}
+function closePrivacyOnBg(e){if(e.target===document.getElementById('privacyOverlay'))closePrivacy();}
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     MODAL — MailerLite jelentkezés
+═══════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()" aria-label="Bezárás">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+        <path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <!-- Jelentkezési nézet -->
+    <div id="modalFormView">
+      <h2 id="modalTitle">Jelentkezés</h2>
+      <div class="modal-course-name" id="modalCourseName">–</div>
+
+      <form id="mlForm" onsubmit="return submitMlForm(event)">
+        <!-- Esemény (rejtett, a kártyából töltődik) -->
+        <input type="hidden" name="fields[esemeny]" id="mlEsemeny" value="">
+
+        <div style="display:flex;gap:0.7rem;">
+          <div class="form-group" style="flex:1;">
+            <label>Vezetéknév</label>
+            <input type="text" name="fields[last_name]" placeholder="Kovács" required>
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label>Keresztnév</label>
+            <input type="text" name="fields[name]" placeholder="Béla" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>E-mail cím</label>
+          <input type="email" name="fields[email]" placeholder="bela@pelda.hu" required>
+        </div>
+        <div class="form-group">
+          <label>Telefonszám</label>
+          <input type="tel" name="fields[phone]" placeholder="+36 30 123 4567" required>
+        </div>
+        <div class="form-group">
+          <label>Település</label>
+          <input type="text" name="fields[city]" placeholder="Baja" required>
+        </div>
+
+        <!-- Céges mezők — csak a Céges AI képzésnél jelennek meg -->
+        <div id="mlCompanyFields" style="display:none;">
+          <div class="form-group">
+            <label>Cégnév</label>
+            <input type="text" name="fields[company]" placeholder="Cégem Kft.">
+          </div>
+          <div class="form-group">
+            <label>Csapat mérete (fő)</label>
+            <input type="number" name="fields[csapat_merete]" placeholder="8" min="1">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Megjegyzés <span style="color:var(--muted);font-weight:500;">(nem kötelező)</span></label>
+          <textarea name="fields[megjegyzes]" placeholder="Bármi, amit fontosnak tartasz..."></textarea>
+        </div>
+
+        <p style="font-size:0.78rem;color:var(--coral-dark);margin-bottom:1rem;line-height:1.5;background:var(--coral-light);border:1px solid var(--coral-mid);padding:0.7rem 1rem;border-radius:var(--r-sm);">
+          Jelentkezés után telefonon egyeztetünk veled a részletekről. Bármikor leiratkozhatsz.
+        </p>
+
+        <button type="submit" class="btn btn-primary btn-wide" id="mlSubmitBtn">
+          Jelentkezés elküldése
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
+    </div>
+
+    <!-- Sikeres nézet -->
+    <div id="modalSuccessView" style="display:none;text-align:center;padding:1.5rem 0;">
+      <div style="width:64px;height:64px;border-radius:50%;background:var(--coral-light);display:flex;align-items:center;justify-content:center;margin:0 auto 1.4rem;">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M9 16.5l4.5 4.5L23 11" stroke="var(--coral)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2 style="margin-bottom:0.6rem;">Köszönjük a jelentkezésed!</h2>
+      <p style="color:var(--text-2);margin-bottom:1.8rem;">Hamarosan felvesszük veled a kapcsolatot telefonon, hogy egyeztessük a részleteket.</p>
+      <button class="btn btn-secondary btn-wide" onclick="closeModal()">Bezárás</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+/* ─── MOBILE MENU ──────────────────────────────────── */
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+/* ─── MODAL + MailerLite ──────────────────────────── */
+const ML_ACTION = 'https://assets.mailerlite.com/jsonp/2386470/forms/188710462871832561/subscribe';
+
+function openModal(courseName) {
+  // Esemény-érték a MailerLite "esemeny" mezőhöz (pontos opciónevek)
+  document.getElementById('mlEsemeny').value = courseName;
+  document.getElementById('modalCourseName').textContent = courseName;
+
+  // Céges mezők csak a Céges AI képzésnél
+  const isCorporate = courseName.toLowerCase().includes('céges');
+  document.getElementById('mlCompanyFields').style.display = isCorporate ? 'block' : 'none';
+
+  // Cím
+  const isFree = courseName.toLowerCase().includes('szerda');
+  document.getElementById('modalTitle').textContent = isFree ? 'Foglalás' : 'Jelentkezés';
+
+  // Nézet visszaállítása az űrlapra
+  document.getElementById('modalFormView').style.display = 'block';
+  document.getElementById('modalSuccessView').style.display = 'none';
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOnBg(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+function submitMlForm(e) {
+  e.preventDefault();
+  const form = document.getElementById('mlForm');
+  const btn = document.getElementById('mlSubmitBtn');
+  const data = new URLSearchParams();
+  // Csak a kitöltött / látható mezőket küldjük
+  new FormData(form).forEach((val, key) => {
+    if (val !== '') data.append(key, val);
+  });
+  data.append('ml-submit', '1');
+  data.append('anticsrf', 'true');
+
+  btn.disabled = true;
+  btn.style.opacity = '0.7';
+
+  // no-cors: az adat elmegy, a választ nem olvassuk (MailerLite így működik böngészőből)
+  fetch(ML_ACTION, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: data.toString()
+  }).then(() => {
+    showMlSuccess(form, btn);
+  }).catch(() => {
+    // no-cors mellett a hibát sem látjuk biztosan; ettől még jellemzően megérkezik
+    showMlSuccess(form, btn);
+  });
+
+  return false;
+}
+function showMlSuccess(form, btn) {
+  form.reset();
+  btn.disabled = false;
+  btn.style.opacity = '1';
+  document.getElementById('modalFormView').style.display = 'none';
+  document.getElementById('modalSuccessView').style.display = 'block';
+}
+
+/* ─── CÉGES űrlap (saját szekció) ─────────────────── */
+function submitCegForm(e) {
+  e.preventDefault();
+  const form = document.getElementById('cegForm');
+  const btn = document.getElementById('cegSubmitBtn');
+  const data = new URLSearchParams();
+  new FormData(form).forEach((val, key) => { if (val !== '') data.append(key, val); });
+  data.append('ml-submit', '1');
+  data.append('anticsrf', 'true');
+  btn.disabled = true; btn.style.opacity = '0.7';
+  fetch(ML_ACTION, {
+    method: 'POST', mode: 'no-cors',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: data.toString()
+  }).then(() => {
+    document.getElementById('cegFormView').style.display = 'none';
+    document.getElementById('cegSuccessView').style.display = 'block';
+  }).catch(() => {
+    document.getElementById('cegFormView').style.display = 'none';
+    document.getElementById('cegSuccessView').style.display = 'block';
+  });
+  return false;
+}
+
+/* ─── SCROLL ANIMATIONS ───────────────────────────── */
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-up, .stagger').forEach(el => observer.observe(el));
+
+/* ─── COUNT-UP számok ─────────────────────────────── */
+function animateCount(el) {
+  const target = parseInt(el.dataset.count, 10);
+  if (isNaN(target)) return;
+  if (prefersReduced) { el.textContent = target; return; }
+  const duration = 1100;
+  const start = performance.now();
+  function tick(now) {
+    const p = Math.min((now - start) / duration, 1);
+    // easeOutCubic
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(eased * target);
+    if (p < 1) requestAnimationFrame(tick);
+    else el.textContent = target;
   }
+  requestAnimationFrame(tick);
+}
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { animateCount(e.target); countObserver.unobserve(e.target); }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.count-target').forEach(el => countObserver.observe(el));
 
-  function kovetkezo(kepzesKulcs) {
-    const lista = kepzesEsemenyei(kepzesKulcs);
-    return lista.length ? lista[0] : null;
+/* ─── NAV SCROLL ──────────────────────────────────── */
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  nav.style.boxShadow = window.scrollY > 10 ? 'var(--sh-md)' : 'none';
+});
+
+/* ─── PROMO BANNER carousel ───────────────────────── */
+(function() {
+  const slides = Array.from(document.querySelectorAll('.promo-slide'));
+  const dotsWrap = document.getElementById('promoDots');
+  if (!slides.length || !dotsWrap) return;
+
+  let current = 0;
+  let timer = null;
+  const INTERVAL = 4500;
+
+  // Pöttyök generálása
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'pd' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', (i + 1) + '. promó');
+    dot.addEventListener('click', (e) => { e.preventDefault(); goTo(i); restart(); });
+    dotsWrap.appendChild(dot);
+  });
+  const dots = Array.from(dotsWrap.children);
+
+  function goTo(idx) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = idx % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
   }
+  function next() { goTo(current + 1); }
+  function start() { timer = setInterval(next, INTERVAL); }
+  function restart() { clearInterval(timer); start(); }
 
-  return {
-    KEPZESEK: KEPZESEK,
-    osszesEsemeny: osszesEsemeny,
-    kepzesEsemenyei: kepzesEsemenyei,
-    kovetkezo: kovetkezo,
-    ferohelyStatusz: ferohelyStatusz,
-    rovidDatum: rovidDatum,
-    honapCimke: honapCimke,
-    teljesDatum: teljesDatum,
-    napNev: napNev,
-  };
+  // Megáll, ha az egér rajta van
+  const banner = document.getElementById('promoBanner');
+  banner.addEventListener('mouseenter', () => clearInterval(timer));
+  banner.addEventListener('mouseleave', start);
 
+  start();
 })();
+
+</script>
+
+<!-- ═══ KÖZÖS ESEMÉNY-ADATOK (egyetlen forrás) ═══ -->
+<script src="esemenyek.js"></script>
+<script>
+/* A képzéskártyák "Következő időpont" jelzését az esemenyek.js-ből töltjük fel. */
+(function () {
+  if (!window.BACSKAI) return;
+  const CAL = '<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="2" y="3" width="11" height="10" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M5 1.5v3M10 1.5v3M2 6.5h11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+
+  document.querySelectorAll('.course-next[data-kepzes]').forEach(function (el) {
+    const kulcs = el.getAttribute('data-kepzes');
+    const kov = window.BACSKAI.kovetkezo(kulcs);
+
+    let label, ertek;
+    if (kulcs === 'ceges') {
+      label = 'Időpont';
+      ertek = 'Veletek egyeztetve';
+    } else if (kov) {
+      label = 'Következő időpont';
+      ertek = window.BACSKAI.rovidDatum(kov._dt);
+    } else {
+      label = 'Következő időpont';
+      ertek = 'Hamarosan';
+    }
+
+    el.innerHTML =
+      '<span class="cn-icon">' + CAL + '</span>' +
+      '<span class="cn-text">' +
+        '<span class="cn-label">' + label + '</span>' +
+        '<span class="cn-date">' + ertek + '</span>' +
+      '</span>';
+  });
+})();
+</script>
+</body>
+</html>
