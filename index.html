@@ -1482,6 +1482,7 @@ footer {
   -webkit-backdrop-filter: blur(8px);
   display: none; align-items: center; justify-content: center;
   padding: 2rem;
+  overflow-y: auto;
 }
 .modal-overlay.open { display: flex; }
 .modal {
@@ -1489,9 +1490,15 @@ footer {
   border-radius: var(--r-xl);
   padding: 2.5rem;
   max-width: 480px; width: 100%;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
   position: relative;
   box-shadow: var(--sh-lg);
   animation: modalIn 0.3s cubic-bezier(.34,1.4,.5,1);
+}
+@media (max-width: 600px) {
+  .modal-overlay { padding: 1rem; align-items: flex-start; }
+  .modal { padding: 1.8rem 1.5rem; max-height: none; margin: 1rem 0; }
 }
 @keyframes modalIn {
   from { opacity: 0; transform: scale(0.96) translateY(12px); }
@@ -1525,6 +1532,21 @@ footer {
   margin-bottom: 1.6rem;
   padding-bottom: 1.2rem;
   border-bottom: 1px solid var(--border);
+}
+.modal-dates {
+  margin: -0.8rem 0 1.6rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+.modal-dates-label {
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.04em; color: var(--muted); margin-bottom: 0.55rem;
+}
+.modal-dates-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.modal-date-pill {
+  font-size: 0.82rem; font-weight: 600; color: var(--ink);
+  background: var(--surface2); border: 1px solid var(--border);
+  padding: 0.35rem 0.75rem; border-radius: 999px;
 }
 .payment-options {
   display: grid; grid-template-columns: 1fr 1fr;
@@ -2234,6 +2256,7 @@ function closePrivacyOnBg(e){if(e.target===document.getElementById('privacyOverl
     <div id="modalFormView">
       <h2 id="modalTitle">Jelentkezés</h2>
       <div class="modal-course-name" id="modalCourseName">–</div>
+      <div class="modal-dates" id="modalDates" style="display:none;"></div>
 
       <form id="mlForm" onsubmit="return submitMlForm(event)">
         <!-- Esemény (rejtett, a kártyából töltődik) -->
@@ -2312,10 +2335,35 @@ function toggleMenu() {
 /* ─── MODAL + MailerLite ──────────────────────────── */
 const ML_ACTION = 'https://assets.mailerlite.com/jsonp/2386470/forms/188710462871832561/subscribe';
 
+function bacskaiKulcsCourseName(courseName) {
+  if (!window.BACSKAI) return null;
+  var K = window.BACSKAI.KEPZESEK;
+  for (var k in K) { if (K[k].modal === courseName) return k; }
+  return null;
+}
 function openModal(courseName) {
   // Esemény-érték a MailerLite "esemeny" mezőhöz (pontos opciónevek)
   document.getElementById('mlEsemeny').value = courseName;
   document.getElementById('modalCourseName').textContent = courseName;
+
+  // Legközelebbi időpontok (max 3) az esemenyek.js-ből
+  var datesBox = document.getElementById('modalDates');
+  if (datesBox) {
+    var datesHtml = '';
+    var kulcs = bacskaiKulcsCourseName(courseName);
+    if (kulcs && window.BACSKAI) {
+      var lista = window.BACSKAI.kepzesEsemenyei(kulcs).slice(0, 3);
+      if (lista.length) {
+        datesHtml = '<div class="modal-dates-label">Legközelebbi időpontok</div><div class="modal-dates-list">' +
+          lista.map(function (e) {
+            return '<span class="modal-date-pill">' + window.BACSKAI.rovidDatum(e._dt) + '</span>';
+          }).join('') +
+          '</div>';
+      }
+    }
+    datesBox.innerHTML = datesHtml;
+    datesBox.style.display = datesHtml ? 'block' : 'none';
+  }
 
   // Céges mezők csak a Céges AI képzésnél
   const isCorporate = courseName.toLowerCase().includes('céges');
