@@ -43,71 +43,72 @@
 
 window.BACSKAI_ESEMENYEK = [
 
-  // ─── 2026. JÚLIUS ───
-  {
-    kepzes: "szerdai",
-    datum: "2026-07-08",
-    ido: "17:30–19:30",
-    helyszin: "Baja, központ",
-    ferohely: 30,
-    foglalt: 12,
-  },
-  {
-    kepzes: "alapozo",
-    datum: "2026-07-18",
-    ido: "09:00–12:00",
-    helyszin: "Baja, képzőterem",
-    ferohely: 20,
-    foglalt: 8,
-    megjegyzes: "1. nap",
-  },
-
-  {
-    kepzes: "szerdai",
-    datum: "2026-07-22",
-    ido: "17:30–19:30",
-    helyszin: "Baja, központ",
-    ferohely: 30,
-    foglalt: 4,
-  },
-
   // ─── 2026. AUGUSZTUS ───
   {
     kepzes: "szerdai",
-    datum: "2026-08-05",
+    datum: "2026-08-12",
     ido: "17:30–19:30",
-    helyszin: "Baja, központ",
-    ferohely: 30,
-    foglalt: 2,
-  },
-  {
-    kepzes: "halado",
-    datum: "2026-08-22",
-    ido: "09:00–16:00",
     helyszin: "Baja, képzőterem",
-    ferohely: 10,
-    foglalt: 7,
+    ferohely: 30,
+    foglalt: 0,
   },
 
   {
     kepzes: "szerdai",
-    datum: "2026-08-19",
+    datum: "2026-08-26",
     ido: "17:30–19:30",
-    helyszin: "Baja, központ",
+    helyszin: "Baja, képzőterem",
     ferohely: 30,
-    foglalt: 1,
+    foglalt: 0,
   },
 
   // ─── 2026. SZEPTEMBER ───
   {
+    kepzes: "szerdai",
+    datum: "2026-09-09",
+    ido: "17:30–19:30",
+    helyszin: "Baja, képzőterem",
+    ferohely: 30,
+    foglalt: 0,
+  },
+  {
     kepzes: "alapozo",
-    datum: "2026-09-12",
-    ido: "09:00–12:00",
+    datum: "2026-09-11",
+    ido: "09:00–16:00",
     helyszin: "Baja, képzőterem",
     ferohely: 20,
-    foglalt: 20,
+    foglalt: 0,
     megjegyzes: "1. nap",
   },
+
+  {
+    kepzes: "halado",
+    datum: "2026-09-25",
+    ido: "09:00–18:00",
+    helyszin: "Baja, képzőterem",
+    ferohely: 10,
+    foglalt: 0,
+  },
+
+   // ─── 2026. OKTÓBER ───
+  {
+    kepzes: "szerdai",
+    datum: "2026-10-09",
+    ido: "17:30–19:30",
+    helyszin: "Baja, képzőterem",
+    ferohely: 30,
+    foglalt: 0,
+  },
+  {
+    kepzes: "alapozo",
+    datum: "2026-10-09",
+    ido: "09:00–16:00",
+    helyszin: "Baja, képzőterem",
+    ferohely: 20,
+    foglalt: 0,
+    megjegyzes: "1. nap",
+  },
+
 
 ];
 
