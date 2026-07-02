@@ -1410,6 +1410,7 @@ footer {
   -webkit-backdrop-filter: blur(8px);
   display: none; align-items: center; justify-content: center;
   padding: 2rem;
+  overflow-y: auto;
 }
 .modal-overlay.open { display: flex; }
 .modal {
@@ -1417,9 +1418,15 @@ footer {
   border-radius: var(--r-xl);
   padding: 2.5rem;
   max-width: 480px; width: 100%;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
   position: relative;
   box-shadow: var(--sh-lg);
   animation: modalIn 0.3s cubic-bezier(.34,1.4,.5,1);
+}
+@media (max-width: 600px) {
+  .modal-overlay { padding: 1rem; align-items: flex-start; }
+  .modal { padding: 1.8rem 1.5rem; max-height: none; margin: 1rem 0; }
 }
 @keyframes modalIn {
   from { opacity: 0; transform: scale(0.96) translateY(12px); }
@@ -1747,7 +1754,7 @@ footer {
 }
 .subpage-cta p { color: rgba(255,255,255,0.78); margin-bottom: 1.8rem; position: relative; font-weight: 500; }
 .breadcrumb {
-  max-width: 1180px; margin: 0 auto; padding: 1.2rem 2rem 0;
+  max-width: 1180px; margin: 0 auto; padding: calc(70px + 1.2rem) 2rem 0;
   font-size: 0.85rem; color: var(--muted); font-weight: 600;
 }
 .breadcrumb a { color: var(--coral); }
@@ -1916,38 +1923,6 @@ document.addEventListener('DOMContentLoaded', function () {
   <a href="rendezvenyek.html" class="mobile-menu-cta">Képzési időpontok →</a>
 </div>
 
-<!-- ═══ NAGY SLIDER BANNER ═══ -->
-<div class="page-slider" id="pageSlider">
-  <div class="slider-track" id="sliderTrack">
-    <div class="slider-slide active">
-      <div class="slider-inner"><div class="slider-content">
-        <span class="slider-tag"><span class="sdot"></span> Céges · helyszíni · egyedi</span>
-        <h2>AI képzés<br>a csapatodnak</h2>
-        <p>Ha nem egy embernek, hanem egy egész csapatnak szeretnél közös AI-alapot és közös nyelvet — ez a képzés nektek szól.</p>
-        <a href="#ceges-jelentkezes" class="slider-cta">Ajánlatot kérek →</a>
-      </div></div>
-    </div>
-    <div class="slider-slide">
-      <div class="slider-inner"><div class="slider-content">
-        <span class="slider-tag"><span class="sdot"></span> Testreszabott</span>
-        <h2>A ti munkátokra<br>szabva</h2>
-        <p>Nem általános tananyag: az AI Alapozó vagy AI Haladó tematikáját a ti munkaköreitekhez és üzleti problémáitokhoz igazítjuk.</p>
-        <a href="#ceges-jelentkezes" class="slider-cta">Beszéljünk róla →</a>
-      </div></div>
-    </div>
-    <div class="slider-slide">
-      <div class="slider-inner"><div class="slider-content">
-        <span class="slider-tag"><span class="sdot"></span> Helyben</span>
-        <h2>Mi megyünk<br>hozzátok</h2>
-        <p>Nem kell elutaznotok — a képzést a ti irodátokban vagy választott helyszínen tartjuk, Baján és a régióban.</p>
-        <a href="#ceges-jelentkezes" class="slider-cta">Ajánlatot kérek →</a>
-      </div></div>
-    </div>
-  </div>
-  <button class="slider-arrow prev" id="sliderPrev" aria-label="Előző"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4l-5 5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-  <button class="slider-arrow next" id="sliderNext" aria-label="Következő"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 4l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-  <div class="slider-dots" id="sliderDots" aria-hidden="true"></div>
-</div>
 
 <div class="breadcrumb"><a href="index.html">Főoldal</a> &nbsp;/&nbsp; Céges AI képzés</div>
 
@@ -2321,87 +2296,9 @@ window.addEventListener('scroll', () => {
   nav.style.boxShadow = window.scrollY > 10 ? 'var(--sh-md)' : 'none';
 });
 
-/* ─── PROMO BANNER carousel ───────────────────────── */
-(function() {
-  const slides = Array.from(document.querySelectorAll('.promo-slide'));
-  const dotsWrap = document.getElementById('promoDots');
-  if (!slides.length || !dotsWrap) return;
 
-  let current = 0;
-  let timer = null;
-  const INTERVAL = 4500;
 
-  // Pöttyök generálása
-  slides.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'pd' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', (i + 1) + '. promó');
-    dot.addEventListener('click', (e) => { e.preventDefault(); goTo(i); restart(); });
-    dotsWrap.appendChild(dot);
-  });
-  const dots = Array.from(dotsWrap.children);
 
-  function goTo(idx) {
-    slides[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    current = idx % slides.length;
-    slides[current].classList.add('active');
-    dots[current].classList.add('active');
-  }
-  function next() { goTo(current + 1); }
-  function start() { timer = setInterval(next, INTERVAL); }
-  function restart() { clearInterval(timer); start(); }
-
-  // Megáll, ha az egér rajta van
-  const banner = document.getElementById('promoBanner');
-  banner.addEventListener('mouseenter', () => clearInterval(timer));
-  banner.addEventListener('mouseleave', start);
-
-  start();
-})();
-
-/* ─── NAGY SLIDER BANNER (aloldalak) ──────────────── */
-(function() {
-  const slides = Array.from(document.querySelectorAll('.slider-slide'));
-  const dotsWrap = document.getElementById('sliderDots');
-  const prev = document.getElementById('sliderPrev');
-  const next = document.getElementById('sliderNext');
-  if (slides.length < 2 || !dotsWrap) return;
-
-  let current = 0;
-  let timer = null;
-  const INTERVAL = 6000;
-
-  slides.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'sd' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', (i + 1) + '. dia');
-    dot.addEventListener('click', () => { goTo(i); restart(); });
-    dotsWrap.appendChild(dot);
-  });
-  const dots = Array.from(dotsWrap.children);
-
-  function goTo(idx) {
-    slides[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    current = (idx + slides.length) % slides.length;
-    slides[current].classList.add('active');
-    dots[current].classList.add('active');
-  }
-  function go(dir) { goTo(current + dir); }
-  function start() { timer = setInterval(() => go(1), INTERVAL); }
-  function restart() { clearInterval(timer); start(); }
-
-  if (prev) prev.addEventListener('click', () => { go(-1); restart(); });
-  if (next) next.addEventListener('click', () => { go(1); restart(); });
-
-  const slider = document.getElementById('pageSlider');
-  if (slider) {
-    slider.addEventListener('mouseenter', () => clearInterval(timer));
-    slider.addEventListener('mouseleave', start);
-  }
-  start();
-})();
 </script>
 <div class="modal-overlay" id="privacyOverlay" onclick="closePrivacyOnBg(event)">
   <div class="modal" style="max-width:720px;">
