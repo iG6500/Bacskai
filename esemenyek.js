@@ -2,10 +2,12 @@
    BÁCSKAI AKADÉMIA — RENDEZVÉNYEK (egyetlen közös adatforrás)
    ═══════════════════════════════════════════════════════════════════
 
-   EZT A FÁJLT KELL SZERKESZTENED, HA IDŐPONTOT VÁLTOZTATSZ.
-   Ha itt átírsz egy dátumot, az AUTOMATIKUSAN frissül a főoldalon
-   (a képzéskártyák "Következő időpont" jelzésén) ÉS a Rendezvények
-   oldalon is. Sehol máshol nem kell módosítanod.
+   EZT A FÁJLT KELL SZERKESZTENED, HA IDŐPONTOT VAGY LÉTSZÁMOT VÁLTOZTATSZ.
+   Ha itt átírsz valamit, az AUTOMATIKUSAN frissül MINDENHOL:
+     • a főoldalon (a képzéskártyák "Következő időpont" jelzésén),
+     • a Rendezvények oldalon,
+     • és az egyes képzések aloldalain ("Válassz időpontot és jelentkezz").
+   Sehol máshol nem kell módosítanod.
 
    ─── Hogyan adj hozzá vagy módosíts egy eseményt? ───
 
@@ -16,76 +18,95 @@
        datum: "2026-07-18",            // dátum ÉV-HÓ-NAP formában
        ido: "09:00–12:00",             // napszak / idősáv
        helyszin: "Baja, képzőterem",   // hol lesz
-       megjegyzes: "1. nap"            // opcionális kis kiegészítés (elhagyható)
+       ferohely: 20,                   // ÖSSZES hely ezen az alkalmon
+       foglalt: 8,                     // ennyien MÁR jelentkeztek
+       megjegyzes: "1. nap"            // opcionális kiegészítés (elhagyható)
      },
+
+   ─── A BETELT állapot ───
+
+   A rendszer a ferohely és foglalt számokból dolgozik, de a látogató
+   felé CSAK a "Betelt" állapotot mutatja — azt nem, hogy hány hely van
+   még. Ha a foglalt eléri a férőhelyet, a jelzés "Betelt" lesz és a
+   jelentkezés gomb letiltódik. Kézi teltre jelölés: telt: true.
 
    A "kepzes" mező csak ez a négy érték lehet:
      "szerdai"  →  SzerdAI est (ingyenes)
      "alapozo"  →  AI Alapozó
      "halado"   →  AI Haladó
-     "ceges"    →  Céges AI-képzés
+     "ceges"    →  Céges AI-képzés (általában NEM ide, egyedi egyeztetés)
 
    A dátumot MINDIG "ÉV-HÓ-NAP" alakban írd (pl. 2026-09-05).
-   A napnevet és a "júl. 5." formátumot a rendszer AUTOMATIKUSAN
-   számolja ki a dátumból — azt nem kell beírnod.
-
-   A múltbeli eseményeket a rendszer automatikusan kihagyja, a
-   képzéskártyán mindig a legközelebbi jövőbeli időpont jelenik meg.
-   Nyugodtan hagyd bent a régi sorokat, vagy töröld őket — mindegy.
+   A napnevet és a "júl. 5." formátumot a rendszer automatikusan
+   számolja. A múltbeli eseményeket automatikusan kihagyja.
    ═══════════════════════════════════════════════════════════════════ */
 
 window.BACSKAI_ESEMENYEK = [
 
+  // ─── 2026. JÚLIUS ───
+  {
+    kepzes: "szerdai",
+    datum: "2026-07-08",
+    ido: "17:30–19:30",
+    helyszin: "Baja, központ",
+    ferohely: 30,
+    foglalt: 12,
+  },
+  {
+    kepzes: "alapozo",
+    datum: "2026-07-18",
+    ido: "09:00–12:00",
+    helyszin: "Baja, képzőterem",
+    ferohely: 20,
+    foglalt: 8,
+    megjegyzes: "1. nap",
+  },
+
+  {
+    kepzes: "szerdai",
+    datum: "2026-07-22",
+    ido: "17:30–19:30",
+    helyszin: "Baja, központ",
+    ferohely: 30,
+    foglalt: 4,
+  },
+
   // ─── 2026. AUGUSZTUS ───
   {
     kepzes: "szerdai",
-    datum: "2026-08-12",
+    datum: "2026-08-05",
     ido: "17:30–19:30",
-    helyszin: "Baja, képzőterem",
+    helyszin: "Baja, központ",
+    ferohely: 30,
+    foglalt: 2,
   },
   {
-    kepzes: "szerdai",
-    datum: "2026-08-26",
-    ido: "17:30–19:30",
+    kepzes: "halado",
+    datum: "2026-08-22",
+    ido: "09:00–16:00",
     helyszin: "Baja, képzőterem",
+    ferohely: 10,
+    foglalt: 7,
+  },
+
+  {
+    kepzes: "szerdai",
+    datum: "2026-08-19",
+    ido: "17:30–19:30",
+    helyszin: "Baja, központ",
+    ferohely: 30,
+    foglalt: 1,
   },
 
   // ─── 2026. SZEPTEMBER ───
   {
-    kepzes: "szerdai",
-    datum: "2026-09-09",
-    ido: "17:30–19:30",
-    helyszin: "Baja, képzőterem",
-  },
-  {
     kepzes: "alapozo",
-    datum: "2026-09-11",
-    ido: "09:00–16:00",
+    datum: "2026-09-12",
+    ido: "09:00–12:00",
     helyszin: "Baja, képzőterem",
-    megjegyzes: "6 órás",
-  },
-  {
-    kepzes: "halado",
-    datum: "2026-09-18",
-    ido: "09:00–18:00",
-    helyszin: "Baja, képzőterem",
-    megjegyzes: "teljes nap",
-  },
-
- // ─── 2026. OKTÓBER ───
-  {
-    kepzes: "alapozo",
-    datum: "2026-10-08",
-    ido: "09:00–16:00",
-    helyszin: "Baja, képzőterem",
-    megjegyzes: "6 órás",
-  },
-  {
-    kepzes: "halado",
-    datum: "2026-10-22",
-    ido: "09:00–18:00",
-    helyszin: "Baja, képzőterem",
-    megjegyzes: "teljes nap",
+    ferohely: 20,
+    foglalt: 20,
+    megjegyzes: "1. nap",
   },
 
 ];
@@ -97,7 +118,6 @@ window.BACSKAI_ESEMENYEK = [
 
 window.BACSKAI = (function () {
 
-  // Képzés-metaadatok: cím, jelentkezés neve, aloldal, kártyacímke stílusa
   const KEPZESEK = {
     szerdai: {
       cim: "SzerdAI est — AI a mindennapi munkában",
@@ -152,7 +172,6 @@ window.BACSKAI = (function () {
   const NAP_NEV = ["vasárnap", "hétfő", "kedd", "szerda", "csütörtök", "péntek", "szombat"];
 
   function parse(datumStr) {
-    // "2026-07-18" → Date (helyi idő, dél, hogy ne csússzon időzóna miatt)
     const [y, m, d] = datumStr.split("-").map(Number);
     return new Date(y, m - 1, d, 12, 0, 0);
   }
@@ -163,20 +182,32 @@ window.BACSKAI = (function () {
     return t;
   }
 
-  // "júl. 18. (szombat)"
   function rovidDatum(dt) {
     return HONAP_ROVID[dt.getMonth()] + " " + dt.getDate() + ". (" + NAP_NEV[dt.getDay()] + ")";
   }
-  // "2026. július"
   function honapCimke(dt) {
     return dt.getFullYear() + ". " + HONAP_TELJES[dt.getMonth()];
   }
-  // "2026. július 18., szombat"
   function teljesDatum(dt) {
-    return dt.getFullYear() + ". " + HONAP_TELJES[dt.getMonth()] + " " + dt.getDate() + "., " + NAP_NEV[dt.getDay()];
+    return dt.getFullYear() + ". " + HONAP_TELJES[dt.getMonth()] + " " + dt.getDate() + ".";
+  }
+  function napNev(dt) {
+    return NAP_NEV[dt.getDay()];
   }
 
-  // Az összes esemény feldúsítva + rendezve dátum szerint
+  /* Betelt-állapot egy eseményre. A szabad helyek számát NEM tesszük ki
+     az oldalra — csak a "Betelt" státuszt jelezzük.
+     Visszaad: { telt, szoveg, szin, pont } */
+  function ferohelyStatusz(e) {
+    const fh = (typeof e.ferohely === "number") ? e.ferohely : null;
+    const fg = (typeof e.foglalt === "number") ? e.foglalt : 0;
+    const telt = (e.telt === true) || (fh !== null && fg >= fh);
+    if (telt) {
+      return { telt: true, szoveg: "Betelt", szin: "#94a3b8", pont: "#ef4444" };
+    }
+    return { telt: false, szoveg: "Jelentkezés nyitva", szin: "var(--coral)", pont: "#22c55e" };
+  }
+
   function osszesEsemeny() {
     const nyers = window.BACSKAI_ESEMENYEK || [];
     return nyers
@@ -187,26 +218,33 @@ window.BACSKAI = (function () {
           _dt: dt,
           meta: meta,
           jovobeli: dt >= maNulla(),
+          statusz: ferohelyStatusz(e),
         });
       })
       .sort(function (a, b) { return a._dt - b._dt; });
   }
 
-  // Egy adott képzés legközelebbi jövőbeli eseménye (vagy null)
-  function kovetkezo(kepzesKulcs) {
-    const lista = osszesEsemeny().filter(function (e) {
+  function kepzesEsemenyei(kepzesKulcs) {
+    return osszesEsemeny().filter(function (e) {
       return e.kepzes === kepzesKulcs && e.jovobeli;
     });
+  }
+
+  function kovetkezo(kepzesKulcs) {
+    const lista = kepzesEsemenyei(kepzesKulcs);
     return lista.length ? lista[0] : null;
   }
 
   return {
     KEPZESEK: KEPZESEK,
     osszesEsemeny: osszesEsemeny,
+    kepzesEsemenyei: kepzesEsemenyei,
     kovetkezo: kovetkezo,
+    ferohelyStatusz: ferohelyStatusz,
     rovidDatum: rovidDatum,
     honapCimke: honapCimke,
     teljesDatum: teljesDatum,
+    napNev: napNev,
   };
 
 })();
