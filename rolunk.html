@@ -1634,6 +1634,89 @@ footer {
 /* Mobil nav-fix: a felso nav-cta gomb elrejtve mobilon (kilogott); a menuben marad elerheto */
 @media (max-width: 960px) { nav .nav-cta { display: none; } }
 </style>
+<!-- BACSKAI:POLISH:START -->
+<style>
+/* ═══ Modern polish réteg (közös, additív) ═══ */
+
+/* Az oldal mindig világos sémájú — iOS/Android sötét mód ne tegye sötét
+   vászonra a sötét szöveget */
+:root { color-scheme: light only; }
+html, body { background: var(--bg, #F7F1E3); }
+
+/* Üres dátum-badge soha ne látszódjon (pl. ha az esemenyek.js nem töltődik be) */
+.course-next:empty { display: none; }
+
+/* Gördülés: sima, és az anchor-ugrások nem csúsznak a fix nav alá */
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+
+/* Márkaszínű szövegkijelölés */
+::selection { background: var(--coral, #4B6584); color: #fff; }
+
+/* Billentyűzetes fókusz: borostyán gyűrű (a11y + modern) */
+:focus-visible { outline: 2px solid var(--amber, #D9941F); outline-offset: 2px; border-radius: 4px; }
+
+/* Egységes gomb-mikrointerakció */
+.btn, .nav-cta, .slider-cta {
+  transition: transform .18s cubic-bezier(.4,.2,.2,1),
+              box-shadow .18s cubic-bezier(.4,.2,.2,1),
+              background .18s ease, color .18s ease;
+}
+.btn:hover:not([disabled]), .nav-cta:hover, .slider-cta:hover { transform: translateY(-1px); }
+.btn:active:not([disabled]), .nav-cta:active, .slider-cta:active { transform: translateY(0); }
+
+/* Időpontsorok finom emelkedése hoverre */
+.ev:not(.telt) { transition: transform .18s cubic-bezier(.4,.2,.2,1), box-shadow .18s cubic-bezier(.4,.2,.2,1); }
+.ev:not(.telt):hover { transform: translateY(-2px); box-shadow: var(--sh-md, 0 6px 18px rgba(43,51,64,.08)); }
+
+/* Footer: csendes márka-akcent hajszálvonal */
+footer { position: relative; }
+footer::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--coral, #4B6584), var(--amber, #D9941F));
+  opacity: .55;
+}
+
+/* Mobil menü CTA pill (a kanonikus menü használja) */
+.mobile-menu a.mobile-menu-cta {
+  margin-top: .4rem; background: var(--coral, #4B6584); color: #fff;
+  font-weight: 700; text-align: center; padding: .85rem 1.4rem;
+  border-radius: var(--r-pill, 999px); box-shadow: var(--sh-coral-sm, 0 4px 14px rgba(75,101,132,.3));
+}
+
+/* Scroll-reveal az aloldalak szekcióira (a főoldal saját fade-up rendszere érintetlen) */
+.subpage-section .sr-reveal {
+  opacity: 0; transform: translateY(14px);
+  transition: opacity .55s cubic-bezier(.4,.2,.2,1), transform .55s cubic-bezier(.4,.2,.2,1);
+}
+.subpage-section .sr-reveal.sr-in { opacity: 1; transform: none; }
+
+/* Csökkentett mozgás tisztelete */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .btn, .nav-cta, .slider-cta, .ev { transition: none !important; }
+  .btn:hover, .nav-cta:hover, .slider-cta:hover, .ev:hover { transform: none !important; }
+  .subpage-section .sr-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+</style>
+<script>
+/* Scroll-reveal: csak aloldalakon (ahol .subpage-section van), IntersectionObserverrel */
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var targets = document.querySelectorAll('.subpage-section > .subpage-narrow > *, .subpage-section > .subpage-wide > *');
+  if (!targets.length || !('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add('sr-in'); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  targets.forEach(function (el, i) {
+    el.classList.add('sr-reveal');
+    el.style.transitionDelay = Math.min(i % 6, 4) * 45 + 'ms';
+    io.observe(el);
+  });
+});
+</script>
+<!-- BACSKAI:POLISH:END -->
 </head>
 <body>
 
@@ -1642,20 +1725,21 @@ footer {
   <a href="index.html" class="nav-logo">BácskAI <span>Akadémia</span></a>
   <ul class="nav-links">
     <li><a href="index.html#kinek">Kinek szól?</a></li>
-    <li><a href="index.html#haszon">Gyakorlati haszon</a></li>
-    <li><a href="index.html#kepzesek">Képzéseink</a></li>
-    <li><a href="index.html#faq">GYIK</a></li>
+    <li><a href="index.html#kepzesek">Képzések</a></li>
+    <li><a href="ceges-ai-kepzes.html">Céges képzés</a></li>
+    <li><a href="index.html#oktatok">Oktatók</a></li>
   </ul>
   <div style="display:flex;align-items:center;gap:0.8rem;">
-    <a href="index.html#kepzesek" class="nav-cta">Képzések →</a>
+    <a href="rendezvenyek.html" class="nav-cta">Képzési időpontok →</a>
     <button class="hamburger" onclick="toggleMenu()" aria-label="Menü"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html#kinek">Kinek szól?</a>
-  <a href="index.html#haszon">Gyakorlati haszon</a>
-  <a href="index.html#kepzesek">Képzéseink</a>
-  <a href="index.html#faq">GYIK</a>
+  <a href="index.html#kepzesek">Képzések</a>
+  <a href="ceges-ai-kepzes.html">Céges képzés</a>
+  <a href="index.html#oktatok">Oktatók</a>
+  <a href="rendezvenyek.html" class="mobile-menu-cta">Képzési időpontok →</a>
 </div>
 
 <!-- FEJLÉC -->
@@ -1711,7 +1795,8 @@ footer {
           <li><a href="index.html#kinek">Kinek szól?</a></li>
           <li><a href="index.html#haszon">Gyakorlati haszon</a></li>
           <li><a href="index.html#kepzesek">Képzéseink</a></li>
-          <li><a href="index.html#faq">GYIK</a></li>
+          <li><a href="index.html#oktatok">Oktatók</a></li>
+          <li><a href="rendezvenyek.html">Képzési időpontok</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -1734,7 +1819,7 @@ footer {
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 BácskAI Akadémia. Minden jog fenntartva. · <a href="#" onclick="openPrivacy(); return false;" style="color:inherit;text-decoration:underline;">Adatkezelési tájékoztató</a></p>
+      <p>© 2026 BácskAI Akadémia. Minden jog fenntartva. · <a href="#" onclick="openPrivacy(); return false;" style="color:inherit;text-decoration:underline;">Adatvédelem</a></p>
       <p>AI a napi munkához — érthetően, gyakorlatiasan, Baján.</p>
     </div>
   </div>
