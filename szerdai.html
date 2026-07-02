@@ -1474,7 +1474,13 @@ footer {
 .modal-date-pill {
   font-size: 0.82rem; font-weight: 600; color: var(--ink);
   background: var(--surface2); border: 1px solid var(--border);
-  padding: 0.35rem 0.75rem; border-radius: 999px;
+  padding: 0.4rem 0.85rem; border-radius: 999px;
+  cursor: pointer; font-family: inherit; line-height: 1.2;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.modal-date-pill:hover { border-color: var(--coral); color: var(--coral); }
+.modal-date-pill.selected {
+  background: var(--coral); border-color: var(--coral); color: #fff;
 }
 .payment-options {
   display: grid; grid-template-columns: 1fr 1fr;
@@ -2156,6 +2162,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <form id="mlForm" onsubmit="return submitMlForm(event)">
         <!-- Esemény (rejtett, a kártyából töltődik) -->
         <input type="hidden" name="fields[esemeny]" id="mlEsemeny" value="">
+        <input type="hidden" name="fields[state]" id="mlIdopont" value="">
 
         <div style="display:flex;gap:0.7rem;">
           <div class="form-group" style="flex:1;">
@@ -2236,6 +2243,16 @@ function bacskaiKulcsCourseName(courseName) {
   for (var k in K) { if (K[k].modal === courseName) return k; }
   return null;
 }
+function selectDate(btn) {
+  var box = btn.closest('.modal-dates-list');
+  if (box) {
+    var all = box.querySelectorAll('.modal-date-pill');
+    for (var i = 0; i < all.length; i++) all[i].classList.remove('selected');
+  }
+  btn.classList.add('selected');
+  var idoInput = document.getElementById('mlIdopont');
+  if (idoInput) idoInput.value = btn.getAttribute('data-datum');
+}
 function openModal(courseName) {
   // Esemény-érték a MailerLite "esemeny" mezőhöz (pontos opciónevek)
   document.getElementById('mlEsemeny').value = courseName;
@@ -2249,9 +2266,10 @@ function openModal(courseName) {
     if (kulcs && window.BACSKAI) {
       var lista = window.BACSKAI.kepzesEsemenyei(kulcs).slice(0, 3);
       if (lista.length) {
-        datesHtml = '<div class="modal-dates-label">Legközelebbi időpontok</div><div class="modal-dates-list">' +
+        datesHtml = '<div class="modal-dates-label">Válaszd ki, melyik időpont érdekel:</div><div class="modal-dates-list">' +
           lista.map(function (e) {
-            return '<span class="modal-date-pill">' + window.BACSKAI.rovidDatum(e._dt) + '</span>';
+            var d = window.BACSKAI.rovidDatum(e._dt);
+            return '<button type="button" class="modal-date-pill" data-datum="' + d + '" onclick="selectDate(this)">' + d + '</button>';
           }).join('') +
           '</div>';
       }
@@ -2259,6 +2277,9 @@ function openModal(courseName) {
     datesBox.innerHTML = datesHtml;
     datesBox.style.display = datesHtml ? 'block' : 'none';
   }
+  // Korábbi dátumválasztás nullázása minden nyitáskor
+  var idoInput = document.getElementById('mlIdopont');
+  if (idoInput) idoInput.value = '';
 
   // Céges mezők csak a Céges AI képzésnél
   const isCorporate = courseName.toLowerCase().includes('céges');
