@@ -109,7 +109,6 @@ window.BACSKAI_ESEMENYEK = [
     megjegyzes: "1. nap",
   },
 
-
 ];
 
 
