@@ -1410,6 +1410,7 @@ footer {
   -webkit-backdrop-filter: blur(8px);
   display: none; align-items: center; justify-content: center;
   padding: 2rem;
+  overflow-y: auto;
 }
 .modal-overlay.open { display: flex; }
 .modal {
@@ -1417,9 +1418,15 @@ footer {
   border-radius: var(--r-xl);
   padding: 2.5rem;
   max-width: 480px; width: 100%;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
   position: relative;
   box-shadow: var(--sh-lg);
   animation: modalIn 0.3s cubic-bezier(.34,1.4,.5,1);
+}
+@media (max-width: 600px) {
+  .modal-overlay { padding: 1rem; align-items: flex-start; }
+  .modal { padding: 1.8rem 1.5rem; max-height: none; margin: 1rem 0; }
 }
 @keyframes modalIn {
   from { opacity: 0; transform: scale(0.96) translateY(12px); }
@@ -1453,6 +1460,21 @@ footer {
   margin-bottom: 1.6rem;
   padding-bottom: 1.2rem;
   border-bottom: 1px solid var(--border);
+}
+.modal-dates {
+  margin: -0.8rem 0 1.6rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+.modal-dates-label {
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.04em; color: var(--muted); margin-bottom: 0.55rem;
+}
+.modal-dates-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.modal-date-pill {
+  font-size: 0.82rem; font-weight: 600; color: var(--ink);
+  background: var(--surface2); border: 1px solid var(--border);
+  padding: 0.35rem 0.75rem; border-radius: 999px;
 }
 .payment-options {
   display: grid; grid-template-columns: 1fr 1fr;
@@ -1747,7 +1769,7 @@ footer {
 }
 .subpage-cta p { color: rgba(255,255,255,0.78); margin-bottom: 1.8rem; position: relative; font-weight: 500; }
 .breadcrumb {
-  max-width: 1180px; margin: 0 auto; padding: 1.2rem 2rem 0;
+  max-width: 1180px; margin: 0 auto; padding: calc(70px + 1.2rem) 2rem 0;
   font-size: 0.85rem; color: var(--muted); font-weight: 600;
 }
 .breadcrumb a { color: var(--coral); }
@@ -1916,38 +1938,6 @@ document.addEventListener('DOMContentLoaded', function () {
   <a href="rendezvenyek.html" class="mobile-menu-cta">Képzési időpontok →</a>
 </div>
 
-<!-- ═══ NAGY SLIDER BANNER ═══ -->
-<div class="page-slider" id="pageSlider">
-  <div class="slider-track" id="sliderTrack">
-    <div class="slider-slide active">
-      <div class="slider-inner"><div class="slider-content">
-        <span class="slider-tag"><span class="sdot"></span> Haladó szint · 79 900 Ft</span>
-        <h2>AI Haladó</h2>
-        <p>Egész napos workshop azoknak, akik már használják az AI-t — és most rendszert, automatizációt és folyamatokat akarnak belőle építeni.</p>
-        <a href="#idopontok" class="slider-cta">Megnézem az időpontokat →</a>
-      </div></div>
-    </div>
-    <div class="slider-slide">
-      <div class="slider-inner"><div class="slider-content">
-        <span class="slider-tag"><span class="sdot"></span> Mit viszel haza?</span>
-        <h2>Működő<br>folyamatokat</h2>
-        <p>A workshop végére nem csak érteni fogod az automatizálást — hanem lesz egy saját, működő példád, amit másnap be tudsz építeni a munkádba.</p>
-        <a href="#" class="slider-cta" onclick="openModal('AI Haladó'); return false;">Jelentkezem a Haladóra →</a>
-      </div></div>
-    </div>
-    <div class="slider-slide">
-      <div class="slider-inner"><div class="slider-content">
-        <span class="slider-tag"><span class="sdot"></span> Még az alapoknál tartasz?</span>
-        <h2>Kezdd az<br>Alapozóval</h2>
-        <p>A Haladó feltételezi, hogy már magabiztosan használod az AI-eszközöket. Ha még nem, az AI Alapozó a megfelelő első lépés.</p>
-        <a href="ai-alapozo.html" class="slider-cta">Megnézem az AI Alapozót →</a>
-      </div></div>
-    </div>
-  </div>
-  <button class="slider-arrow prev" id="sliderPrev" aria-label="Előző"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4l-5 5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-  <button class="slider-arrow next" id="sliderNext" aria-label="Következő"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 4l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-  <div class="slider-dots" id="sliderDots" aria-hidden="true"></div>
-</div>
 
 <div class="breadcrumb"><a href="index.html">Főoldal</a> &nbsp;/&nbsp; AI Haladó</div>
 
@@ -2127,6 +2117,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <div id="modalFormView">
       <h2 id="modalTitle">Jelentkezés</h2>
       <div class="modal-course-name" id="modalCourseName">–</div>
+      <div class="modal-dates" id="modalDates" style="display:none;"></div>
 
       <form id="mlForm" onsubmit="return submitMlForm(event)">
         <!-- Esemény (rejtett, a kártyából töltődik) -->
@@ -2205,10 +2196,35 @@ function toggleMenu() {
 /* ─── MODAL + MailerLite ──────────────────────────── */
 const ML_ACTION = 'https://assets.mailerlite.com/jsonp/2386470/forms/188710462871832561/subscribe';
 
+function bacskaiKulcsCourseName(courseName) {
+  if (!window.BACSKAI) return null;
+  var K = window.BACSKAI.KEPZESEK;
+  for (var k in K) { if (K[k].modal === courseName) return k; }
+  return null;
+}
 function openModal(courseName) {
   // Esemény-érték a MailerLite "esemeny" mezőhöz (pontos opciónevek)
   document.getElementById('mlEsemeny').value = courseName;
   document.getElementById('modalCourseName').textContent = courseName;
+
+  // Legközelebbi időpontok (max 3) az esemenyek.js-ből
+  var datesBox = document.getElementById('modalDates');
+  if (datesBox) {
+    var datesHtml = '';
+    var kulcs = bacskaiKulcsCourseName(courseName);
+    if (kulcs && window.BACSKAI) {
+      var lista = window.BACSKAI.kepzesEsemenyei(kulcs).slice(0, 3);
+      if (lista.length) {
+        datesHtml = '<div class="modal-dates-label">Legközelebbi időpontok</div><div class="modal-dates-list">' +
+          lista.map(function (e) {
+            return '<span class="modal-date-pill">' + window.BACSKAI.rovidDatum(e._dt) + '</span>';
+          }).join('') +
+          '</div>';
+      }
+    }
+    datesBox.innerHTML = datesHtml;
+    datesBox.style.display = datesHtml ? 'block' : 'none';
+  }
 
   // Céges mezők csak a Céges AI képzésnél
   const isCorporate = courseName.toLowerCase().includes('céges');
@@ -2335,87 +2351,9 @@ window.addEventListener('scroll', () => {
   nav.style.boxShadow = window.scrollY > 10 ? 'var(--sh-md)' : 'none';
 });
 
-/* ─── PROMO BANNER carousel ───────────────────────── */
-(function() {
-  const slides = Array.from(document.querySelectorAll('.promo-slide'));
-  const dotsWrap = document.getElementById('promoDots');
-  if (!slides.length || !dotsWrap) return;
 
-  let current = 0;
-  let timer = null;
-  const INTERVAL = 4500;
 
-  // Pöttyök generálása
-  slides.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'pd' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', (i + 1) + '. promó');
-    dot.addEventListener('click', (e) => { e.preventDefault(); goTo(i); restart(); });
-    dotsWrap.appendChild(dot);
-  });
-  const dots = Array.from(dotsWrap.children);
 
-  function goTo(idx) {
-    slides[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    current = idx % slides.length;
-    slides[current].classList.add('active');
-    dots[current].classList.add('active');
-  }
-  function next() { goTo(current + 1); }
-  function start() { timer = setInterval(next, INTERVAL); }
-  function restart() { clearInterval(timer); start(); }
-
-  // Megáll, ha az egér rajta van
-  const banner = document.getElementById('promoBanner');
-  banner.addEventListener('mouseenter', () => clearInterval(timer));
-  banner.addEventListener('mouseleave', start);
-
-  start();
-})();
-
-/* ─── NAGY SLIDER BANNER (aloldalak) ──────────────── */
-(function() {
-  const slides = Array.from(document.querySelectorAll('.slider-slide'));
-  const dotsWrap = document.getElementById('sliderDots');
-  const prev = document.getElementById('sliderPrev');
-  const next = document.getElementById('sliderNext');
-  if (slides.length < 2 || !dotsWrap) return;
-
-  let current = 0;
-  let timer = null;
-  const INTERVAL = 6000;
-
-  slides.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'sd' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', (i + 1) + '. dia');
-    dot.addEventListener('click', () => { goTo(i); restart(); });
-    dotsWrap.appendChild(dot);
-  });
-  const dots = Array.from(dotsWrap.children);
-
-  function goTo(idx) {
-    slides[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    current = (idx + slides.length) % slides.length;
-    slides[current].classList.add('active');
-    dots[current].classList.add('active');
-  }
-  function go(dir) { goTo(current + dir); }
-  function start() { timer = setInterval(() => go(1), INTERVAL); }
-  function restart() { clearInterval(timer); start(); }
-
-  if (prev) prev.addEventListener('click', () => { go(-1); restart(); });
-  if (next) next.addEventListener('click', () => { go(1); restart(); });
-
-  const slider = document.getElementById('pageSlider');
-  if (slider) {
-    slider.addEventListener('mouseenter', () => clearInterval(timer));
-    slider.addEventListener('mouseleave', start);
-  }
-  start();
-})();
 </script>
 
 <!-- ═══ KÖZÖS ESEMÉNY-ADATOK (egyetlen forrás) ═══ -->
