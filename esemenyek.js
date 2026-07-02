@@ -121,7 +121,7 @@ window.BACSKAI = (function () {
     szerdai: {
       cim: "SzerdAI est — AI a mindennapi munkában",
       rovidCim: "SzerdAI est",
-      modal: "SzerdaAI",
+      modal: "SzerdAI",
       aloldal: "szerdai.html",
       tag: "free",
       tagFelirat: "Ingyenes",
