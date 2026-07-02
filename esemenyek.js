@@ -78,7 +78,6 @@ window.BACSKAI_ESEMENYEK = [
     helyszin: "Baja, képzőterem",
     ferohely: 20,
     foglalt: 0,
-    megjegyzes: "1. nap",
   },
 
   {
@@ -127,7 +126,7 @@ window.BACSKAI = (function () {
       tag: "free",
       tagFelirat: "Ingyenes",
       gomb: "Foglalok helyet",
-      letszam: "15–30 fő",
+      letszam: "30 fő",
       leiras: "Kötetlen, 2 órás ismertető est azoknak, akik szeretnék megérteni, mire használható ma az AI — előzetes tudás nélkül.",
     },
     alapozo: {
@@ -138,7 +137,7 @@ window.BACSKAI = (function () {
       tag: "paid",
       tagFelirat: "AI Alapozó",
       gomb: "Jelentkezem",
-      letszam: "10–20 fő",
+      letszam: "20 fő",
       leiras: "Az AI-eszközök biztonságos, gyakorlati használata a napi munkában. Részvételi díj: 39 900 Ft.",
     },
     halado: {
@@ -149,7 +148,7 @@ window.BACSKAI = (function () {
       tag: "paid",
       tagFelirat: "AI Haladó",
       gomb: "Jelentkezem",
-      letszam: "8–10 fő",
+      letszam: "10 fő",
       leiras: "Egynapos haladó workshop azoknak, akik már használják az AI-t és többet hoznának ki belőle. Részvételi díj: 79 900 Ft.",
     },
     ceges: {
