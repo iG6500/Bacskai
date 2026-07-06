@@ -3,7 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="apple-touch-icon" href="images/logo.png">
 <title>BácskAI Akadémia – Mesterséges intelligencia képzések</title>
+<meta name="description" content="Gyakorlati AI-képzések nem informatikusoknak – Baján, helyben, érthetően, üzleti szemlélettel. Ingyenes SzerdAI estek, AI Alapozó és Haladó workshopok, céges képzések.">
+<link rel="canonical" href="https://ig6500.github.io/Bacskai/">
+<!-- Open Graph (Facebook, LinkedIn) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BácskAI Akadémia">
+<meta property="og:title" content="BácskAI Akadémia – Gyakorlati AI-képzések Baján">
+<meta property="og:description" content="AI-képzések nem informatikusoknak – helyben, érthetően, üzleti szemlélettel. Ingyenes SzerdAI estek, Alapozó és Haladó workshopok, céges képzések.">
+<meta property="og:url" content="https://ig6500.github.io/Bacskai/">
+<meta property="og:image" content="https://ig6500.github.io/Bacskai/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="hu_HU">
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BácskAI Akadémia – Gyakorlati AI-képzések Baján">
+<meta name="twitter:description" content="AI-képzések nem informatikusoknak – helyben, érthetően, üzleti szemlélettel.">
+<meta name="twitter:image" content="https://ig6500.github.io/Bacskai/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
@@ -221,10 +240,10 @@ nav {
 }
 .nav-logo::before {
   content: '';
-  width: 11px; height: 11px;
-  background: var(--coral);
-  border-radius: 50%;
+  width: 30px; height: 30px;
+  background: url('images/logo.png') center/contain no-repeat;
   display: inline-block;
+  flex-shrink: 0;
 }
 .nav-logo span { color: var(--coral); }
 
@@ -2145,6 +2164,69 @@ document.addEventListener('DOMContentLoaded', function () {
   </div>
 </section>
 
+<!-- RÓLUNK MONDTÁK -->
+<style>
+.sp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1100px;margin:0 auto;}
+.sp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);box-shadow:var(--sh-lg);padding:1.8rem 1.7rem;display:flex;flex-direction:column;gap:1.1rem;}
+.sp-quote{color:var(--text-2);line-height:1.7;font-size:0.98rem;font-style:italic;margin:0;flex:1;}
+.sp-quote::before{content:'\201E';font-family:var(--font-display);font-size:2.4rem;line-height:0;color:var(--amber);display:block;margin-bottom:0.9rem;}
+.sp-person{display:flex;align-items:center;gap:0.85rem;}
+.sp-avatar{width:44px;height:44px;border-radius:50%;background:var(--coral-light);color:var(--coral);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:0.95rem;flex-shrink:0;}
+.sp-name{font-family:var(--font-display);font-weight:800;font-size:0.95rem;color:var(--ink);line-height:1.3;}
+.sp-role{font-size:0.82rem;color:var(--muted);}
+.sp-photos{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:1100px;margin:2.8rem auto 0;}
+.sp-photo{aspect-ratio:4/3;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--border);box-shadow:var(--sh-md);background:var(--coral-light);}
+.sp-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+.sp-photo-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;color:var(--coral);font-size:0.8rem;font-weight:600;}
+.sp-cta{text-align:center;margin-top:2.8rem;}
+@media (max-width: 900px){
+  .sp-grid{grid-template-columns:1fr;max-width:560px;}
+  .sp-photos{grid-template-columns:repeat(2,1fr);max-width:560px;}
+  .sp-cta .btn{white-space:normal;max-width:100%;}
+}
+</style>
+<section id="velemenyek">
+  <div class="container">
+    <div style="text-align:center;max-width:780px;margin:0 auto 3rem;">
+      <div class="section-label" style="display:inline-block;">Rólunk mondták</div>
+      <h2 class="headline fade-up">Ők már <em>eljöttek.</em></h2>
+      <p class="body-lg fade-up" style="margin:0 auto;">Résztvevőink tapasztalatai a SzerdAI estekről és a képzésekről — a saját szavaikkal.</p>
+    </div>
+    <div class="sp-grid fade-up">
+      <div class="sp-card">
+        <p class="sp-quote">Ide kerül az első valós résztvevői vélemény a SzerdAI estről vagy a képzésről.</p>
+        <div class="sp-person">
+          <div class="sp-avatar">??</div>
+          <div><div class="sp-name">Név</div><div class="sp-role">Foglalkozás, település</div></div>
+        </div>
+      </div>
+      <div class="sp-card">
+        <p class="sp-quote">Ide kerül a második valós résztvevői vélemény.</p>
+        <div class="sp-person">
+          <div class="sp-avatar">??</div>
+          <div><div class="sp-name">Név</div><div class="sp-role">Foglalkozás, település</div></div>
+        </div>
+      </div>
+      <div class="sp-card">
+        <p class="sp-quote">Ide kerül a harmadik valós résztvevői vélemény.</p>
+        <div class="sp-person">
+          <div class="sp-avatar">??</div>
+          <div><div class="sp-name">Név</div><div class="sp-role">Foglalkozás, település</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="sp-photos fade-up">
+      <div class="sp-photo"><div class="sp-photo-ph"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M21 15l-4.5-4L9 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Fotó a találkozóról</div></div>
+      <div class="sp-photo"><div class="sp-photo-ph"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M21 15l-4.5-4L9 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Fotó a találkozóról</div></div>
+      <div class="sp-photo"><div class="sp-photo-ph"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M21 15l-4.5-4L9 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Fotó a találkozóról</div></div>
+      <div class="sp-photo"><div class="sp-photo-ph"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M21 15l-4.5-4L9 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Fotó a találkozóról</div></div>
+    </div>
+    <div class="sp-cta">
+      <a href="#" class="btn btn-primary" onclick="openModal('SzerdAI'); return false;">Gyere el a következő SzerdAI estre <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </div>
+</section>
+
 <!-- GYIK -->
 <style>
 .faq-acc{max-width:780px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);box-shadow:var(--sh-lg);overflow:hidden;}
@@ -2156,7 +2238,7 @@ document.addEventListener('DOMContentLoaded', function () {
 .faq-acc details[open] summary::after{transform:rotate(180deg);}
 .faq-acc .faq-a{padding:0 1.7rem 1.4rem;color:var(--text-2);line-height:1.7;font-size:0.95rem;margin:0;}
 </style>
-<section id="faq">
+<section id="faq" class="alt">
   <div class="container">
     <div style="text-align:center;max-width:780px;margin:0 auto 3rem;">
       <div class="section-label" style="display:inline-block;">GYIK</div>
