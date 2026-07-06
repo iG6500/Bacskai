@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="apple-touch-icon" href="images/logo.png">
 <title>AI Alapozó – 6 órás gyakorlati AI workshop | BácskAI Akadémia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -221,10 +223,10 @@ nav {
 }
 .nav-logo::before {
   content: '';
-  width: 11px; height: 11px;
-  background: var(--coral);
-  border-radius: 50%;
+  width: 30px; height: 30px;
+  background: url('images/logo.png') center/contain no-repeat;
   display: inline-block;
+  flex-shrink: 0;
 }
 .nav-logo span { color: var(--coral); }
 
