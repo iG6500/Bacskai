@@ -3,9 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/png" href="images/favicon.png?v=2">
-<link rel="shortcut icon" type="image/png" href="images/favicon.png?v=2">
-<link rel="apple-touch-icon" href="images/logo.png">
 <title>SzerdAI – Ingyenes AI ismertető est Baján | BácskAI Akadémia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -224,10 +221,10 @@ nav {
 }
 .nav-logo::before {
   content: '';
-  width: 30px; height: 30px;
-  background: url('images/logo.png') center/contain no-repeat;
+  width: 11px; height: 11px;
+  background: var(--coral);
+  border-radius: 50%;
   display: inline-block;
-  flex-shrink: 0;
 }
 .nav-logo span { color: var(--coral); }
 
@@ -2138,7 +2135,7 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2026 BácskAI Akadémia. Minden jog fenntartva. · <a href="#" onclick="openPrivacy(); return false;" style="color:inherit;text-decoration:underline;">Adatvédelem</a></p>
+      <p>© 2026 BácskAI Akadémia. Minden jog fenntartva. · <a href="#" onclick="openPrivacy(); return false;" style="color:inherit;text-decoration:underline;">Adatvédelem</a> · <a href="#" onclick="openCookie(); return false;" style="color:inherit;text-decoration:underline;">Süti beállítások</a></p>
       <p>AI a napi munkához — érthetően, gyakorlatiasan, Baján.</p>
     </div>
   </div>
@@ -2429,7 +2426,7 @@ window.addEventListener('scroll', () => {
 
   if (!lista.length) {
     box.innerHTML = '<div class="ev" style="justify-content:center;color:var(--text-2);">' +
-      'A következő időpontot hamarosan meghirdetjük. Iratkozz fel, és elsőként értesülsz.</div>';
+      'A következő időpontot hamarosan meghirdetjük. <a href="#" class="hirlevel-link" onclick="openHirlevel();return false;">Iratkozz fel</a>, és elsőként értesülsz.</div>';
     return;
   }
 
@@ -2470,5 +2467,405 @@ function openPrivacy(){document.getElementById('privacyOverlay').classList.add('
 function closePrivacy(){document.getElementById('privacyOverlay').classList.remove('open');document.body.style.overflow='';}
 function closePrivacyOnBg(e){if(e.target===document.getElementById('privacyOverlay'))closePrivacy();}
 </script>
+<!-- BACSKAI:COOKIE:START -->
+<!-- ═══════════════════════════════════════════════════════
+     SÜTI (COOKIE) TÁJÉKOZTATÓ MODÁL + HOZZÁJÁRULÁS-SÁV
+     Consent Mode v2 — GA4 és Meta Pixel csak hozzájárulás után.
+═══════════════════════════════════════════════════════ -->
+
+<!-- 1) ALAPÉRTELMEZETT TILTÁS — minden tracking snippet ELŐTT kell lefusson -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{
+  'ad_storage':'denied',
+  'ad_user_data':'denied',
+  'ad_personalization':'denied',
+  'analytics_storage':'denied',
+  'functionality_storage':'granted',
+  'security_storage':'granted'
+});
+</script>
+
+<!-- 2) HOZZÁJÁRULÁS-SÁV -->
+<div class="cookie-bar" id="cookieBar" role="dialog" aria-live="polite" aria-label="Süti hozzájárulás">
+  <div class="cookie-bar-inner">
+    <div class="cookie-bar-text">
+      <strong>Sütiket használunk</strong>
+      <p>A működéshez szükséges sütik mellett statisztikai és marketing sütiket is használnánk, hogy jobbá tegyük az oldalt. Ezek csak az Ön hozzájárulásával töltődnek be. Részletek a <a href="#" onclick="openCookie(); return false;">süti tájékoztatóban</a>.</p>
+    </div>
+    <div class="cookie-bar-actions">
+      <button type="button" class="cookie-btn cookie-btn-primary" onclick="cookieAcceptAll()">Elfogadom</button>
+      <button type="button" class="cookie-btn cookie-btn-primary" onclick="cookieRejectAll()">Elutasítom</button>
+      <button type="button" class="cookie-btn cookie-btn-ghost" onclick="openCookie()">Beállítások</button>
+    </div>
+  </div>
+</div>
+
+<!-- 3) SÜTI TÁJÉKOZTATÓ MODÁL -->
+<div class="modal-overlay" id="cookieOverlay" onclick="closeCookieOnBg(event)">
+  <div class="modal" style="max-width:720px;">
+    <button class="modal-close" onclick="closeCookie()" aria-label="Bezárás"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+    <h2 style="margin-bottom:1.4rem;">Süti (cookie) tájékoztató</h2>
+
+    <div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">1. Mi az a süti?</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">A süti (cookie) egy kisméretű adatfájl, amelyet a weboldal az Ön eszközén helyez el. Segítségével felismerhető a visszatérő látogató, mérhető az oldal használata, illetve mérhető a hirdetések eredményessége.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">A weboldalt a Vida Interim Kft. (6500 Baja, Venyige u. 40.) üzemelteti. Az adatkezelés részleteit az <a href="#" onclick="closeCookie(); openPrivacy(); return false;" style="color:var(--slate);text-decoration:underline;">adatkezelési tájékoztató</a> tartalmazza.</p></div>
+
+    <div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">2. Az Ön hozzájárulása</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">A működéshez feltétlenül szükséges sütik hozzájárulás nélkül is betöltődnek, mert nélkülük az oldal nem használható. Minden más süti kizárólag az Ön előzetes, kifejezett hozzájárulásával töltődik be (ePrivacy irányelv, GDPR 6. cikk (1) a) pont).</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Döntését bármikor módosíthatja vagy visszavonhatja a láblécben található „Süti beállítások” hivatkozásra kattintva. A visszavonás nem érinti a visszavonás előtti adatkezelés jogszerűségét.</p></div>
+
+    <div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">3. Süti-kategóriák és beállítás</h4>
+
+      <div class="cookie-cat">
+        <div class="cookie-cat-head">
+          <div><span class="cookie-cat-name">Feltétlenül szükséges</span><span class="cookie-cat-badge">Mindig aktív</span></div>
+          <label class="cookie-switch cookie-switch-locked"><input type="checkbox" checked disabled><span class="cookie-slider"></span></label>
+        </div>
+        <p class="cookie-cat-desc">Az oldal alapvető működéséhez kellenek: a süti-döntés megjegyzése és a jelentkezési űrlap biztonságos beküldése. Ezek nélkül a weboldal szolgáltatásai nem nyújthatók. Nem kapcsolhatók ki.</p>
+      </div>
+
+      <div class="cookie-cat">
+        <div class="cookie-cat-head">
+          <div><span class="cookie-cat-name">Statisztikai</span></div>
+          <label class="cookie-switch"><input type="checkbox" id="cookieChkStat"><span class="cookie-slider"></span></label>
+        </div>
+        <p class="cookie-cat-desc">Google Analytics 4. Névtelenített formában mutatja meg, hány látogató érkezik, mely oldalakat nézik meg, és honnan jönnek. Ez alapján fejlesztjük a tartalmat.</p>
+      </div>
+
+      <div class="cookie-cat">
+        <div class="cookie-cat-head">
+          <div><span class="cookie-cat-name">Marketing</span></div>
+          <label class="cookie-switch"><input type="checkbox" id="cookieChkMkt"><span class="cookie-slider"></span></label>
+        </div>
+        <p class="cookie-cat-desc">Meta (Facebook) Pixel. Méri, hogy a hirdetéseink elérik-e a célközönséget, és lehetővé teszi, hogy releváns hirdetéseket mutassunk a Facebookon és az Instagramon.</p>
+      </div>
+
+      <div class="cookie-cat-save">
+        <button type="button" class="cookie-btn cookie-btn-primary" onclick="cookieSaveChoices()">Beállítások mentése</button>
+        <button type="button" class="cookie-btn cookie-btn-ghost" onclick="cookieAcceptAll()">Mindet elfogadom</button>
+      </div>
+    </div>
+
+    <div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">4. Az alkalmazott sütik</h4>
+      <div class="cookie-table-wrap">
+        <table class="cookie-table">
+          <thead><tr><th>Süti neve</th><th>Szolgáltató</th><th>Cél</th><th>Élettartam</th></tr></thead>
+          <tbody>
+            <tr><td>bacskai_consent</td><td>bacskaiakademia.hu</td><td>A süti-hozzájárulás megjegyzése</td><td>6 hónap</td></tr>
+            <tr><td>_ga</td><td>Google</td><td>Látogatók megkülönböztetése</td><td>2 év</td></tr>
+            <tr><td>_ga_&lt;azonosító&gt;</td><td>Google</td><td>Munkamenet-állapot fenntartása</td><td>2 év</td></tr>
+            <tr><td>_fbp</td><td>Meta</td><td>Hirdetés-eredményesség mérése</td><td>3 hónap</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-top:0.7rem;margin-bottom:0.3rem;">A statisztikai és marketing sütik csak akkor jelennek meg az eszközén, ha az adott kategóriához hozzájárult. A hozzájárulás visszavonása után az érintett sütik a következő oldalbetöltéskor már nem töltődnek be.</p>
+    </div>
+
+    <div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">5. Adattovábbítás harmadik országba</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">A Google és a Meta a hozzájárulás megadása esetén adatot továbbíthat az Egyesült Államokba. A továbbítás jogalapja az Európai Bizottság EU–USA adatvédelmi keretrendszerre vonatkozó megfelelőségi határozata, illetve a szolgáltatók által alkalmazott általános szerződési feltételek.</p></div>
+
+    <div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">6. Sütik kezelése a böngészőben</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">A már elhelyezett sütiket böngészője beállításaiban is törölheti, illetve letilthatja azok elhelyezését. Felhívjuk figyelmét, hogy a szükséges sütik letiltása esetén az oldal egyes funkciói nem működnek megfelelően.</p></div>
+
+    <div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">7. Jogorvoslat</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Amennyiben úgy véli, hogy adatai kezelése jogszabálysértő, panasszal élhet a Nemzeti Adatvédelmi és Információszabadság Hatóságnál (NAIH):</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Cím: 1055 Budapest, Falk Miksa u. 9–11. · naih.hu</p></div>
+
+    <div style="border-top:1px solid var(--border);padding-top:1rem;margin-top:0.5rem;font-size:0.82rem;color:var(--muted);">Utolsó módosítás: 2026. július</div>
+  </div>
+</div>
+
+<style>
+/* ── Süti modál: hatókör-korlátozott javítások (a globális .modal-t nem érinti) ── */
+/* A modál a hozzájárulás-sáv FÖLÉ kerül, különben a sáv takarja az alját. */
+#cookieOverlay{z-index:9500;}
+/* Ha a modál nyitva van, a sáv nem zavarhat bele. */
+body.cookie-modal-open .cookie-bar{opacity:0;pointer-events:none;}
+/* Az overlay MINDIG görgethető. Nem támaszkodunk a .modal-overlay öröklött
+   overflow-y értékére: az oldalanként eltér (a rolunk.html-ből például hiányzik). */
+#cookieOverlay.open{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+/* Mobilon a globális `.modal{max-height:none}` miatt a modál belső görgetése kikapcsol,
+   ezért ott az overlay görget — felülre igazítva, különben a modál teteje kilógna. */
+@media (max-width:640px){
+  #cookieOverlay.open{align-items:flex-start;}
+}
+/* A modál mindig kap belső görgetést, ha elfér a képernyőn. */
+#cookieOverlay .modal{overflow-y:auto;}
+
+/* ── Hozzájárulás-sáv ── */
+.cookie-bar{position:fixed;left:0;right:0;bottom:0;z-index:9000;background:var(--surface);border-top:1px solid var(--border-med);box-shadow:0 -4px 24px rgba(43,51,64,0.10);transform:translateY(110%);transition:transform .35s cubic-bezier(.4,0,.2,1),opacity .2s ease;}
+.cookie-bar.open{transform:translateY(0);}
+.cookie-bar-inner{max-width:1120px;margin:0 auto;padding:1.15rem 1.5rem;display:flex;align-items:center;gap:1.6rem;}
+.cookie-bar-text{flex:1;min-width:0;}
+.cookie-bar-text strong{display:block;font-size:0.95rem;color:var(--ink);font-weight:800;margin-bottom:0.25rem;}
+.cookie-bar-text p{font-size:0.85rem;color:var(--text-2);line-height:1.6;margin:0;}
+.cookie-bar-text a{color:var(--slate);text-decoration:underline;}
+.cookie-bar-text a:hover{color:var(--amber);}
+.cookie-bar-actions{display:flex;align-items:center;gap:0.6rem;flex-shrink:0;}
+
+/* Gombok — "Elfogadom" és "Elutasítom" AZONOS súly (NAIH). Hover: amber. */
+.cookie-btn{font-family:var(--font-body);font-size:0.86rem;font-weight:700;border-radius:var(--r-pill);padding:0.68rem 1.5rem;cursor:pointer;border:1.5px solid transparent;transition:background-color .2s ease,border-color .2s ease,color .2s ease;white-space:nowrap;line-height:1;}
+.cookie-btn-primary{background:var(--slate);color:#fff;border-color:var(--slate);}
+.cookie-btn-primary:hover{background:var(--amber);border-color:var(--amber);color:#fff;}
+.cookie-btn-ghost{background:transparent;color:var(--text-2);border-color:var(--border-med);}
+.cookie-btn-ghost:hover{background:var(--amber);border-color:var(--amber);color:#fff;}
+.cookie-btn:focus-visible{outline:2px solid var(--amber);outline-offset:2px;}
+
+/* ── Kategória-kártyák a modálban ── */
+.cookie-cat{border:1px solid var(--border);border-radius:var(--r-md);padding:0.95rem 1.1rem;margin-bottom:0.7rem;background:var(--surface2);}
+.cookie-cat-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:0.4rem;}
+.cookie-cat-name{font-size:0.9rem;font-weight:800;color:var(--ink);}
+.cookie-cat-badge{display:inline-block;margin-left:0.55rem;font-size:0.7rem;font-weight:700;color:var(--slate);background:var(--slate-light);border-radius:var(--r-pill);padding:0.2rem 0.6rem;vertical-align:middle;}
+.cookie-cat-desc{font-size:0.84rem;color:var(--text-2);line-height:1.65;margin:0;}
+
+/* Kapcsoló */
+.cookie-switch{position:relative;display:inline-block;width:42px;height:24px;flex-shrink:0;}
+.cookie-switch input{opacity:0;width:0;height:0;}
+.cookie-slider{position:absolute;inset:0;background:var(--border-med);border-radius:var(--r-pill);cursor:pointer;transition:background .2s ease;}
+.cookie-slider::before{content:"";position:absolute;height:18px;width:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .2s ease;box-shadow:0 1px 3px rgba(43,51,64,0.2);}
+.cookie-switch input:checked + .cookie-slider{background:var(--slate);}
+.cookie-switch input:checked + .cookie-slider::before{transform:translateX(18px);}
+.cookie-switch-locked .cookie-slider{cursor:not-allowed;background:var(--slate);opacity:0.45;}
+
+.cookie-cat-save{display:flex;gap:0.6rem;margin-top:1rem;flex-wrap:wrap;}
+
+/* Süti-táblázat */
+.cookie-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--r-md);}
+.cookie-table{width:100%;border-collapse:collapse;font-size:0.8rem;min-width:520px;}
+.cookie-table th{text-align:left;font-weight:800;color:var(--ink);background:var(--surface2);padding:0.6rem 0.8rem;border-bottom:1px solid var(--border);white-space:nowrap;}
+.cookie-table td{padding:0.6rem 0.8rem;color:var(--text-2);border-bottom:1px solid var(--border);vertical-align:top;}
+.cookie-table tr:last-child td{border-bottom:none;}
+
+@media (max-width:860px){
+  .cookie-bar-inner{flex-direction:column;align-items:stretch;gap:1rem;padding:1.1rem 1.25rem;}
+  .cookie-bar-actions{flex-wrap:wrap;}
+  .cookie-bar-actions .cookie-btn{flex:1 1 auto;text-align:center;}
+  .cookie-bar-actions .cookie-btn-ghost{flex-basis:100%;}
+}
+</style>
+
+<script>
+(function(){
+  var KEY = 'bacskai_consent';
+  var VER = 1;
+  var MAXAGE = 60*60*24*182; // 6 hónap
+
+  function writeCookie(v){
+    var raw = JSON.stringify(v);
+    try{
+      document.cookie = KEY+'='+encodeURIComponent(raw)+
+        ';path=/;max-age='+MAXAGE+';SameSite=Lax'+(location.protocol==='https:'?';Secure':'');
+    }catch(e){}
+    // Tartalék: ha a süti nem írható (böngésző-tiltás), a döntés ne vesszen el.
+    try{ localStorage.setItem(KEY, raw); }catch(e){}
+  }
+  function readCookie(){
+    var raw = null;
+    try{
+      var m = document.cookie.match(new RegExp('(?:^|; )'+KEY+'=([^;]*)'));
+      if(m) raw = decodeURIComponent(m[1]);
+    }catch(e){}
+    if(!raw){ try{ raw = localStorage.getItem(KEY); }catch(e){} }
+    if(!raw) return null;
+    try{
+      var v = JSON.parse(raw);
+      return (v && v.v === VER) ? v : null;
+    }catch(e){ return null; }
+  }
+
+  // Consent Mode v2 továbbítása
+  function pushConsent(c){
+    if(typeof gtag === 'function'){
+      gtag('consent','update',{
+        'analytics_storage':  c.stat ? 'granted' : 'denied',
+        'ad_storage':         c.mkt  ? 'granted' : 'denied',
+        'ad_user_data':       c.mkt  ? 'granted' : 'denied',
+        'ad_personalization': c.mkt  ? 'granted' : 'denied'
+      });
+    }
+    if(typeof fbq === 'function'){
+      fbq('consent', c.mkt ? 'grant' : 'revoke');
+    }
+    window.dispatchEvent(new CustomEvent('bacskaiConsent',{detail:c}));
+  }
+
+  function apply(c, persist){
+    if(persist !== false) writeCookie({v:VER, stat:!!c.stat, mkt:!!c.mkt, t:Date.now()});
+    pushConsent(c);
+    hideBar();
+  }
+
+  function showBar(){ var b=document.getElementById('cookieBar'); if(b) b.classList.add('open'); }
+  function hideBar(){ var b=document.getElementById('cookieBar'); if(b) b.classList.remove('open'); }
+
+  function syncChecks(){
+    var c = readCookie() || {stat:false, mkt:false};
+    var s = document.getElementById('cookieChkStat');
+    var m = document.getElementById('cookieChkMkt');
+    if(s) s.checked = !!c.stat;
+    if(m) m.checked = !!c.mkt;
+  }
+
+  // Publikus API
+  window.cookieAcceptAll  = function(){ apply({stat:true,  mkt:true});  syncChecks(); closeCookie(); };
+  window.cookieRejectAll  = function(){ apply({stat:false, mkt:false}); syncChecks(); closeCookie(); };
+  window.cookieSaveChoices = function(){
+    var s = document.getElementById('cookieChkStat');
+    var m = document.getElementById('cookieChkMkt');
+    apply({stat: !!(s && s.checked), mkt: !!(m && m.checked)});
+    closeCookie();
+  };
+  window.openCookie = function(){
+    syncChecks();
+    document.getElementById('cookieOverlay').classList.add('open');
+    document.body.classList.add('cookie-modal-open');
+    document.body.style.overflow='hidden';
+  };
+  window.closeCookie = function(){
+    document.getElementById('cookieOverlay').classList.remove('open');
+    document.body.classList.remove('cookie-modal-open');
+    document.body.style.overflow='';
+    if(!readCookie()) showBar();
+  };
+  window.closeCookieOnBg = function(e){
+    if(e.target === document.getElementById('cookieOverlay')) closeCookie();
+  };
+  window.cookieResetConsent = function(){
+    try{ document.cookie = KEY+'=;path=/;max-age=0'; }catch(e){}
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    location.reload();
+  };
+
+  function init(){
+    var saved = readCookie();
+    if(saved){ pushConsent(saved); syncChecks(); }
+    else { showBar(); }
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+<!-- BACSKAI:COOKIE:END -->
+<!-- BACSKAI:HIRLEVEL:START -->
+<!-- ═══════════════════════════════════════════════════════
+     HÍRLEVÉL MODÁL — érdeklődő-gyűjtés (MailerLite form 192520373532624031)
+     Ugyanaz a modal-overlay mechanika és fetch no-cors minta,
+     mint a jelentkezési modálnál.
+═══════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="hirlevelOverlay" onclick="closeHirlevelOnBg(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeHirlevel()" aria-label="Bezárás">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+        <path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <!-- Feliratkozó nézet -->
+    <div id="hirlevelFormView">
+      <h2>Hírlevél</h2>
+      <div class="modal-course-name">Tanulj velünk az első sorból.</div>
+      <p style="font-size:0.9rem;color:var(--text-2);line-height:1.65;margin-bottom:1.4rem;">
+        Képzéseink helyei korlátozottak, de a hírleveleseink mindig előnyt élveznek.
+        <strong>Iratkozz fel</strong>, és az elsők között kapsz értesítést a legújabb gyakorlati
+        AI képzéseinkről, induló workshopjainkról, és azonnal lecsaphatsz a csak tagoknak
+        szóló early bird (vagy visszatérő) kedvezményekre!
+      </p>
+
+      <form id="hirlevelForm" onsubmit="return submitHirlevel(event)">
+        <div class="form-group">
+          <label>E-mail cím</label>
+          <input type="email" name="fields[email]" placeholder="bela@pelda.hu" autocomplete="email" required>
+        </div>
+
+        <label class="hirlevel-consent">
+          <input type="checkbox" id="hirlevelConsent" required>
+          <span>Kérem a képzésértesítőket és a tagoknak szóló egyedi árakat.</span>
+        </label>
+
+        <button type="submit" class="btn btn-primary btn-wide" id="hirlevelSubmitBtn">
+          Csatlakozom a körhöz
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
+    </div>
+
+    <!-- Sikeres nézet -->
+    <div id="hirlevelSuccessView" style="display:none;text-align:center;padding:1.5rem 0;">
+      <div style="width:64px;height:64px;border-radius:50%;background:var(--coral-light);display:flex;align-items:center;justify-content:center;margin:0 auto 1.4rem;">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M9 16.5l4.5 4.5L23 11" stroke="var(--coral)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2 style="margin-bottom:0.6rem;">Sikeresen csatlakoztál.</h2>
+      <p style="color:var(--text-2);margin-bottom:0.8rem;line-height:1.65;">
+        Köszönjük a bizalmad! Mostantól hivatalosan is az első sorban ülsz: elsők között fogsz
+        értesülni a legújabb, gyakorlatias AI képzéseinkről, workshopjainkról és a kizárólag
+        a közösségünknek szóló exkluzív kedvezményekről.
+      </p>
+      <p style="color:var(--text-2);margin-bottom:1.8rem;line-height:1.65;">
+        Figyeld a postaládádat, hamarosan jelentkezünk az aktuális naptárral és a legjobb ajánlatainkkal!
+      </p>
+      <button class="btn btn-secondary btn-wide" onclick="closeHirlevel()">Bezárás</button>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Hatókör-korlátozott: csak a hírlevél modál elemei */
+#hirlevelOverlay.open{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+@media (max-width:640px){ #hirlevelOverlay.open{align-items:flex-start;} }
+.hirlevel-consent{display:flex;align-items:flex-start;gap:0.6rem;margin:0 0 1.2rem;cursor:pointer;font-size:0.84rem;color:var(--text-2);line-height:1.55;}
+.hirlevel-consent input{margin-top:0.2rem;width:16px;height:16px;flex-shrink:0;accent-color:var(--slate);cursor:pointer;}
+/* A dátum-fallback szövegek "Iratkozz fel" linkje */
+.hirlevel-link{color:var(--slate);text-decoration:underline;font-weight:700;cursor:pointer;}
+.hirlevel-link:hover{color:var(--amber);}
+</style>
+
+<script>
+(function(){
+  var HL_ACTION = 'https://assets.mailerlite.com/jsonp/2386470/forms/192520373532624031/subscribe';
+  var HL_TAKEL  = 'https://assets.mailerlite.com/jsonp/2386470/forms/192520373532624031/takel';
+  var takelSent = false;
+
+  window.openHirlevel = function(){
+    document.getElementById('hirlevelFormView').style.display = '';
+    document.getElementById('hirlevelSuccessView').style.display = 'none';
+    document.getElementById('hirlevelOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // MailerLite form-megtekintés statisztika (megnyitásonként egyszer elég)
+    if(!takelSent){ takelSent = true; try{ fetch(HL_TAKEL); }catch(e){} }
+  };
+  window.closeHirlevel = function(){
+    document.getElementById('hirlevelOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  window.closeHirlevelOnBg = function(e){
+    if(e.target === document.getElementById('hirlevelOverlay')) closeHirlevel();
+  };
+  window.submitHirlevel = function(e){
+    e.preventDefault();
+    var form = document.getElementById('hirlevelForm');
+    var btn  = document.getElementById('hirlevelSubmitBtn');
+    var data = new URLSearchParams();
+    new FormData(form).forEach(function(val, key){ if(val !== '') data.append(key, val); });
+    data.append('ml-submit', '1');
+    data.append('anticsrf', 'true');
+
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+
+    // no-cors: az adat elmegy, a választ nem olvassuk (MailerLite így működik böngészőből)
+    fetch(HL_ACTION, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: data.toString()
+    }).then(function(){ hirlevelSuccess(form, btn); })
+      .catch(function(){ hirlevelSuccess(form, btn); });
+
+    return false;
+  };
+  function hirlevelSuccess(form, btn){
+    form.reset();
+    btn.disabled = false;
+    btn.style.opacity = '';
+    document.getElementById('hirlevelFormView').style.display = 'none';
+    document.getElementById('hirlevelSuccessView').style.display = '';
+  }
+})();
+</script>
+<!-- BACSKAI:HIRLEVEL:END -->
 </body>
 </html>
