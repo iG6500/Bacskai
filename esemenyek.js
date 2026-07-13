@@ -52,13 +52,20 @@ window.BACSKAI_ESEMENYEK = [
     ferohely: 30,
     foglalt: 0,
   },
-
   {
     kepzes: "szerdai",
     datum: "2026-08-26",
     ido: "17:30–19:30",
     helyszin: "Baja, képzőterem",
     ferohely: 30,
+    foglalt: 0,
+  },
+  {
+    kepzes: "alapozo",
+    datum: "2026-09-11",
+    ido: "09:00–16:00",
+    helyszin: "Baja, képzőterem",
+    ferohely: 20,
     foglalt: 0,
   },
 
@@ -71,7 +78,6 @@ window.BACSKAI_ESEMENYEK = [
     ferohely: 30,
     foglalt: 0,
   },
-
   {
     kepzes: "halado",
     datum: "2026-09-25",
@@ -82,14 +88,6 @@ window.BACSKAI_ESEMENYEK = [
   },
 
    // ─── 2026. OKTÓBER ───
-  {
-    kepzes: "szerdai",
-    datum: "2026-10-09",
-    ido: "17:30–19:30",
-    helyszin: "Baja, képzőterem",
-    ferohely: 30,
-    foglalt: 0,
-  },
   {
     kepzes: "alapozo",
     datum: "2026-10-09",
