@@ -2503,6 +2503,15 @@ function closeModalOnBg(e) {
   if (e.target === document.getElementById('modalOverlay')) closeModal();
 }
 
+// URL-hash alapú modalnyitás (pl. FB-posztból: bacskaiakademia.hu/#feliratkozas)
+function openModalFromHash() {
+  if (window.location.hash === '#feliratkozas') {
+    openModal('SzerdAI');
+  }
+}
+window.addEventListener('load', openModalFromHash);
+window.addEventListener('hashchange', openModalFromHash);
+
 function submitMlForm(e) {
   e.preventDefault();
   const form = document.getElementById('mlForm');
