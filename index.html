@@ -2961,5 +2961,139 @@ body.cookie-modal-open .cookie-bar{opacity:0;pointer-events:none;}
 })();
 </script>
 <!-- BACSKAI:COOKIE:END -->
+<!-- BACSKAI:HIRLEVEL:START -->
+<!-- ═══════════════════════════════════════════════════════
+     HÍRLEVÉL MODÁL — érdeklődő-gyűjtés (MailerLite form 192520373532624031)
+     Ugyanaz a modal-overlay mechanika és fetch no-cors minta,
+     mint a jelentkezési modálnál.
+═══════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="hirlevelOverlay" onclick="closeHirlevelOnBg(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeHirlevel()" aria-label="Bezárás">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+        <path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <!-- Feliratkozó nézet -->
+    <div id="hirlevelFormView">
+      <h2>Hírlevél</h2>
+      <div class="modal-course-name">Tanulj velünk az első sorból.</div>
+      <p style="font-size:0.9rem;color:var(--text-2);line-height:1.65;margin-bottom:1.4rem;">
+        Képzéseink helyei korlátozottak, de a hírleveleseink mindig előnyt élveznek.
+        <strong>Iratkozz fel</strong>, és az elsők között kapsz értesítést a legújabb gyakorlati
+        AI képzéseinkről, induló workshopjainkról, és azonnal lecsaphatsz a csak tagoknak
+        szóló early bird (vagy visszatérő) kedvezményekre!
+      </p>
+
+      <form id="hirlevelForm" onsubmit="return submitHirlevel(event)">
+        <div class="form-group">
+          <label>E-mail cím</label>
+          <input type="email" name="fields[email]" placeholder="bela@pelda.hu" autocomplete="email" required>
+        </div>
+
+        <label class="hirlevel-consent">
+          <input type="checkbox" id="hirlevelConsent" required>
+          <span>Kérem a képzésértesítőket és a tagoknak szóló egyedi árakat.</span>
+        </label>
+
+        <button type="submit" class="btn btn-primary btn-wide" id="hirlevelSubmitBtn">
+          Csatlakozom a körhöz
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
+    </div>
+
+    <!-- Sikeres nézet -->
+    <div id="hirlevelSuccessView" style="display:none;text-align:center;padding:1.5rem 0;">
+      <div style="width:64px;height:64px;border-radius:50%;background:var(--coral-light);display:flex;align-items:center;justify-content:center;margin:0 auto 1.4rem;">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M9 16.5l4.5 4.5L23 11" stroke="var(--coral)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2 style="margin-bottom:0.6rem;">Sikeresen csatlakoztál.</h2>
+      <p style="color:var(--text-2);margin-bottom:0.8rem;line-height:1.65;">
+        Köszönjük a bizalmad! Mostantól hivatalosan is az első sorban ülsz: elsők között fogsz
+        értesülni a legújabb, gyakorlatias AI képzéseinkről, workshopjainkról és a kizárólag
+        a közösségünknek szóló exkluzív kedvezményekről.
+      </p>
+      <p style="color:var(--text-2);margin-bottom:1.8rem;line-height:1.65;">
+        Figyeld a postaládádat, hamarosan jelentkezünk az aktuális naptárral és a legjobb ajánlatainkkal!
+      </p>
+      <button class="btn btn-secondary btn-wide" onclick="closeHirlevel()">Bezárás</button>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Hatókör-korlátozott: csak a hírlevél modál elemei */
+#hirlevelOverlay.open{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+@media (max-width:640px){ #hirlevelOverlay.open{align-items:flex-start;} }
+.hirlevel-consent{display:flex;align-items:flex-start;gap:0.6rem;margin:0 0 1.2rem;cursor:pointer;font-size:0.84rem;color:var(--text-2);line-height:1.55;}
+.hirlevel-consent input{margin-top:0.2rem;width:16px;height:16px;flex-shrink:0;accent-color:var(--slate);cursor:pointer;}
+/* A dátum-fallback szövegek "Iratkozz fel" linkje */
+.hirlevel-link{color:var(--slate);text-decoration:underline;font-weight:700;cursor:pointer;}
+.hirlevel-link:hover{color:var(--amber);}
+</style>
+
+<script>
+(function(){
+  var HL_ACTION = 'https://assets.mailerlite.com/jsonp/2386470/forms/192520373532624031/subscribe';
+  var HL_TAKEL  = 'https://assets.mailerlite.com/jsonp/2386470/forms/192520373532624031/takel';
+  var takelSent = false;
+
+  window.openHirlevel = function(){
+    document.getElementById('hirlevelFormView').style.display = '';
+    document.getElementById('hirlevelSuccessView').style.display = 'none';
+    document.getElementById('hirlevelOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // MailerLite form-megtekintés statisztika (megnyitásonként egyszer elég)
+    if(!takelSent){ takelSent = true; try{ fetch(HL_TAKEL); }catch(e){} }
+  };
+  window.closeHirlevel = function(){
+    document.getElementById('hirlevelOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  window.closeHirlevelOnBg = function(e){
+    if(e.target === document.getElementById('hirlevelOverlay')) closeHirlevel();
+  };
+  window.submitHirlevel = function(e){
+    e.preventDefault();
+    var form = document.getElementById('hirlevelForm');
+    var btn  = document.getElementById('hirlevelSubmitBtn');
+    var data = new URLSearchParams();
+    new FormData(form).forEach(function(val, key){ if(val !== '') data.append(key, val); });
+    data.append('ml-submit', '1');
+    data.append('anticsrf', 'true');
+
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+
+    // no-cors: az adat elmegy, a választ nem olvassuk (MailerLite így működik böngészőből)
+    fetch(HL_ACTION, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: data.toString()
+    }).then(function(){ hirlevelSuccess(form, btn); })
+      .catch(function(){ hirlevelSuccess(form, btn); });
+
+    return false;
+  };
+  function hirlevelSuccess(form, btn){
+    form.reset();
+    btn.disabled = false;
+    btn.style.opacity = '';
+    document.getElementById('hirlevelFormView').style.display = 'none';
+    document.getElementById('hirlevelSuccessView').style.display = '';
+  }
+
+  // URL-hash alapú modalnyitás (pl. FB-posztból: bacskaiakademia.hu/#hirlevel)
+  function openHirlevelFromHash(){
+    if(window.location.hash === '#hirlevel') openHirlevel();
+  }
+  window.addEventListener('load', openHirlevelFromHash);
+  window.addEventListener('hashchange', openHirlevelFromHash);
+})();
+</script>
+<!-- BACSKAI:HIRLEVEL:END -->
 </body>
 </html>
