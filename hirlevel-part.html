@@ -122,6 +122,13 @@
     document.getElementById('hirlevelFormView').style.display = 'none';
     document.getElementById('hirlevelSuccessView').style.display = '';
   }
+
+  // URL-hash alapú modalnyitás (pl. FB-posztból: bacskaiakademia.hu/#hirlevel)
+  function openHirlevelFromHash(){
+    if(window.location.hash === '#hirlevel') openHirlevel();
+  }
+  window.addEventListener('load', openHirlevelFromHash);
+  window.addEventListener('hashchange', openHirlevelFromHash);
 })();
 </script>
 <!-- BACSKAI:HIRLEVEL:END -->
