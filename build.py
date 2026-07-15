@@ -4,9 +4,9 @@ BÁCSKAI AKADÉMIA — közös oldal-összeállító
 ═══════════════════════════════════════════
 
 Mit csinál: a pages/ alatti forrás-oldalakba beilleszti a parts/ alatti
-KÖZÖS komponenseket (nav, mobil menü, footer, adatvédelmi ablak, polish
-design-réteg), és a kész fájlokat a dist/ mappába írja. A dist/ tartalmát
-kell a repo gyökerébe feltölteni.
+KÖZÖS komponenseket (nav, mobil menü, footer, adatvédelmi ablak, hírlevél
+modál, polish design-réteg), és a kész fájlokat a dist/ mappába írja. A
+dist/ tartalmát kell a repo gyökerébe feltölteni.
 
 Használat:  python3 build.py
 
@@ -63,6 +63,16 @@ def build_page(fname):
     else:
         s = s.replace("</head>", polish + "\n</head>", 1)
         report.append("polish:+")
+
+    # 6) HÍRLEVÉL modál — idempotens (marker alapján cserél vagy beszúr)
+    hirlevel = part("hirlevel.html")
+    if "BACSKAI:HIRLEVEL:START" in s:
+        s = re.sub(r"<!-- BACSKAI:HIRLEVEL:START -->.*?<!-- BACSKAI:HIRLEVEL:END -->",
+                   lambda m: hirlevel, s, count=1, flags=re.S)
+        report.append("hirlevel:frissítve")
+    else:
+        s = s.replace("</body>", hirlevel + "\n</body>", 1)
+        report.append("hirlevel:+")
 
     with open(os.path.join(DIST, fname), "w", encoding="utf-8") as f:
         f.write(s)
