@@ -2151,8 +2151,19 @@ document.addEventListener('DOMContentLoaded', function () {
           <input type="tel" name="fields[phone]" placeholder="" required>
         </div>
         <div class="form-group">
-          <label>Település</label>
-          <input type="text" name="fields[city]" placeholder="" required>
+          <label>Munkaterület</label>
+          <select name="fields[city]" required>
+            <option value="">Válassz…</option>
+            <option>Cégvezetés, management</option>
+            <option>Adminisztráció, irodai asszisztens</option>
+            <option value="Értékesítés, kreskedelem">Értékesítés, kereskedelem</option>
+            <option>Gyártás, termelés</option>
+            <option>Marketing, média, PR</option>
+            <option>HR, munkaügy</option>
+            <option>Jog, jogi tanácsadás</option>
+            <option>Pénzügy, könyvelés</option>
+            <option>Egyéb</option>
+          </select>
         </div>
 
         <!-- Céges mezők — csak a Céges AI képzésnél jelennek meg -->
@@ -2832,6 +2843,13 @@ body.cookie-modal-open .cookie-bar{opacity:0;pointer-events:none;}
     document.getElementById('hirlevelFormView').style.display = 'none';
     document.getElementById('hirlevelSuccessView').style.display = '';
   }
+
+  // URL-hash alapú modalnyitás (pl. FB-posztból: bacskaiakademia.hu/#hirlevel)
+  function openHirlevelFromHash(){
+    if(window.location.hash === '#hirlevel') openHirlevel();
+  }
+  window.addEventListener('load', openHirlevelFromHash);
+  window.addEventListener('hashchange', openHirlevelFromHash);
 })();
 </script>
 <!-- BACSKAI:HIRLEVEL:END -->
