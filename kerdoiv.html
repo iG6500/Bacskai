@@ -6,7 +6,8 @@
 <link rel="icon" type="image/png" href="images/favicon.png?v=2">
 <link rel="shortcut icon" type="image/png" href="images/favicon.png?v=2">
 <link rel="apple-touch-icon" href="images/logo.png">
-<title>Rendezvények – Közelgő AI alkalmak Baján | BácskAI Akadémia</title>
+<title>Kérdőív – SzerdAI est | BácskAI Akadémia</title>
+<meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
@@ -588,35 +589,81 @@ nav {
   grid-template-columns: repeat(4, 1fr);
   gap: 1.4rem;
 }
+
+/* Glass kártya — szintenként árnyalódó palakék akcentussal */
 .audience-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
+  --acc: var(--slate);          /* akcentus-szín, kártyánként felülírva */
+  --acc-soft: rgba(75,101,132,0.10);
+  position: relative;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  border: 1px solid rgba(255,255,255,0.7);
   border-radius: var(--r-xl);
-  padding: 2rem 1.6rem;
-  box-shadow: var(--sh-sm);
-  transition: transform 0.25s, box-shadow 0.25s;
+  padding: 2.2rem 1.7rem 2rem;
+  box-shadow: 0 4px 20px rgba(43,51,64,0.06), inset 0 1px 0 rgba(255,255,255,0.6);
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s, background 0.3s;
+}
+/* Felső akcentus-csík */
+.audience-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--acc);
+  opacity: 0.85;
+  transition: height 0.3s;
+}
+/* Halvány színes derengés a sarokban */
+.audience-card::after {
+  content: '';
+  position: absolute; top: -40px; right: -40px;
+  width: 130px; height: 130px;
+  background: radial-gradient(circle, var(--acc-soft) 0%, transparent 70%);
+  transition: opacity 0.3s, transform 0.4s;
+  opacity: 0.7;
 }
 .audience-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--sh-lg);
+  transform: translateY(-7px);
+  background: rgba(255,255,255,0.78);
+  box-shadow: 0 18px 44px rgba(43,51,64,0.14), inset 0 1px 0 rgba(255,255,255,0.7);
 }
+.audience-card:hover::before { height: 5px; }
+.audience-card:hover::after { opacity: 1; transform: scale(1.25); }
+
+/* Erős, kitöltött ikon-keret az akcentus színével */
 .audience-icon {
-  width: 50px; height: 50px;
-  border-radius: var(--r-md);
-  background: var(--coral-light);
+  position: relative; z-index: 1;
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  background: var(--acc);
   display: flex; align-items: center; justify-content: center;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.4rem;
+  box-shadow: 0 6px 16px -4px var(--acc);
+  transition: transform 0.3s cubic-bezier(.34,1.5,.5,1);
 }
-.audience-icon svg { stroke: var(--coral); }
+.audience-card:hover .audience-icon {
+  transform: scale(1.08) rotate(-4deg);
+}
+.audience-icon svg { stroke: #fff; color: #fff; }
 .audience-card h3 {
+  position: relative; z-index: 1;
   font-family: var(--font-display);
-  font-weight: 800; font-size: 1.15rem;
+  font-weight: 800; font-size: 1.18rem;
   margin-bottom: 0.6rem; color: var(--ink);
   letter-spacing: -0.01em;
 }
 .audience-card p {
+  position: relative; z-index: 1;
   font-size: 0.9rem; color: var(--text-2); line-height: 1.6;
 }
+
+/* Szintenként árnyalódó kék — világos → sötét (mint a bannerek) */
+.audience-card.lvl-1 { --acc: #6E86A6; --acc-soft: rgba(110,134,166,0.14); }
+.audience-card.lvl-2 { --acc: #4B6584; --acc-soft: rgba(75,101,132,0.14); }
+.audience-card.lvl-3 { --acc: #3A506B; --acc-soft: rgba(58,80,107,0.14); }
+.audience-card.lvl-4 { --acc: #2B3340; --acc-soft: rgba(43,51,64,0.14); }
+
 
 /* ─── PROBLÉMA → MEGOLDÁS ───────────────────────────── */
 .problem-list {
@@ -926,7 +973,7 @@ nav {
 }
 .about-float-badge {
   position: absolute;
-  bottom: -18px; right: -18px;
+  top: -18px; right: -18px;
   background: var(--coral);
   color: #fff;
   padding: 1rem 1.4rem;
@@ -1073,6 +1120,18 @@ nav {
 .course-price-free {
   color: var(--coral);
 }
+
+/* Kártya gombpáros: Részletek + Jelentkezem */
+.course-actions {
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.course-actions .btn { width: 100%; justify-content: center; }
+.btn-link-row {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  font-size: 0.85rem; font-weight: 700; color: var(--slate);
+  padding: 0.4rem; transition: color 0.18s, gap 0.18s;
+}
+.btn-link-row:hover { color: var(--coral); gap: 9px; }
 
 /* Scarcity */
 .scarcity {
@@ -1413,7 +1472,6 @@ footer {
   -webkit-backdrop-filter: blur(8px);
   display: none; align-items: center; justify-content: center;
   padding: 2rem;
-  overflow-y: auto;
 }
 .modal-overlay.open { display: flex; }
 .modal {
@@ -1421,15 +1479,9 @@ footer {
   border-radius: var(--r-xl);
   padding: 2.5rem;
   max-width: 480px; width: 100%;
-  max-height: calc(100vh - 4rem);
-  overflow-y: auto;
   position: relative;
   box-shadow: var(--sh-lg);
   animation: modalIn 0.3s cubic-bezier(.34,1.4,.5,1);
-}
-@media (max-width: 600px) {
-  .modal-overlay { padding: 1rem; align-items: flex-start; }
-  .modal { padding: 1.8rem 1.5rem; max-height: none; margin: 1rem 0; }
 }
 @keyframes modalIn {
   from { opacity: 0; transform: scale(0.96) translateY(12px); }
@@ -1463,27 +1515,6 @@ footer {
   margin-bottom: 1.6rem;
   padding-bottom: 1.2rem;
   border-bottom: 1px solid var(--border);
-}
-.modal-dates {
-  margin: -0.8rem 0 1.6rem;
-  padding-bottom: 1.2rem;
-  border-bottom: 1px solid var(--border);
-}
-.modal-dates-label {
-  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.04em; color: var(--muted); margin-bottom: 0.55rem;
-}
-.modal-dates-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.modal-date-pill {
-  font-size: 0.82rem; font-weight: 600; color: var(--ink);
-  background: var(--surface2); border: 1px solid var(--border);
-  padding: 0.4rem 0.85rem; border-radius: 999px;
-  cursor: pointer; font-family: inherit; line-height: 1.2;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
-}
-.modal-date-pill:hover { border-color: var(--coral); color: var(--coral); }
-.modal-date-pill.selected {
-  background: var(--coral); border-color: var(--coral); color: #fff;
 }
 .payment-options {
   display: grid; grid-template-columns: 1fr 1fr;
@@ -1602,254 +1633,10 @@ footer {
   .promo-arrow { display: none; }
   .promo-dots { display: none; }
 }
-/* ─── NAGY SLIDER BANNER (aloldal) ──────────────────── */
-.page-slider {
-  position: relative;
-  margin-top: 70px;
-  height: 420px;
-  overflow: hidden;
-  background: var(--ink);
-}
-.slider-track { position: absolute; inset: 0; }
-.slider-slide {
-  position: absolute; inset: 0;
-  display: flex; align-items: center;
-  padding: 0 2rem;
-  opacity: 0;
-  transition: opacity 0.8s ease;
-  pointer-events: none;
-}
-.slider-slide.active { opacity: 1; pointer-events: auto; }
-.slider-slide::before {
-  content: ''; position: absolute; inset: 0;
-  background: var(--slide-bg, linear-gradient(120deg, #3A506B 0%, #4B6584 100%));
-  z-index: 0;
-}
-.slider-slide::after {
-  content: ''; position: absolute; inset: 0; z-index: 1;
-  background:
-    radial-gradient(circle at 80% 30%, rgba(252,92,101,0.22) 0%, transparent 45%),
-    radial-gradient(circle at 15% 85%, rgba(217,148,31,0.16) 0%, transparent 40%);
-  pointer-events: none;
-}
-.slider-inner {
-  max-width: 1180px; margin: 0 auto; width: 100%;
-  position: relative; z-index: 2;
-}
-.slider-content { max-width: 680px; color: #fff; }
-.slider-tag {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255,255,255,0.25);
-  color: #fff;
-  font-size: 0.74rem; font-weight: 800;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  padding: 6px 14px; border-radius: var(--r-pill);
-  margin-bottom: 1.2rem;
-}
-.slider-tag .sdot { width: 7px; height: 7px; border-radius: 50%; background: var(--coral); }
-.slider-slide h2 {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: clamp(1.9rem, 4vw, 3rem);
-  line-height: 1.1; letter-spacing: -0.02em;
-  margin-bottom: 1rem; color: #fff;
-}
-.slider-slide p {
-  font-size: 1.08rem; line-height: 1.6;
-  color: rgba(255,255,255,0.88);
-  margin-bottom: 1.8rem; max-width: 560px;
-  font-weight: 500;
-}
-.slider-cta {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: #fff; color: var(--slate-dark);
-  font-weight: 800; font-size: 0.95rem;
-  padding: 0.85rem 1.8rem; border-radius: var(--r-pill);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.slider-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,0.3); }
-
-/* Slider nyilak */
-.slider-arrow {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  z-index: 5;
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255,255,255,0.3);
-  color: #fff; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: background 0.2s;
-}
-.slider-arrow:hover { background: rgba(255,255,255,0.28); }
-.slider-arrow.prev { left: 1.5rem; }
-.slider-arrow.next { right: 1.5rem; }
-
-/* Slider pöttyök */
-.slider-dots {
-  position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
-  z-index: 5; display: flex; gap: 8px;
-}
-.slider-dots .sd {
-  width: 9px; height: 9px; border-radius: 50%;
-  background: rgba(255,255,255,0.4);
-  border: none; cursor: pointer; padding: 0;
-  transition: all 0.25s;
-}
-.slider-dots .sd.active { background: #fff; width: 26px; border-radius: 5px; }
-
-@media (max-width: 700px) {
-  .page-slider { height: 380px; }
-  .slider-arrow { display: none; }
-  .slider-slide p { font-size: 0.95rem; }
-}
-
-/* ─── ALOLDAL TARTALOM ──────────────────────────────── */
-.subpage-section { padding: 5rem 2rem; }
-.subpage-narrow { max-width: 820px; margin: 0 auto; }
-.sub-lead {
-  font-size: 1.15rem; line-height: 1.7; color: var(--text-2);
-  margin-bottom: 1.5rem; font-weight: 500;
-}
-.info-band {
-  display: flex; flex-wrap: wrap; gap: 2.5rem;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--r-xl); padding: 1.8rem 2.2rem;
-  box-shadow: var(--sh-sm); margin: 2.5rem 0;
-}
-.info-band .ib {
-  display: flex; flex-direction: column;
-}
-.info-band .ib-label {
-  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.3rem;
-}
-.info-band .ib-value {
-  font-family: var(--font-display);
-  font-weight: 800; font-size: 1.3rem; color: var(--ink);
-  letter-spacing: -0.01em;
-}
-.info-band .ib-value.coral { color: var(--coral); }
-.check-list { list-style: none; margin: 1.5rem 0; }
-.check-list li {
-  display: flex; align-items: flex-start; gap: 12px;
-  font-size: 1rem; color: var(--text-2); line-height: 1.5;
-  padding: 0.7rem 0; border-bottom: 1px solid var(--border);
-  font-weight: 500;
-}
-.check-list li:last-child { border-bottom: none; }
-.check-list li svg { flex-shrink: 0; margin-top: 3px; }
-.topic-list { list-style: none; counter-reset: topic; margin: 1.5rem 0; }
-.topic-list li {
-  counter-increment: topic;
-  display: flex; align-items: flex-start; gap: 14px;
-  padding: 0.9rem 0; border-bottom: 1px solid var(--border);
-  font-size: 1rem; color: var(--text); font-weight: 500;
-}
-.topic-list li:last-child { border-bottom: none; }
-.topic-list li::before {
-  content: counter(topic, decimal-leading-zero);
-  font-family: var(--font-display);
-  font-weight: 800; font-size: 0.85rem;
-  color: var(--coral);
-  background: var(--coral-light);
-  width: 32px; height: 32px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.subpage-cta {
-  background: linear-gradient(135deg, var(--slate-dark) 0%, var(--slate) 100%);
-  border-radius: var(--r-xl);
-  padding: 3.5rem; text-align: center;
-  position: relative; overflow: hidden;
-}
-.subpage-cta::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(circle at 20% 80%, rgba(252,92,101,0.25) 0%, transparent 50%);
-}
-.subpage-cta h2 {
-  font-family: var(--font-display);
-  font-weight: 800; color: #fff; font-size: clamp(1.6rem,3vw,2.2rem);
-  margin-bottom: 1rem; position: relative; letter-spacing: -0.02em;
-}
-.subpage-cta p { color: rgba(255,255,255,0.78); margin-bottom: 1.8rem; position: relative; font-weight: 500; }
-.breadcrumb {
-  max-width: 1180px; margin: 0 auto; padding: 1.2rem 2rem 0;
-  font-size: 0.85rem; color: var(--muted); font-weight: 600;
-}
-.breadcrumb a { color: var(--coral); }
-
-
-/* ─── SZINT-SPECIFIKUS SLIDER SZÍNEK ────────────────── */
-/* Minél "könnyebb" a képzés, annál világosabb a kék */
-body.page-szerdai .slider-slide { --slide-bg: linear-gradient(120deg, #6E86A6 0%, #88A0BC 100%); }
-body.page-alapozo .slider-slide { --slide-bg: linear-gradient(120deg, #4B6584 0%, #5E7896 100%); }
-body.page-halado  .slider-slide { --slide-bg: linear-gradient(120deg, #3A506B 0%, #46627F 100%); }
-body.page-ceges   .slider-slide { --slide-bg: linear-gradient(120deg, #2B3340 0%, #3A506B 100%); }
-
 </style>
-
 <style>
-/* ─── RENDEZVÉNYEK aloldal ─ csak új, addit'iv szabályok ─── */
-body.page-rendezvenyek .slider-slide { --slide-bg: linear-gradient(120deg, #4B6584 0%, #5E7896 100%); }
-/* Mobilon a felső nav-cta gomb elrejtve (kilóg); a menüben marad elérhető */
+/* Mobil nav-fix: a felso nav-cta gomb elrejtve mobilon (kilogott); a menuben marad elerheto */
 @media (max-width: 960px) { nav .nav-cta { display: none; } }
-.event-list { display:flex; flex-direction:column; gap:1.4rem; margin-top:0.5rem; }
-.event-card {
-  display:grid; grid-template-columns:130px 1fr auto; gap:1.6rem; align-items:center;
-  background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg);
-  padding:1.6rem 1.8rem; box-shadow:var(--sh-md);
-  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-}
-.event-card:hover { transform:translateY(-2px); border-color:var(--border-med); }
-.event-date {
-  text-align:center; background:var(--surface2); border:1px solid var(--border);
-  border-radius:var(--r-md); padding:0.9rem 0.4rem;
-}
-.event-date .ed-day { display:block; font-family:var(--font-display); font-weight:900; font-size:2rem; line-height:1; color:var(--ink); }
-.event-date .ed-month { display:block; font-weight:800; font-size:0.82rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--coral); margin-top:0.3rem; }
-.event-date .ed-year { display:block; font-weight:600; font-size:0.74rem; color:var(--text-2); margin-top:0.15rem; }
-.event-body h3 { font-family:var(--font-display); font-weight:800; font-size:1.22rem; color:var(--ink); margin-bottom:0.4rem; }
-.event-meta { display:flex; flex-wrap:wrap; gap:0.6rem 1.2rem; margin-bottom:0.5rem; }
-.event-meta span { display:inline-flex; align-items:center; gap:0.4rem; font-size:0.86rem; font-weight:600; color:var(--text-2); }
-.event-meta svg { stroke:var(--coral); flex-shrink:0; }
-.event-body p { font-size:0.9rem; color:var(--text-2); line-height:1.55; margin:0; }
-.event-tag {
-  display:inline-block; font-size:0.72rem; font-weight:800; letter-spacing:0.04em; text-transform:uppercase;
-  padding:0.28rem 0.7rem; border-radius:999px; margin-bottom:0.6rem;
-}
-.event-tag.free { background:var(--coral-light); color:var(--coral-dark); border:1px solid var(--coral-mid); }
-.event-tag.paid { background:var(--amber-light); color:#8A5B12; border:1px solid #E6CB94; }
-.event-tag.corp { background:#E7ECF2; color:var(--slate-dark); border:1px solid var(--slate-mid); }
-.event-action { white-space:nowrap; display:flex; flex-direction:column; align-items:stretch; gap:0.55rem; }
-.event-details-link {
-  display:inline-flex; align-items:center; justify-content:center; gap:5px;
-  font-size:0.82rem; font-weight:700; color:var(--coral);
-  transition:gap .18s ease, color .18s ease;
-}
-.event-details-link:hover { color:var(--coral-dark); gap:8px; }
-.event-details-link svg { stroke:currentColor; }
-.event-card.ev-telt { opacity:.62; background:var(--surface2); }
-.event-card.ev-telt .event-details-link { pointer-events:auto; }
-.event-empty {
-  background:var(--surface2); border:1px dashed var(--border-med); border-radius:var(--r-lg);
-  padding:2.4rem 1.8rem; text-align:center; color:var(--text-2);
-}
-.event-empty strong { color:var(--ink); display:block; margin-bottom:0.4rem; font-size:1.05rem; }
-.month-label {
-  font-family:var(--font-display); font-weight:800; font-size:0.95rem; color:var(--coral);
-  text-transform:uppercase; letter-spacing:0.06em; margin:2.2rem 0 0.4rem;
-}
-.month-label:first-of-type { margin-top:0; }
-@media (max-width:640px) {
-  .event-card { grid-template-columns:90px 1fr; gap:1rem 1.1rem; }
-  .event-action { grid-column:1 / -1; }
-  .event-action .btn { width:100%; justify-content:center; }
-}
 </style>
 <!-- BACSKAI:POLISH:START -->
 <style>
@@ -1935,12 +1722,9 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 <!-- BACSKAI:POLISH:END -->
 </head>
+<body>
 
-<body class="page-rendezvenyek">
-
-<!-- ═══════════════════════════════════════════════════════
-     NAVIGATION
-═══════════════════════════════════════════════════════ -->
+<!-- NAVIGATION -->
 <nav>
   <a href="index.html" class="nav-logo">BácskAI <span>Akadémia</span></a>
   <ul class="nav-links">
@@ -1954,7 +1738,6 @@ document.addEventListener('DOMContentLoaded', function () {
     <button class="hamburger" onclick="toggleMenu()" aria-label="Menü"><span></span><span></span><span></span></button>
   </div>
 </nav>
-
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html#kinek">Kinek szól?</a>
   <a href="index.html#kepzesek">Képzések</a>
@@ -1963,112 +1746,208 @@ document.addEventListener('DOMContentLoaded', function () {
   <a href="rendezvenyek.html" class="mobile-menu-cta">Képzési időpontok →</a>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════
-     NAGY SLIDER BANNER
-═══════════════════════════════════════════════════════ -->
-<div class="page-slider" id="pageSlider">
-  <div class="slider-track" id="sliderTrack">
+<!-- FEJLÉC -->
+<!-- BACSKAI:KERDOIV:START -->
+<section style="padding:9rem 2rem 4rem;">
+  <div class="container" style="max-width:720px;">
 
-    <div class="slider-slide active">
-      <div class="slider-inner">
-        <div class="slider-content">
-          <span class="slider-tag"><span class="sdot"></span> Minden alkalom egy helyen</span>
-          <h2>Közelgő<br>rendezvényeink</h2>
-          <p>Itt látod egy helyen az összes közelgő AI alkalmat — az ingyenes SzerdAI estektől az Alapozó és Haladó workshopokig. Válaszd ki, ami érdekel, és foglalj helyet.</p>
-          <a href="#rendezvenyek" class="slider-cta">Megnézem a naptárat →</a>
+    <div style="text-align:center;margin-bottom:2.4rem;">
+      <div class="section-label" style="display:inline-block;">SzerdAI est</div>
+      <h1 class="headline">Köszönjük, hogy <em>itt voltál.</em></h1>
+      <p class="body-lg" style="margin:1.2rem auto 0;">Két perc, nyolc kérdés — szinte csak koppintás. Ebből tudjuk meg, mi működött, és miből legyen több a következő alkalmakon.</p>
+    </div>
+
+    <form id="kvForm" onsubmit="return kvSubmit(event)">
+
+      <!-- ═══ A) AZ ESTÉRŐL ═══ -->
+      <div class="kv-block">A mai estéről</div>
+
+      <div class="kv-card">
+        <span class="kv-q">1. Mennyire volt hasznos számodra a mai este?</span>
+        <div class="kv-options">
+          <label><input type="radio" name="fields[hasznossag]" value="Nagyon hasznos" required><span>Nagyon hasznos volt</span></label>
+          <label><input type="radio" name="fields[hasznossag]" value="Hasznos"><span>Hasznos volt</span></label>
+          <label><input type="radio" name="fields[hasznossag]" value="Vegyes"><span>Vegyes — volt, ami igen, volt, ami nem</span></label>
+          <label><input type="radio" name="fields[hasznossag]" value="Nem igazán"><span>Nem igazán</span></label>
         </div>
       </div>
-    </div>
 
-    <div class="slider-slide">
-      <div class="slider-inner">
-        <div class="slider-content">
-          <span class="slider-tag"><span class="sdot"></span> Ingyenes belépő</span>
-          <h2>Kezdd a<br>SzerdAI esttel</h2>
-          <p>Ha még csak ismerkedsz az AI-jal, a kéthetente tartott ingyenes SzerdAI est a legjobb belépő. Kockzat nélkül megnézheted, mire jó a gyakorlatban.</p>
-          <a href="szerdai.html" class="slider-cta">A SzerdAI részletei →</a>
+      <div class="kv-card">
+        <span class="kv-q">2. Ajánlanád egy ismerősödnek?</span>
+        <div class="kv-options">
+          <label><input type="radio" name="fields[ajanlas]" value="Igen, mindenképp" required><span>Igen, mindenképp</span></label>
+          <label><input type="radio" name="fields[ajanlas]" value="Valószínűleg"><span>Valószínűleg</span></label>
+          <label><input type="radio" name="fields[ajanlas]" value="Nem biztos"><span>Nem biztos</span></label>
         </div>
       </div>
-    </div>
 
-    <div class="slider-slide">
-      <div class="slider-inner">
-        <div class="slider-content">
-          <span class="slider-tag"><span class="sdot"></span> Értesítés</span>
-          <h2>Ne maradj le<br>egy alkalomról se</h2>
-          <p>Iratkozz fel, és elsőként értesülsz az új időpontokról és helyszínekről. A helyek száma minden alkalommal korlátozott.</p>
-          <a href="#" class="slider-cta" onclick="openHirlevel(); return false;">Értesítést kérek →</a>
+      <div class="kv-card">
+        <label class="kv-q" for="kvKiemelt">3. Mi volt számodra a leghasznosabb vagy legemlékezetesebb ma este?</label>
+        <p class="kv-hint">Elég egy-két mondat. Ezt olvassuk a legszívesebben.</p>
+        <textarea id="kvKiemelt" name="fields[kiemelt]" rows="3" placeholder="Pl. amikor kiderült, hogy…"
+                  style="width:100%;padding:0.85rem 1rem;border:1.5px solid var(--border-med);border-radius:var(--r-md);font-family:var(--font-body);font-size:0.95rem;background:var(--surface);color:var(--ink);resize:vertical;"></textarea>
+      </div>
+
+      <div class="kv-card">
+        <span class="kv-q">4. Megjeleníthetjük a válaszodat a honlapunkon?</span>
+        <p class="kv-hint">Csak az előző kérdésre adott válaszodra vonatkozik. Nélküled nem tesszük ki — és bármikor kérheted a törlését.</p>
+        <div class="kv-options">
+          <label><input type="radio" name="fields[velemeny_engedely]" value="Igen, keresztnevemmel" required><span>Igen, keresztnevemmel és a foglalkozásommal</span></label>
+          <label><input type="radio" name="fields[velemeny_engedely]" value="Igen, név nélkül"><span>Igen, de név nélkül</span></label>
+          <label><input type="radio" name="fields[velemeny_engedely]" value="Nem"><span>Inkább nem</span></label>
         </div>
       </div>
+
+      <!-- ═══ B) RÓLAD ═══ -->
+      <div class="kv-block">Rólad</div>
+
+      <div class="kv-card">
+        <span class="kv-q">5. Használsz ma AI-t a munkádban?</span>
+        <div class="kv-options">
+          <label><input type="radio" name="fields[ai_hasznalat]" value="Naponta" required><span>Igen, szinte naponta</span></label>
+          <label><input type="radio" name="fields[ai_hasznalat]" value="Hetente"><span>Igen, hetente néhányszor</span></label>
+          <label><input type="radio" name="fields[ai_hasznalat]" value="Kipróbáltam"><span>Kipróbáltam, de nem használom rendszeresen</span></label>
+          <label><input type="radio" name="fields[ai_hasznalat]" value="Még nem"><span>Még nem</span></label>
+        </div>
+      </div>
+
+      <div class="kv-card">
+        <span class="kv-q">6. Mivel foglalkozol?</span>
+        <div class="kv-options">
+          <label><input type="radio" name="fields[foglalkozas]" value="Vállalkozó, cégvezető" required><span>Vállalkozó, cégvezető</span></label>
+          <label><input type="radio" name="fields[foglalkozas]" value="Irodai, adminisztratív munka"><span>Irodai, adminisztratív munka</span></label>
+          <label><input type="radio" name="fields[foglalkozas]" value="Értékesítés, marketing"><span>Értékesítés, marketing</span></label>
+          <label><input type="radio" name="fields[foglalkozas]" value="Szakma, szolgáltatás"><span>Szakma, szolgáltatás</span></label>
+          <label><input type="radio" name="fields[foglalkozas]" value="Közszféra, oktatás"><span>Közszféra, oktatás</span></label>
+          <label><input type="radio" name="fields[foglalkozas]" value="Egyéb"><span>Egyéb</span></label>
+        </div>
+      </div>
+
+      <!-- ═══ C) HOGYAN TOVÁBB ═══ -->
+      <div class="kv-block">Hogyan tovább</div>
+
+      <div class="kv-card">
+        <span class="kv-q">7. Melyik lépés érdekelne a folytatásból?</span>
+        <div class="kv-options">
+          <label><input type="radio" name="fields[kovetkezo_lepes]" value="AI Alapozó" required><span>AI Alapozó workshop</span></label>
+          <label><input type="radio" name="fields[kovetkezo_lepes]" value="AI Haladó"><span>AI Haladó workshop</span></label>
+          <label><input type="radio" name="fields[kovetkezo_lepes]" value="Céges képzés"><span>Céges képzés a munkahelyemnek</span></label>
+          <label><input type="radio" name="fields[kovetkezo_lepes]" value="Csak hírlevél"><span>Nekem a hírlevél elég</span></label>
+        </div>
+      </div>
+
+      <div class="kv-card">
+        <span class="kv-q">8. Honnan hallottál rólunk?</span>
+        <div class="kv-options">
+          <label><input type="radio" name="fields[honnan_hallott]" value="Facebook" required><span>Facebook</span></label>
+          <label><input type="radio" name="fields[honnan_hallott]" value="Ismerős"><span>Ismerős ajánlotta</span></label>
+          <label><input type="radio" name="fields[honnan_hallott]" value="Google"><span>Google-keresés</span></label>
+          <label><input type="radio" name="fields[honnan_hallott]" value="Egyéb"><span>Egyéb</span></label>
+        </div>
+      </div>
+
+      <!-- Email + hozzájárulás -->
+      <div class="kv-card">
+        <label class="kv-q" for="kvEmail">Email címed</label>
+        <p class="kv-hint">Azzal az email címmel, amivel az estre jelentkeztél — így tudjuk a válaszaidat hozzád kötni.</p>
+        <input type="email" id="kvEmail" name="fields[email]" placeholder="pl. bela@pelda.hu" autocomplete="email" required
+               style="width:100%;padding:0.85rem 1rem;border:1.5px solid var(--border-med);border-radius:var(--r-md);font-family:var(--font-body);font-size:0.95rem;background:var(--surface);color:var(--ink);">
+      </div>
+
+      <input type="hidden" name="fields[alkalom]" id="kvAlkalom" value="">
+
+      <label class="kv-consent">
+        <input type="checkbox" id="kvConsent" required>
+        <span>Hozzájárulok, hogy válaszaimat a BácskAI Akadémia a képzési ajánlatok személyre szabásához felhasználja az <a href="#" onclick="openPrivacy(); return false;" style="color:var(--slate);text-decoration:underline;">adatkezelési tájékoztató</a> szerint.</span>
+      </label>
+
+      <div id="kvError" style="display:none;background:var(--coral-light);color:var(--coral);border-radius:var(--r-md);padding:0.9rem 1.1rem;font-size:0.88rem;font-weight:700;margin-bottom:1.2rem;">
+        A kérdőív még nincs bekötve a levelezőrendszerbe — kérjük, szólj a szervezőknek!
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-wide" id="kvSubmitBtn">
+        Elküldöm a válaszaimat
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </form>
+
+    <!-- Siker nézet -->
+    <div id="kvSuccess" style="display:none;text-align:center;padding:2rem 0;">
+      <div style="width:64px;height:64px;border-radius:50%;background:var(--coral-light);display:flex;align-items:center;justify-content:center;margin:0 auto 1.4rem;">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M9 16.5l4.5 4.5L23 11" stroke="var(--coral)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2 class="headline" style="font-size:1.8rem;margin-bottom:0.8rem;">Köszönjük!</h2>
+      <p class="body-lg" style="margin:0 auto 2rem;">A válaszaid megérkeztek. Ezekből építjük a következő alkalmakat — és ha képzés is érdekel, hamarosan jelentkezünk a részletekkel.</p>
+      <a href="rendezvenyek.html" class="btn btn-primary">Megnézem a következő időpontokat <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
 
   </div>
-
-  <button class="slider-arrow prev" id="sliderPrev" aria-label="Előző">
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4l-5 5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </button>
-  <button class="slider-arrow next" id="sliderNext" aria-label="Következő">
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 4l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </button>
-  <div class="slider-dots" id="sliderDots" aria-hidden="true"></div>
-</div>
-
-<div class="breadcrumb">
-  <a href="index.html">Főoldal</a> &nbsp;/&nbsp; Rendezvények
-</div>
-
-<!-- ═══════════════════════════════════════════════════════
-     BEVEZETŐ
-═══════════════════════════════════════════════════════ -->
-<section class="subpage-section">
-  <div class="subpage-narrow">
-    <div class="section-label">Rendezvénynaptár</div>
-    <h2 class="headline">Minden közelgő alkalom<br><em>egy</em> helyen.</h2>
-    <p class="sub-lead">Itt vezetjük az összes közelgő BácskAI rendezvényt — az ingyenes SzerdAI estektől a fizetős Alapozó és Haladó workshopokig. Minden alkalomnál látod a dátumot, az időpontot, a helyszínt és a létszámot. Jelentkezz arra, ami érdekel — a helyek száma korlátozott.</p>
-  </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════
-     RENDEZVÉNYEK LISTÁJA
-═══════════════════════════════════════════════════════ -->
-<section class="subpage-section" id="rendezvenyek" style="background:var(--surface2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="subpage-narrow">
-    <div id="esemeny-lista">
-      <div class="event-empty"><strong>Időpontok betöltése…</strong> Ha ez az üzenet nem tűnik el, frissítsd az oldalt.</div>
-    </div>
-  </div>
-</section>
+<style>
+.kv-block{font-family:var(--font-display);font-weight:800;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--slate);margin:2rem 0 0.9rem;padding-left:0.2rem;}
+.kv-block:first-of-type{margin-top:0;}
+.kv-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--sh-md);padding:1.5rem 1.6rem;margin-bottom:1.1rem;}
+.kv-q{display:block;font-family:var(--font-display);font-weight:800;font-size:1.02rem;color:var(--ink);margin-bottom:0.55rem;}
+.kv-hint{font-size:0.84rem;color:var(--muted);margin:0 0 0.8rem;line-height:1.55;}
+.kv-options{display:flex;flex-direction:column;gap:0.45rem;margin-top:0.4rem;}
+.kv-options label{display:flex;align-items:flex-start;gap:0.65rem;padding:0.55rem 0.7rem;border-radius:var(--r-md);cursor:pointer;font-size:0.93rem;color:var(--text-2);line-height:1.5;transition:background .15s ease;}
+.kv-options label:hover{background:var(--surface2);}
+.kv-options input{margin-top:0.2rem;width:16px;height:16px;flex-shrink:0;accent-color:var(--slate);cursor:pointer;}
+.kv-options input:checked + span{color:var(--ink);font-weight:700;}
+.kv-consent{display:flex;align-items:flex-start;gap:0.65rem;margin:0.4rem 0 1.3rem;cursor:pointer;font-size:0.84rem;color:var(--text-2);line-height:1.55;}
+.kv-consent input{margin-top:0.2rem;width:16px;height:16px;flex-shrink:0;accent-color:var(--slate);cursor:pointer;}
+#kvForm input:focus-visible,#kvForm textarea:focus-visible{outline:2px solid var(--amber);outline-offset:1px;border-color:var(--amber);}
+</style>
 
-<!-- ═══════════════════════════════════════════════════════
-     CÉGES KÉPZÉS — eseti
-═══════════════════════════════════════════════════════ -->
-<section class="subpage-section">
-  <div class="subpage-narrow">
-    <div class="section-label">Cégeknek</div>
-    <h2 class="headline" style="margin-bottom:1rem;">Céges képzést <em>külön</em> időpontban tartunk.</h2>
-    <p class="sub-lead">A céges AI képzést mindig a cég igényeihez és naptárához igazítjuk — ezért nem szerepel a fenti, nyilvános naptárban. Ha érdekel egy testreszabott, helyszíni képzés a csapatodnak, vedd fel velünk a kapcsolatot, és egyeztetünk egy időpontot.</p>
-    <div style="margin-top:1.6rem;">
-      <a href="ceges-ai-kepzes.html" class="btn btn-secondary">A céges képzésről →</a>
-    </div>
-  </div>
-</section>
+<script>
+(function(){
+  /* ═══ MailerLite kérdőív form (2386470 / 193246641073947954).
+     Mezők: email, hasznossag, ajanlas, kiemelt, velemeny_engedely,
+     ai_hasznalat, foglalkozas, kovetkezo_lepes, honnan_hallott, alkalom. ═══ */
+  var KV_ACTION = 'https://assets.mailerlite.com/jsonp/2386470/forms/193246641073947954/subscribe';
 
-<!-- ═══════════════════════════════════════════════════════
-     ZÁRÓ CTA
-═══════════════════════════════════════════════════════ -->
-<section class="subpage-section" id="jelentkezes" style="background:var(--surface2);border-top:1px solid var(--border);">
-  <div class="subpage-narrow">
-    <div class="subpage-cta">
-      <h2>Nem találtad meg a megfelelő időpontot?</h2>
-      <p>Iratkozz fel, és értesítünk minden új rendezvényről — SzerdAI estről, Alapozó és Haladó workshopról egyaránt.</p>
-      <a href="#" class="slider-cta" onclick="openHirlevel(); return false;" style="position:relative;">
-        Értesítést kérek
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </div>
-  </div>
-</section>
+  // Alkalom-paraméter a QR-kódból: kerdoiv.html?alkalom=2026-08-12
+  try{
+    var p = new URLSearchParams(location.search).get('alkalom');
+    if(p) document.getElementById('kvAlkalom').value = p.slice(0,40);
+  }catch(e){}
 
+  window.kvSubmit = function(e){
+    e.preventDefault();
+    var err = document.getElementById('kvError');
+    // Széttördelt literál: egy szerkesztőbeli "mindet cserél" sem tudja elrontani.
+    if(KV_ACTION.indexOf('FORM' + '_ID_IDE') !== -1){
+      err.style.display = 'block';
+      err.scrollIntoView({behavior:'smooth', block:'center'});
+      return false;
+    }
+    var form = document.getElementById('kvForm');
+    var btn  = document.getElementById('kvSubmitBtn');
+    var data = new URLSearchParams();
+    new FormData(form).forEach(function(val, key){
+      if(val !== '' && key.indexOf('fields[') === 0) data.append(key, val);
+    });
+    data.append('ml-submit', '1');
+    data.append('anticsrf', 'true');
+    btn.disabled = true; btn.style.opacity = '0.7';
+    fetch(KV_ACTION, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body: data.toString()
+    }).then(done).catch(done);
+    function done(){
+      form.style.display = 'none';
+      document.getElementById('kvSuccess').style.display = '';
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+    return false;
+  };
+})();
+</script>
+<!-- BACSKAI:KERDOIV:END -->
+
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
@@ -2111,242 +1990,27 @@ document.addEventListener('DOMContentLoaded', function () {
   </div>
 </footer>
 
-
-<!-- ═══════════════════════════════════════════════════════
-     MODAL — MailerLite jelentkezés
-═══════════════════════════════════════════════════════ -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal()" aria-label="Bezárás">
-      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-        <path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-      </svg>
-    </button>
-
-    <!-- Jelentkezési nézet -->
-    <div id="modalFormView">
-      <h2 id="modalTitle">Jelentkezés</h2>
-      <div class="modal-course-name" id="modalCourseName">–</div>
-      <div class="modal-dates" id="modalDates" style="display:none;"></div>
-
-      <form id="mlForm" onsubmit="return submitMlForm(event)">
-        <!-- Esemény (rejtett, a kártyából töltődik) -->
-        <input type="hidden" name="fields[esemeny]" id="mlEsemeny" value="">
-        <input type="hidden" name="fields[state]" id="mlIdopont" value="">
-
-        <div style="display:flex;gap:0.7rem;">
-          <div class="form-group" style="flex:1;">
-            <label>Vezetéknév</label>
-            <input type="text" name="fields[last_name]" placeholder="Kovács" required>
-          </div>
-          <div class="form-group" style="flex:1;">
-            <label>Keresztnév</label>
-            <input type="text" name="fields[name]" placeholder="Béla" required>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>E-mail cím</label>
-          <input type="email" name="fields[email]" placeholder="bela@pelda.hu" required>
-        </div>
-        <div class="form-group">
-          <label>Telefonszám</label>
-          <input type="tel" name="fields[phone]" placeholder="+36 30 123 4567" required>
-        </div>
-        <div class="form-group">
-          <label>Munkaterület</label>
-          <select name="fields[city]" required>
-            <option value="">Válassz…</option>
-            <option>Cégvezetés, management</option>
-            <option>Adminisztráció, irodai asszisztens</option>
-            <option value="Értékesítés, kreskedelem">Értékesítés, kereskedelem</option>
-            <option>Gyártás, termelés</option>
-            <option>Marketing, média, PR</option>
-            <option>HR, munkaügy</option>
-            <option>Jog, jogi tanácsadás</option>
-            <option>Pénzügy, könyvelés</option>
-            <option>Egyéb</option>
-          </select>
-        </div>
-
-        <!-- Céges mezők — csak a Céges AI képzésnél jelennek meg -->
-        <div id="mlCompanyFields" style="display:none;">
-          <div class="form-group">
-            <label>Cégnév</label>
-            <input type="text" name="fields[company]" placeholder="Cégem Kft.">
-          </div>
-          <div class="form-group">
-            <label>Csapat mérete (fő)</label>
-            <input type="number" name="fields[csapat_merete]" placeholder="8" min="1">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Megjegyzés <span style="color:var(--muted);font-weight:500;">(nem kötelező)</span></label>
-          <textarea name="fields[megjegyzes]" placeholder="Bármi, amit fontosnak tartasz..."></textarea>
-        </div>
-
-        <p style="font-size:0.78rem;color:var(--coral-dark);margin-bottom:1rem;line-height:1.5;background:var(--coral-light);border:1px solid var(--coral-mid);padding:0.7rem 1rem;border-radius:var(--r-sm);">
-          Jelentkezés után telefonon egyeztetünk veled a részletekről. Bármikor leiratkozhatsz.
-        </p>
-
-        <button type="submit" class="btn btn-primary btn-wide" id="mlSubmitBtn">
-          Jelentkezés elküldése
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </form>
-    </div>
-
-    <!-- Sikeres nézet -->
-    <div id="modalSuccessView" style="display:none;text-align:center;padding:1.5rem 0;">
-      <div style="width:64px;height:64px;border-radius:50%;background:var(--coral-light);display:flex;align-items:center;justify-content:center;margin:0 auto 1.4rem;">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M9 16.5l4.5 4.5L23 11" stroke="var(--coral)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <h2 style="margin-bottom:0.6rem;">Köszönjük a jelentkezésed!</h2>
-      <p style="color:var(--text-2);margin-bottom:1.8rem;">Hamarosan felvesszük veled a kapcsolatot telefonon, hogy egyeztessük a részleteket.</p>
-      <button class="btn btn-secondary btn-wide" onclick="closeModal()">Bezárás</button>
-    </div>
+<!-- ADATKEZELÉSI TÁJÉKOZTATÓ MODÁL -->
+<div class="modal-overlay" id="privacyOverlay" onclick="closePrivacyOnBg(event)">
+  <div class="modal" style="max-width:720px;">
+    <button class="modal-close" onclick="closePrivacy()" aria-label="Bezárás"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+    <h2 style="margin-bottom:1.4rem;">Adatkezelési tájékoztató</h2>
+    <div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">1. Az adatkezelő adatai</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Cégnév: Vida Interim Kft.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Székhely: 6500 Baja, Venyige u. 40.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Adószám: 24387107-2-03</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Cégjegyzékszám: 03-09-132784</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">E-mail: info@vidainterim.hu</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Telefon: +36 30 844 2912</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">2. Az adatkezelés célja és jogalapja</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">A Vida Interim Kft. (továbbiakban: Adatkezelő) a BácskAI Akadémia képzéseire történő jelentkezés, valamint az érdeklődők megkereséseinek kezelése céljából kezeli a megadott személyes adatokat.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az adatkezelés jogalapja: az érintett hozzájárulása (GDPR 6. cikk (1) bekezdés a) pont), illetve szerződés teljesítése (GDPR 6. cikk (1) bekezdés b) pont).</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">3. A kezelt adatok köre</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Jelentkezési űrlapon keresztül: név, e-mail cím, telefonszám, a kiválasztott képzés megnevezése.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">E-mailen vagy telefonon történő kapcsolatfelvétel esetén: az érintett által önkéntesen megadott adatok.</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">4. Az adatkezelés időtartama</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az Adatkezelő a személyes adatokat a képzés teljesítéséig, illetve — ha az érintett hozzájárulásán alapul az adatkezelés — a hozzájárulás visszavonásáig kezeli. Számviteli bizonylatokat a jogszabályi előírásoknak megfelelően 8 évig őrzi meg.</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">5. Adattovábbítás, adatfeldolgozók</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az Adatkezelő személyes adatokat harmadik félnek nem ad át, kivéve, ha azt jogszabály kötelezővé teszi. Az adatok tárolása az Adatkezelő által igénybe vett tárhelyszolgáltatón keresztül történik.</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">6. Az érintett jogai</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az érintett jogosult: hozzáférni a róla kezelt adatokhoz, kérni azok helyesbítését vagy törlését, korlátozni az adatkezelést, valamint adathordozhatósághoz való jogát érvényesíteni.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Kérelmét az info@bacskaiakademia.hu e-mail címre küldheti. Az Adatkezelő 30 napon belül válaszol.</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">7. Jogorvoslat</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Amennyiben úgy véli, hogy adatai kezelése jogszabálysértő, panasszal élhet a Nemzeti Adatvédelmi és Információszabadság Hatóságnál (NAIH):</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Cím: 1055 Budapest, Falk Miksa u. 9–11. · naih.hu</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">8. Tájékoztató módosítása</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az Adatkezelő fenntartja a jogot jelen tájékoztató módosítására. A változásokról az érintetteket e-mailben vagy a weboldalon tájékoztatja.</p></div>
+    <div style="border-top:1px solid var(--border);padding-top:1rem;margin-top:0.5rem;font-size:0.82rem;color:var(--muted);">Utolsó módosítás: 2026. június</div>
   </div>
 </div>
 
-
+<script>
+function openPrivacy(){document.getElementById('privacyOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function closePrivacy(){document.getElementById('privacyOverlay').classList.remove('open');document.body.style.overflow='';}
+function closePrivacyOnBg(e){if(e.target===document.getElementById('privacyOverlay'))closePrivacy();}
+</script>
 
 
 <script>
 /* ─── MOBILE MENU ──────────────────────────────────── */
 function toggleMenu() {
   document.getElementById('mobileMenu').classList.toggle('open');
-}
-
-/* ─── MODAL + MailerLite ──────────────────────────── */
-const ML_ACTION = 'https://assets.mailerlite.com/jsonp/2386470/forms/188710462871832561/subscribe';
-
-function bacskaiKulcsCourseName(courseName) {
-  if (!window.BACSKAI) return null;
-  var K = window.BACSKAI.KEPZESEK;
-  for (var k in K) { if (K[k].modal === courseName) return k; }
-  return null;
-}
-function selectDate(btn) {
-  var box = btn.closest('.modal-dates-list');
-  if (box) {
-    var all = box.querySelectorAll('.modal-date-pill');
-    for (var i = 0; i < all.length; i++) all[i].classList.remove('selected');
-  }
-  btn.classList.add('selected');
-  var idoInput = document.getElementById('mlIdopont');
-  if (idoInput) idoInput.value = btn.getAttribute('data-datum');
-}
-function openModal(courseName) {
-  // Esemény-érték a MailerLite "esemeny" mezőhöz (pontos opciónevek)
-  document.getElementById('mlEsemeny').value = courseName;
-  document.getElementById('modalCourseName').textContent = courseName;
-
-  // Legközelebbi időpontok (max 3) az esemenyek.js-ből
-  var datesBox = document.getElementById('modalDates');
-  if (datesBox) {
-    var datesHtml = '';
-    var kulcs = bacskaiKulcsCourseName(courseName);
-    if (kulcs && window.BACSKAI) {
-      var lista = window.BACSKAI.kepzesEsemenyei(kulcs).slice(0, 3);
-      if (lista.length) {
-        datesHtml = '<div class="modal-dates-label">Válaszd ki, melyik időpont érdekel:</div><div class="modal-dates-list">' +
-          lista.map(function (e) {
-            var d = window.BACSKAI.rovidDatum(e._dt);
-            return '<button type="button" class="modal-date-pill" data-datum="' + d + '" onclick="selectDate(this)">' + d + '</button>';
-          }).join('') +
-          '</div>';
-      }
-    }
-    datesBox.innerHTML = datesHtml;
-    datesBox.style.display = datesHtml ? 'block' : 'none';
-  }
-  // Korábbi dátumválasztás nullázása minden nyitáskor
-  var idoInput = document.getElementById('mlIdopont');
-  if (idoInput) idoInput.value = '';
-
-  // Céges mezők csak a Céges AI képzésnél
-  const isCorporate = courseName.toLowerCase().includes('céges');
-  document.getElementById('mlCompanyFields').style.display = isCorporate ? 'block' : 'none';
-
-  // Cím
-  const isFree = courseName.toLowerCase().includes('szerda');
-  document.getElementById('modalTitle').textContent = isFree ? 'Foglalás' : 'Jelentkezés';
-
-  // Nézet visszaállítása az űrlapra
-  document.getElementById('modalFormView').style.display = 'block';
-  document.getElementById('modalSuccessView').style.display = 'none';
-
-  document.getElementById('modalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function closeModalOnBg(e) {
-  if (e.target === document.getElementById('modalOverlay')) closeModal();
-}
-
-function submitMlForm(e) {
-  e.preventDefault();
-  const form = document.getElementById('mlForm');
-  const btn = document.getElementById('mlSubmitBtn');
-  const data = new URLSearchParams();
-  // Csak a kitöltött / látható mezőket küldjük
-  new FormData(form).forEach((val, key) => {
-    if (val !== '') data.append(key, val);
-  });
-  data.append('ml-submit', '1');
-  data.append('anticsrf', 'true');
-
-  btn.disabled = true;
-  btn.style.opacity = '0.7';
-
-  // no-cors: az adat elmegy, a választ nem olvassuk (MailerLite így működik böngészőből)
-  fetch(ML_ACTION, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: data.toString()
-  }).then(() => {
-    showMlSuccess(form, btn);
-  }).catch(() => {
-    // no-cors mellett a hibát sem látjuk biztosan; ettől még jellemzően megérkezik
-    showMlSuccess(form, btn);
-  });
-
-  return false;
-}
-function showMlSuccess(form, btn) {
-  form.reset();
-  btn.disabled = false;
-  btn.style.opacity = '1';
-  document.getElementById('modalFormView').style.display = 'none';
-  document.getElementById('modalSuccessView').style.display = 'block';
-}
-
-/* ─── CÉGES űrlap (saját szekció) ─────────────────── */
-function submitCegForm(e) {
-  e.preventDefault();
-  const form = document.getElementById('cegForm');
-  const btn = document.getElementById('cegSubmitBtn');
-  const data = new URLSearchParams();
-  new FormData(form).forEach((val, key) => { if (val !== '') data.append(key, val); });
-  data.append('ml-submit', '1');
-  data.append('anticsrf', 'true');
-  btn.disabled = true; btn.style.opacity = '0.7';
-  fetch(ML_ACTION, {
-    method: 'POST', mode: 'no-cors',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: data.toString()
-  }).then(() => {
-    document.getElementById('cegFormView').style.display = 'none';
-    document.getElementById('cegSuccessView').style.display = 'block';
-  }).catch(() => {
-    document.getElementById('cegFormView').style.display = 'none';
-    document.getElementById('cegSuccessView').style.display = 'block';
-  });
-  return false;
 }
 
 /* ─── SCROLL ANIMATIONS ───────────────────────────── */
@@ -2428,152 +2092,6 @@ window.addEventListener('scroll', () => {
   start();
 })();
 
-/* ─── NAGY SLIDER BANNER (aloldalak) ──────────────── */
-(function() {
-  const slides = Array.from(document.querySelectorAll('.slider-slide'));
-  const dotsWrap = document.getElementById('sliderDots');
-  const prev = document.getElementById('sliderPrev');
-  const next = document.getElementById('sliderNext');
-  if (slides.length < 2 || !dotsWrap) return;
-
-  let current = 0;
-  let timer = null;
-  const INTERVAL = 6000;
-
-  slides.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'sd' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', (i + 1) + '. dia');
-    dot.addEventListener('click', () => { goTo(i); restart(); });
-    dotsWrap.appendChild(dot);
-  });
-  const dots = Array.from(dotsWrap.children);
-
-  function goTo(idx) {
-    slides[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    current = (idx + slides.length) % slides.length;
-    slides[current].classList.add('active');
-    dots[current].classList.add('active');
-  }
-  function go(dir) { goTo(current + dir); }
-  function start() { timer = setInterval(() => go(1), INTERVAL); }
-  function restart() { clearInterval(timer); start(); }
-
-  if (prev) prev.addEventListener('click', () => { go(-1); restart(); });
-  if (next) next.addEventListener('click', () => { go(1); restart(); });
-
-  const slider = document.getElementById('pageSlider');
-  if (slider) {
-    slider.addEventListener('mouseenter', () => clearInterval(timer));
-    slider.addEventListener('mouseleave', start);
-  }
-  start();
-})();
-</script>
-
-<!-- \u2550\u2550\u2550 K\u00d6Z\u00d6S ESEM\u00c9NY-ADATOK (egyetlen forr\u00e1s) \u2550\u2550\u2550 -->
-<script src="esemenyek.js"></script>
-<script>
-/* A rendezv\u00e9nylist\u00e1t az esemenyek.js-b\u0151l gener\u00e1ljuk, h\u00f3napokra bontva. */
-(function () {
-  const box = document.getElementById('esemeny-lista');
-  if (!box || !window.BACSKAI) return;
-
-  const CLOCK = '<svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.3" stroke="currentColor" stroke-width="1.4"/><path d="M8 4.6V8l2.4 1.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  const PIN = '<svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 14.5s5-4.2 5-8.1A5 5 0 0 0 3 6.4c0 3.9 5 8.1 5 8.1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><circle cx="8" cy="6.3" r="1.8" stroke="currentColor" stroke-width="1.4"/></svg>';
-  const USERS = '<svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5.2" r="2.3" stroke="currentColor" stroke-width="1.4"/><path d="M2.2 13c0-2.3 1.7-3.8 3.8-3.8S9.8 10.7 9.8 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M10.5 3.2a2.1 2.1 0 0 1 0 4M11.2 9.4c1.7.3 2.9 1.7 2.9 3.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
-  const ARROW = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  const ARROW_SM = '<svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-
-  const HONAP_ROVID = ['Jan', 'Febr', 'M\u00e1rc', '\u00c1pr', 'M\u00e1j', 'J\u00fan', 'J\u00fal', 'Aug', 'Szep', 'Okt', 'Nov', 'Dec'];
-  const NAP_NEV = ['vas\u00e1rnap', 'h\u00e9tf\u0151', 'kedd', 'szerda', 'cs\u00fct\u00f6rt\u00f6k', 'p\u00e9ntek', 'szombat'];
-
-  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
-    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-
-  function eventCard(e) {
-    const dt = e._dt;
-    const m = e.meta;
-    const napNev = NAP_NEV[dt.getDay()];
-    const napCap = napNev.charAt(0).toUpperCase() + napNev.slice(1);
-    const cim = m.cim + (e.megjegyzes ? ' \u2014 ' + e.megjegyzes : '');
-    const idoStr = napCap + ', ' + e.ido;
-
-    const st = e.statusz || { telt: false };
-    const action = st.telt
-      ? '<button class="btn btn-primary" disabled>Betelt</button>'
-      : '<a href="#" class="btn btn-primary" onclick="openModal(\'' + esc(m.modal) + '\'); return false;">' +
-        esc(m.gomb) + ' ' + ARROW + '</a>';
-    const details =
-      '<a href="' + esc(m.aloldal) + '" class="event-details-link">A k\u00e9pz\u00e9s r\u00e9szletei ' + ARROW_SM + '</a>';
-
-    return '' +
-      '<div class="event-card' + (st.telt ? ' ev-telt' : '') + '">' +
-        '<div class="event-date">' +
-          '<span class="ed-day">' + String(dt.getDate()).padStart(2, '0') + '</span>' +
-          '<span class="ed-month">' + HONAP_ROVID[dt.getMonth()] + '</span>' +
-          '<span class="ed-year">' + dt.getFullYear() + '</span>' +
-        '</div>' +
-        '<div class="event-body">' +
-          '<span class="event-tag ' + esc(m.tag) + '">' + esc(m.tagFelirat) + '</span>' +
-          (st.telt ? '<span class="event-tag" style="background:#FDECEC;color:#B23B3B;border:1px solid #F2C4C4;margin-left:6px;">Betelt</span>' : '') +
-          '<h3>' + esc(cim) + '</h3>' +
-          '<div class="event-meta">' +
-            '<span>' + CLOCK + ' ' + esc(idoStr) + '</span>' +
-            '<span>' + PIN + ' ' + esc(e.helyszin) + '</span>' +
-            '<span>' + USERS + ' ' + esc(m.letszam) + '</span>' +
-          '</div>' +
-          '<p>' + esc(m.leiras) + '</p>' +
-        '</div>' +
-        '<div class="event-action">' + action + details + '</div>' +
-      '</div>';
-  }
-
-  // Csak j\u00f6v\u0151beli, dat\u00e1lt esem\u00e9nyek (a c\u00e9ges k\u00fcl\u00f6n szekci\u00f3ban van)
-  const lista = window.BACSKAI.osszesEsemeny().filter(function (e) {
-    return e.jovobeli && e.kepzes !== 'ceges';
-  });
-
-  if (!lista.length) {
-    box.innerHTML = '<div class="event-empty"><strong>Tov\u00e1bbi id\u0151pontok hamarosan.</strong> ' +
-      'A napt\u00e1rat folyamatosan friss\u00edtj\u00fck. <a href="#" class="hirlevel-link" onclick="openHirlevel();return false;">Iratkozz fel</a>, \u00e9s els\u0151k\u00e9nt \u00e9rtes\u00fclsz az \u00faj alkalmakr\u00f3l.</div>';
-    return;
-  }
-
-  // H\u00f3napokra csoportos\u00edt\u00e1s
-  let html = '';
-  let aktHonap = '';
-  lista.forEach(function (e) {
-    const honap = window.BACSKAI.honapCimke(e._dt);
-    if (honap !== aktHonap) {
-      if (aktHonap !== '') html += '</div>';
-      html += '<div class="month-label">' + esc(honap) + '</div><div class="event-list">';
-      aktHonap = honap;
-    }
-    html += eventCard(e);
-  });
-  if (aktHonap !== '') html += '</div>';
-
-  html += '<div class="event-empty" style="margin-top:2rem;">' +
-    '<strong>Tov\u00e1bbi id\u0151pontok hamarosan.</strong> ' +
-    'A napt\u00e1rat folyamatosan friss\u00edtj\u00fck. <a href="#" class="hirlevel-link" onclick="openHirlevel();return false;">Iratkozz fel</a>, \u00e9s els\u0151k\u00e9nt \u00e9rtes\u00fclsz az \u00faj alkalmakr\u00f3l.</div>';
-
-  box.innerHTML = html;
-})();
-</script>
-<div class="modal-overlay" id="privacyOverlay" onclick="closePrivacyOnBg(event)">
-  <div class="modal" style="max-width:720px;">
-    <button class="modal-close" onclick="closePrivacy()" aria-label="Bezárás"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
-    <h2 style="margin-bottom:1.4rem;">Adatkezelési tájékoztató</h2>
-    <div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">1. Az adatkezelő adatai</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Cégnév: Vida Interim Kft.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Székhely: 6500 Baja, Venyige u. 40.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Adószám: 24387107-2-03</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Cégjegyzékszám: 03-09-132784</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">E-mail: info@vidainterim.hu</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Telefon: +36 30 844 2912</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">2. Az adatkezelés célja és jogalapja</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">A Vida Interim Kft. (továbbiakban: Adatkezelő) a BácskAI Akadémia képzéseire történő jelentkezés, valamint az érdeklődők megkereséseinek kezelése céljából kezeli a megadott személyes adatokat.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az adatkezelés jogalapja: az érintett hozzájárulása (GDPR 6. cikk (1) bekezdés a) pont), illetve szerződés teljesítése (GDPR 6. cikk (1) bekezdés b) pont).</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">3. A kezelt adatok köre</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Jelentkezési űrlapon keresztül: név, e-mail cím, telefonszám, a kiválasztott képzés megnevezése.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">E-mailen vagy telefonon történő kapcsolatfelvétel esetén: az érintett által önkéntesen megadott adatok.</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">4. Az adatkezelés időtartama</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az Adatkezelő a személyes adatokat a képzés teljesítéséig, illetve — ha az érintett hozzájárulásán alapul az adatkezelés — a hozzájárulás visszavonásáig kezeli. Számviteli bizonylatokat a jogszabályi előírásoknak megfelelően 8 évig őrzi meg.</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">5. Adattovábbítás, adatfeldolgozók</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az Adatkezelő személyes adatokat harmadik félnek nem ad át, kivéve, ha azt jogszabály kötelezővé teszi. Az adatok tárolása az Adatkezelő által igénybe vett tárhelyszolgáltatón keresztül történik.</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">6. Az érintett jogai</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az érintett jogosult: hozzáférni a róla kezelt adatokhoz, kérni azok helyesbítését vagy törlését, korlátozni az adatkezelést, valamint adathordozhatósághoz való jogát érvényesíteni.</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Kérelmét az info@bacskaiakademia.hu e-mail címre küldheti. Az Adatkezelő 30 napon belül válaszol.</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">7. Jogorvoslat</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Amennyiben úgy véli, hogy adatai kezelése jogszabálysértő, panasszal élhet a Nemzeti Adatvédelmi és Információszabadság Hatóságnál (NAIH):</p><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Cím: 1055 Budapest, Falk Miksa u. 9–11. · naih.hu</p></div><div style="margin-bottom:1.2rem;"><h4 style="font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;font-weight:800;">8. Tájékoztató módosítása</h4><p style="font-size:0.88rem;color:var(--text-2);line-height:1.7;margin-bottom:0.3rem;">Az Adatkezelő fenntartja a jogot jelen tájékoztató módosítására. A változásokról az érintetteket e-mailben vagy a weboldalon tájékoztatja.</p></div>
-    <div style="border-top:1px solid var(--border);padding-top:1rem;margin-top:0.5rem;font-size:0.82rem;color:var(--muted);">Utolsó módosítás: 2026. június</div>
-  </div>
-</div>
-<script>
-function openPrivacy(){document.getElementById('privacyOverlay').classList.add('open');document.body.style.overflow='hidden';}
-function closePrivacy(){document.getElementById('privacyOverlay').classList.remove('open');document.body.style.overflow='';}
-function closePrivacyOnBg(e){if(e.target===document.getElementById('privacyOverlay'))closePrivacy();}
 </script>
 <!-- BACSKAI:COOKIE:START -->
 <!-- ═══════════════════════════════════════════════════════

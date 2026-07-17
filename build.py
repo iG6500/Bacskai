@@ -64,7 +64,17 @@ def build_page(fname):
         s = s.replace("</head>", polish + "\n</head>", 1)
         report.append("polish:+")
 
-    # 6) HÍRLEVÉL modál — idempotens (marker alapján cserél vagy beszúr)
+    # 6) SÜTI (COOKIE) consent réteg — idempotens (marker alapján cserél vagy beszúr)
+    cookie = part("cookie.html")
+    if "BACSKAI:COOKIE:START" in s:
+        s = re.sub(r"<!-- BACSKAI:COOKIE:START -->.*?<!-- BACSKAI:COOKIE:END -->",
+                   lambda m: cookie, s, count=1, flags=re.S)
+        report.append("cookie:frissítve")
+    else:
+        s = s.replace("</body>", cookie + "\n</body>", 1)
+        report.append("cookie:+")
+
+    # 7) HÍRLEVÉL modál — idempotens (marker alapján cserél vagy beszúr)
     hirlevel = part("hirlevel.html")
     if "BACSKAI:HIRLEVEL:START" in s:
         s = re.sub(r"<!-- BACSKAI:HIRLEVEL:START -->.*?<!-- BACSKAI:HIRLEVEL:END -->",
@@ -73,6 +83,13 @@ def build_page(fname):
     else:
         s = s.replace("</body>", hirlevel + "\n</body>", 1)
         report.append("hirlevel:+")
+
+    # 8) KÉRDŐÍV szekció — oldalspecifikus: csak ott cserél, ahol a marker jelen van
+    if "BACSKAI:KERDOIV:START" in s:
+        kerdoiv = part("kerdoiv.html")
+        s = re.sub(r"<!-- BACSKAI:KERDOIV:START -->.*?<!-- BACSKAI:KERDOIV:END -->",
+                   lambda m: kerdoiv, s, count=1, flags=re.S)
+        report.append("kerdoiv:frissítve")
 
     with open(os.path.join(DIST, fname), "w", encoding="utf-8") as f:
         f.write(s)
@@ -90,7 +107,7 @@ def main():
         if bad: ok = False
         print(f"  {fname:24s} {flag}  ({', '.join(rep)})")
     # az esemenyek.js-t változatlanul visszük
-    src_ev = os.path.join(HERE, "..", "esemenyek.js")
+    src_ev = os.path.join(HERE, "esemenyek.js")
     if os.path.exists(src_ev):
         shutil.copy(src_ev, os.path.join(DIST, "esemenyek.js"))
         print("  esemenyek.js            OK  (másolva)")
