@@ -2265,6 +2265,8 @@ function selectDate(btn) {
   btn.classList.add('selected');
   var idoInput = document.getElementById('mlIdopont');
   if (idoInput) idoInput.value = btn.getAttribute('data-datum');
+  var err = document.getElementById('mlIdopontError');
+  if (err) err.remove();
 }
 function openModal(courseName) {
   // Esemény-érték a MailerLite "esemeny" mezőhöz (pontos opciónevek)
@@ -2319,6 +2321,25 @@ function closeModalOnBg(e) {
 
 function submitMlForm(e) {
   e.preventDefault();
+
+  // Időpont-választás kötelező, ha vannak választható időpontok
+  var datesBox = document.getElementById('modalDates');
+  var idoInput = document.getElementById('mlIdopont');
+  if (datesBox && datesBox.style.display !== 'none' &&
+      datesBox.querySelector('.modal-date-pill') &&
+      idoInput && !idoInput.value) {
+    var err = document.getElementById('mlIdopontError');
+    if (!err) {
+      err = document.createElement('div');
+      err.id = 'mlIdopontError';
+      err.style.cssText = 'color:var(--coral-dark);font-size:0.82rem;font-weight:600;margin-top:0.5rem;';
+      err.textContent = 'Kérjük, válassz időpontot a jelentkezés elküldéséhez.';
+      datesBox.appendChild(err);
+    }
+    datesBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return false;
+  }
+
   const form = document.getElementById('mlForm');
   const btn = document.getElementById('mlSubmitBtn');
   const data = new URLSearchParams();
