@@ -1765,15 +1765,14 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="kv-card">
         <span class="kv-q">1. Melyik rész volt számodra a leghasznosabb?</span>
         <p class="kv-hint">Legfeljebb kettőt válassz.</p>
-        <div class="kv-options" data-kv-multi="legjobb_resz" data-kv-max="2" data-kv-q="1">
-          <label><input type="checkbox" name="kv_legjobb_resz" value="Új kolléga"><span>Az „új kolléga”, aki mindent tud, csak a te cégedet nem</span></label>
-          <label><input type="checkbox" name="kv_legjobb_resz" value="Felelősség"><span>Mit bízz rá, mit ne — a felelősség kérdése</span></label>
-          <label><input type="checkbox" name="kv_legjobb_resz" value="Hogyan gondolkodik"><span>Hogyan „gondolkodik” a gép, a tokenek</span></label>
-          <label><input type="checkbox" name="kv_legjobb_resz" value="Prompt recept"><span>A prompt recept: szerep, kontextus, cél, tiltás, formátum</span></label>
-          <label><input type="checkbox" name="kv_legjobb_resz" value="Élő demók"><span>Az élő demók — kép 30 másodperc alatt, Facebook-poszt</span></label>
-          <label><input type="checkbox" name="kv_legjobb_resz" value="Mire jó ma"><span>Mire használható már ma</span></label>
+        <div class="kv-options" data-kv-multi data-kv-max="2" data-kv-q="1">
+          <label><input type="checkbox" name="fields[legjobb_resz][]" value="Az „új kolléga”, aki mindent tud, csak a te cégedet nem"><span>Az „új kolléga”, aki mindent tud, csak a te cégedet nem</span></label>
+          <label><input type="checkbox" name="fields[legjobb_resz][]" value="Mit bízz rá, mit ne — a felelősség kérdése"><span>Mit bízz rá, mit ne — a felelősség kérdése</span></label>
+          <label><input type="checkbox" name="fields[legjobb_resz][]" value="Hogyan „gondolkodik” a gép, a tokenek"><span>Hogyan „gondolkodik” a gép, a tokenek</span></label>
+          <label><input type="checkbox" name="fields[legjobb_resz][]" value="A prompt recept: szerep, kontextus, cél, tiltás, formátum"><span>A prompt recept: szerep, kontextus, cél, tiltás, formátum</span></label>
+          <label><input type="checkbox" name="fields[legjobb_resz][]" value="Az élő demók — kép 30 másodperc alatt, Facebook-poszt"><span>Az élő demók — kép 30 másodperc alatt, Facebook-poszt</span></label>
+          <label><input type="checkbox" name="fields[legjobb_resz][]" value="Mire használható már ma"><span>Mire használható már ma</span></label>
         </div>
-        <input type="hidden" name="fields[legjobb_resz]" id="kvLegjobbResz" value="">
       </div>
 
       <div class="kv-card">
@@ -1788,7 +1787,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="kv-card">
         <label class="kv-q" for="kvKiemelt">3. Mi az, ami leginkább megmaradt a mai estéből?</label>
         <p class="kv-hint">Elég egy-két mondat. Ezt olvassuk a legszívesebben.</p>
-        <textarea id="kvKiemelt" name="fields[kiemelt]" rows="3" placeholder="Pl. amikor kiderült, hogy…"
+        <textarea id="kvKiemelt" name="fields[kiemelt]" rows="3" maxlength="1024" placeholder="Pl. amikor kiderült, hogy…"
                   style="width:100%;padding:0.85rem 1rem;border:1.5px solid var(--border-med);border-radius:var(--r-md);font-family:var(--font-body);font-size:0.95rem;background:var(--surface);color:var(--ink);resize:vertical;"></textarea>
       </div>
 
@@ -1798,7 +1797,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <div class="kv-options">
           <label><input type="radio" name="fields[velemeny_engedely]" value="Igen, keresztnevemmel" required><span>Igen, keresztnevemmel és a foglalkozásommal</span></label>
           <label><input type="radio" name="fields[velemeny_engedely]" value="Igen, név nélkül"><span>Igen, de név nélkül</span></label>
-          <label><input type="radio" name="fields[velemeny_engedely]" value="Nem"><span>Inkább nem</span></label>
+          <label><input type="radio" name="fields[velemeny_engedely]" value="Inkább nem"><span>Inkább nem</span></label>
         </div>
       </div>
 
@@ -1818,8 +1817,8 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="kv-card">
         <span class="kv-q">6. Van a munkahelyeden szabály arra, mit szabad AI-ba beírni?</span>
         <div class="kv-options">
-          <label><input type="radio" name="fields[ai_szabaly]" value="Írott szabály" required><span>Igen, van írott szabály</span></label>
-          <label><input type="radio" name="fields[ai_szabaly]" value="Szóban"><span>Szóban megbeszéltük</span></label>
+          <label><input type="radio" name="fields[ai_szabaly]" value="Igen, van írott szabály" required><span>Igen, van írott szabály</span></label>
+          <label><input type="radio" name="fields[ai_szabaly]" value="Szóban megbeszéltük"><span>Szóban megbeszéltük</span></label>
           <label><input type="radio" name="fields[ai_szabaly]" value="Nincs"><span>Nincs</span></label>
           <label><input type="radio" name="fields[ai_szabaly]" value="Nem tudom"><span>Nem tudom</span></label>
         </div>
@@ -1828,15 +1827,14 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="kv-card">
         <span class="kv-q">7. Hol menne el a legtöbb időd, amin egy gép segíthetne?</span>
         <p class="kv-hint">Legfeljebb kettőt válassz.</p>
-        <div class="kv-options" data-kv-multi="idorablo" data-kv-max="2" data-kv-q="7">
-          <label><input type="checkbox" name="kv_idorablo" value="Kommunikáció"><span>Kommunikáció — e-mail, ajánlat, ügyfélválasz</span></label>
-          <label><input type="checkbox" name="kv_idorablo" value="Dokumentum"><span>Dokumentum — összefoglalás, jegyzőkönyv, átfogalmazás</span></label>
-          <label><input type="checkbox" name="kv_idorablo" value="Tudáskeresés"><span>Tudáskeresés — céges anyagok, szabályzatok, kézikönyvek</span></label>
-          <label><input type="checkbox" name="kv_idorablo" value="Elemzés"><span>Elemzés — Excel, adatok, döntés-előkészítés</span></label>
-          <label><input type="checkbox" name="kv_idorablo" value="Tartalomgyártás"><span>Tartalomgyártás — poszt, prezentáció, kép</span></label>
-          <label><input type="checkbox" name="kv_idorablo" value="Automatizálás"><span>Automatizálás — riport, ticket, ismétlődő folyamatok</span></label>
+        <div class="kv-options" data-kv-multi data-kv-max="2" data-kv-q="7">
+          <label><input type="checkbox" name="fields[idorablo][]" value="Kommunikáció — e-mail, ajánlat, ügyfélválasz"><span>Kommunikáció — e-mail, ajánlat, ügyfélválasz</span></label>
+          <label><input type="checkbox" name="fields[idorablo][]" value="Dokumentum — összefoglalás, jegyzőkönyv, átfogalmazás"><span>Dokumentum — összefoglalás, jegyzőkönyv, átfogalmazás</span></label>
+          <label><input type="checkbox" name="fields[idorablo][]" value="Tudáskeresés — céges anyagok, szabályzatok, kézikönyvek"><span>Tudáskeresés — céges anyagok, szabályzatok, kézikönyvek</span></label>
+          <label><input type="checkbox" name="fields[idorablo][]" value="Elemzés — Excel, adatok, döntés-előkészítés"><span>Elemzés — Excel, adatok, döntés-előkészítés</span></label>
+          <label><input type="checkbox" name="fields[idorablo][]" value="Tartalomgyártás — poszt, prezentáció, kép"><span>Tartalomgyártás — poszt, prezentáció, kép</span></label>
+          <label><input type="checkbox" name="fields[idorablo][]" value="Automatizálás — riport, ticket, ismétlődő folyamatok"><span>Automatizálás — riport, ticket, ismétlődő folyamatok</span></label>
         </div>
-        <input type="hidden" name="fields[idorablo]" id="kvIdorablo" value="">
       </div>
 
       <div class="kv-card">
@@ -1857,7 +1855,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="kv-card">
         <span class="kv-q">9. Melyik lépés érdekelne a folytatásból?</span>
         <div class="kv-options" id="kvLepesOptions">
-          <label><input type="radio" name="fields[kovetkezo_lepes]" value="AI Alapozó" required><span>AI Alapozó workshop</span></label>
+          <label><input type="radio" name="fields[kovetkezo_lepes]" value="AI Alapozó" required><span>AI Alapozó — 2026. szeptember 11., Malom Club, Baja (39.900 Ft)</span></label>
           <label><input type="radio" name="fields[kovetkezo_lepes]" value="AI Haladó"><span>AI Haladó workshop</span></label>
           <label><input type="radio" name="fields[kovetkezo_lepes]" value="Céges képzés"><span>Céges képzés a munkahelyemnek</span></label>
           <label><input type="radio" name="fields[kovetkezo_lepes]" value="Csak hírlevél"><span>Egyelőre a hírlevél elég</span></label>
@@ -1960,13 +1958,13 @@ document.addEventListener('DOMContentLoaded', function () {
   }catch(e){}
 
   // ── Többválasztós kérdések: legfeljebb N jelölhető ──
+  // A checkboxok közvetlenül fields[...][] néven mennek ki, a MailerLite
+  // form checkbox-mezőivel azonos értékekkel — nincs összefűzés.
   var multiGroups = [];
   Array.prototype.forEach.call(document.querySelectorAll('[data-kv-multi]'), function(group){
-    var max    = parseInt(group.getAttribute('data-kv-max'), 10) || 2;
-    var boxes  = Array.prototype.slice.call(group.querySelectorAll('input[type=checkbox]'));
-    var hidden = document.getElementById('kv' + group.getAttribute('data-kv-multi').replace(/(^|_)(.)/g, function(m,a,b){ return b.toUpperCase(); }));
-    var entry  = { group: group, boxes: boxes, hidden: hidden };
-    multiGroups.push(entry);
+    var max   = parseInt(group.getAttribute('data-kv-max'), 10) || 2;
+    var boxes = Array.prototype.slice.call(group.querySelectorAll('input[type=checkbox]'));
+    multiGroups.push({ group: group, boxes: boxes });
 
     function sync(){
       var picked = boxes.filter(function(b){ return b.checked; });
@@ -1975,7 +1973,6 @@ document.addEventListener('DOMContentLoaded', function () {
         b.disabled = off;
         b.closest('label').classList.toggle('kv-off', off);
       });
-      if(hidden) hidden.value = picked.map(function(b){ return b.value; }).join(', ');
     }
     boxes.forEach(function(b){ b.addEventListener('change', sync); });
     sync();
@@ -2030,16 +2027,42 @@ document.addEventListener('DOMContentLoaded', function () {
     data.append('ml-submit', '1');
     data.append('anticsrf', 'true');
     btn.disabled = true; btn.style.opacity = '0.7';
-    fetch(KV_ACTION, {
-      method:'POST', mode:'no-cors',
-      headers:{'Content-Type':'application/x-www-form-urlencoded'},
-      body: data.toString()
-    }).then(done).catch(done);
-    function done(){
-      form.style.display = 'none';
-      document.getElementById('kvSuccess').style.display = '';
-      window.scrollTo({top:0, behavior:'smooth'});
+
+    /* Olvasható CORS-kérés. A korábbi no-cors fetch válasza átlátszatlan volt,
+       ezért az oldal akkor is sikert mutatott, ha a beküldés elveszett.
+       JSONP nem járható: a végpont application/json fejlécet küld, amit a
+       Chrome script-ként betöltve blokkol (ERR_BLOCKED_BY_ORB). */
+    var settled = false;
+    function finish(ok, msg){
+      if(settled) return;
+      settled = true;
+      clearTimeout(timer);
+      if(ok){
+        form.style.display = 'none';
+        document.getElementById('kvSuccess').style.display = '';
+        window.scrollTo({top:0, behavior:'smooth'});
+      }else{
+        btn.disabled = false; btn.style.opacity = '';
+        kvShowError(msg);
+      }
     }
+    var timer = setTimeout(function(){
+      finish(false, 'A beküldés túl sokáig tartott. Próbáld meg még egyszer.');
+    }, 15000);
+
+    fetch(KV_ACTION, {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: data.toString()
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      if(res && res.success) finish(true);
+      else finish(false, 'A válaszaidat nem sikerült rögzíteni. Próbáld meg újra, vagy szólj a szervezőknek.');
+    })
+    .catch(function(){
+      finish(false, 'Nem sikerült elérni a szervert. Ellenőrizd a netkapcsolatot — ha hirdetésblokkolót használsz, arra is gyanakodj.');
+    });
     return false;
   };
 })();
