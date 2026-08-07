@@ -30,6 +30,17 @@
    még. Ha a foglalt eléri a férőhelyet, a jelzés "Betelt" lesz és a
    jelentkezés gomb letiltódik. Kézi teltre jelölés: telt: true.
 
+   A telt: true ÖNMAGÁBAN elég — nem kell mellé a foglalt számot is
+   felhúzni a férőhelyre. Egy betelt alkalom ezután MINDENHOL betelt:
+     • a Rendezvények oldalon és az aloldalakon "Betelt" a jelzés,
+     • a jelentkezési ablakban NEM választható időpont,
+     • a főoldali kártya sem ezt hirdeti "következő időpont"-ként.
+
+   Ha a módosítás nem látszik azonnal a weboldalon: a böngésző néhány
+   percig a korábbi esemenyek.js-t őrizheti. Az oldalak ezért friss
+   példányt kérnek le (?v=… bélyeggel), de erős frissítés (Ctrl+F5)
+   után biztosan a legújabb adatot látod.
+
    A "kepzes" mező csak ez a négy érték lehet:
      "szerdai"  →  SzerdAI est (ingyenes)
      "alapozo"  →  AI Alapozó
@@ -50,8 +61,8 @@ window.BACSKAI_ESEMENYEK = [
     ido: "17:30–19:30",
     helyszin: "Baja, képzőterem",
     ferohely: 30,
-    foglalt: 30,
-    telt: true, 
+    foglalt: 0,
+    telt: true,
   },
   {
     kepzes: "szerdai",
@@ -214,13 +225,30 @@ window.BACSKAI = (function () {
       .sort(function (a, b) { return a._dt - b._dt; });
   }
 
+  /* Egy képzés MINDEN jövőbeli alkalma — a beteltek is benne vannak.
+     Ezt használják a listák, ahol a betelt alkalmat is ki kell írni. */
   function kepzesEsemenyei(kepzesKulcs) {
     return osszesEsemeny().filter(function (e) {
       return e.kepzes === kepzesKulcs && e.jovobeli;
     });
   }
 
+  /* Egy képzés jövőbeli alkalmai, amikre MÉG LEHET jelentkezni.
+     Ezt használja a jelentkezési ablak időpontválasztója. */
+  function foglalhatoEsemenyei(kepzesKulcs) {
+    return kepzesEsemenyei(kepzesKulcs).filter(function (e) {
+      return !e.statusz.telt;
+    });
+  }
+
+  /* A következő alkalom, amire még lehet jelentkezni (betelt nélkül). */
   function kovetkezo(kepzesKulcs) {
+    const lista = foglalhatoEsemenyei(kepzesKulcs);
+    return lista.length ? lista[0] : null;
+  }
+
+  /* A következő alkalom akkor is, ha már betelt. */
+  function kovetkezoBarmely(kepzesKulcs) {
     const lista = kepzesEsemenyei(kepzesKulcs);
     return lista.length ? lista[0] : null;
   }
@@ -229,7 +257,9 @@ window.BACSKAI = (function () {
     KEPZESEK: KEPZESEK,
     osszesEsemeny: osszesEsemeny,
     kepzesEsemenyei: kepzesEsemenyei,
+    foglalhatoEsemenyei: foglalhatoEsemenyei,
     kovetkezo: kovetkezo,
+    kovetkezoBarmely: kovetkezoBarmely,
     ferohelyStatusz: ferohelyStatusz,
     rovidDatum: rovidDatum,
     honapCimke: honapCimke,

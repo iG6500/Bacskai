@@ -1485,6 +1485,11 @@ footer {
 .modal-date-pill.selected {
   background: var(--coral); border-color: var(--coral); color: #fff;
 }
+.modal-dates-note {
+  font-size: 0.84rem; line-height: 1.55; color: var(--text-2);
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 0.6rem 0.85rem;
+}
 .payment-options {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 0.7rem; margin-bottom: 1rem;
@@ -2247,7 +2252,8 @@ function openModal(courseName) {
     var datesHtml = '';
     var kulcs = bacskaiKulcsCourseName(courseName);
     if (kulcs && window.BACSKAI) {
-      var lista = window.BACSKAI.kepzesEsemenyei(kulcs).slice(0, 3);
+      // Csak azokat az időpontokat kínáljuk fel, amikre még lehet jelentkezni
+      var lista = window.BACSKAI.foglalhatoEsemenyei(kulcs).slice(0, 3);
       if (lista.length) {
         datesHtml = '<div class="modal-dates-label">Válaszd ki, melyik időpont érdekel:</div><div class="modal-dates-list">' +
           lista.map(function (e) {
@@ -2255,6 +2261,11 @@ function openModal(courseName) {
             return '<button type="button" class="modal-date-pill" data-datum="' + d + '" onclick="selectDate(this)">' + d + '</button>';
           }).join('') +
           '</div>';
+      } else if (window.BACSKAI.kepzesEsemenyei(kulcs).length) {
+        // Van meghirdetett időpont, de mind betelt — jelezzük, ne kelljen választani
+        datesHtml = '<div class="modal-dates-label">Időpontok</div>' +
+          '<div class="modal-dates-note">A meghirdetett időpontok jelenleg beteltek. ' +
+          'Küldd el a jelentkezésed, és szólunk, amint meghirdetjük a következő alkalmat.</div>';
       }
     }
     datesBox.innerHTML = datesHtml;
@@ -2473,10 +2484,21 @@ window.addEventListener('scroll', () => {
 </script>
 
 <!-- \u2550\u2550\u2550 K\u00d6Z\u00d6S ESEM\u00c9NY-ADATOK (egyetlen forr\u00e1s) \u2550\u2550\u2550 -->
-<script src="esemenyek.js"></script>
+<script>
+/* Az esemenyek.js-t szándékosan friss példányként kérjük le (?v=… bélyeg).
+   Enélkül a böngésző percekig a korábbi verziót használná, és egy frissen
+   beállított "telt: true" vagy megváltozott létszám nem látszódna azonnal. */
+function bacskaiBetoltEsemenyek(kesz) {
+  var s = document.createElement('script');
+  s.src = 'esemenyek.js?v=' + Math.floor(Date.now() / 60000);
+  s.onload = kesz;
+  s.onerror = kesz;          // ha nem tölt be, a renderelő magától kilép
+  document.head.appendChild(s);
+}
+</script>
 <script>
 /* A rendezv\u00e9nylist\u00e1t az esemenyek.js-b\u0151l gener\u00e1ljuk, h\u00f3napokra bontva. */
-(function () {
+bacskaiBetoltEsemenyek(function () {
   const box = document.getElementById('esemeny-lista');
   if (!box || !window.BACSKAI) return;
 
@@ -2560,7 +2582,7 @@ window.addEventListener('scroll', () => {
     'A napt\u00e1rat folyamatosan friss\u00edtj\u00fck. <a href="#" class="hirlevel-link" onclick="openHirlevel();return false;">Iratkozz fel</a>, \u00e9s els\u0151k\u00e9nt \u00e9rtes\u00fclsz az \u00faj alkalmakr\u00f3l.</div>';
 
   box.innerHTML = html;
-})();
+});
 </script>
 <div class="modal-overlay" id="privacyOverlay" onclick="closePrivacyOnBg(event)">
   <div class="modal" style="max-width:720px;">

@@ -1574,6 +1574,11 @@ footer {
 .modal-date-pill.selected {
   background: var(--amber); border-color: var(--coral); color: #fff;
 }
+.modal-dates-note {
+  font-size: 0.84rem; line-height: 1.55; color: var(--text-2);
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 0.6rem 0.85rem;
+}
 .payment-options {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 0.7rem; margin-bottom: 1rem;
@@ -2477,7 +2482,8 @@ function openModal(courseName) {
     var datesHtml = '';
     var kulcs = bacskaiKulcsCourseName(courseName);
     if (kulcs && window.BACSKAI) {
-      var lista = window.BACSKAI.kepzesEsemenyei(kulcs).slice(0, 3);
+      // Csak azokat az időpontokat kínáljuk fel, amikre még lehet jelentkezni
+      var lista = window.BACSKAI.foglalhatoEsemenyei(kulcs).slice(0, 3);
       if (lista.length) {
         datesHtml = '<div class="modal-dates-label">Válaszd ki, melyik időpont érdekel:</div><div class="modal-dates-list">' +
           lista.map(function (e) {
@@ -2485,6 +2491,11 @@ function openModal(courseName) {
             return '<button type="button" class="modal-date-pill" data-datum="' + d + '" onclick="selectDate(this)">' + d + '</button>';
           }).join('') +
           '</div>';
+      } else if (window.BACSKAI.kepzesEsemenyei(kulcs).length) {
+        // Van meghirdetett időpont, de mind betelt — jelezzük, ne kelljen választani
+        datesHtml = '<div class="modal-dates-label">Időpontok</div>' +
+          '<div class="modal-dates-note">A meghirdetett időpontok jelenleg beteltek. ' +
+          'Küldd el a jelentkezésed, és szólunk, amint meghirdetjük a következő alkalmat.</div>';
       }
     }
     datesBox.innerHTML = datesHtml;
@@ -2689,16 +2700,28 @@ window.addEventListener('scroll', () => {
 </script>
 
 <!-- ═══ KÖZÖS ESEMÉNY-ADATOK (egyetlen forrás) ═══ -->
-<script src="esemenyek.js"></script>
+<script>
+/* Az esemenyek.js-t szándékosan friss példányként kérjük le (?v=… bélyeg).
+   Enélkül a böngésző percekig a korábbi verziót használná, és egy frissen
+   beállított "telt: true" vagy megváltozott létszám nem látszódna azonnal. */
+function bacskaiBetoltEsemenyek(kesz) {
+  var s = document.createElement('script');
+  s.src = 'esemenyek.js?v=' + Math.floor(Date.now() / 60000);
+  s.onload = kesz;
+  s.onerror = kesz;          // ha nem tölt be, a renderelő magától kilép
+  document.head.appendChild(s);
+}
+</script>
 <script>
 /* A képzéskártyák "Következő időpont" jelzését az esemenyek.js-ből töltjük fel. */
-(function () {
+bacskaiBetoltEsemenyek(function () {
   if (!window.BACSKAI) return;
   const CAL = '<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="2" y="3" width="11" height="10" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M5 1.5v3M10 1.5v3M2 6.5h11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
 
   document.querySelectorAll('.course-next[data-kepzes]').forEach(function (el) {
     const kulcs = el.getAttribute('data-kepzes');
-    const kov = window.BACSKAI.kovetkezo(kulcs);
+    const kov = window.BACSKAI.kovetkezo(kulcs);              // következő FOGLALHATÓ alkalom
+    const barmely = window.BACSKAI.kovetkezoBarmely(kulcs);   // következő alkalom, ha már betelt is
 
     let label, ertek;
     if (kulcs === 'ceges') {
@@ -2707,6 +2730,11 @@ window.addEventListener('scroll', () => {
     } else if (kov) {
       label = 'Következő időpont';
       ertek = window.BACSKAI.rovidDatum(kov._dt);
+    } else if (barmely) {
+      // Van meghirdetett alkalom, de betelt — ne foglalhatóként hirdessük
+      label = 'Következő időpont';
+      ertek = window.BACSKAI.rovidDatum(barmely._dt) +
+              '<span style="font-weight:700;color:var(--muted);"> · betelt</span>';
     } else {
       label = 'Következő időpont';
       ertek = 'Hamarosan';
@@ -2719,7 +2747,7 @@ window.addEventListener('scroll', () => {
         '<span class="cn-date">' + ertek + '</span>' +
       '</span>';
   });
-})();
+});
 </script>
 <!-- BACSKAI:COOKIE:START -->
 <!-- ═══════════════════════════════════════════════════════
