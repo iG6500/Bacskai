@@ -51,6 +51,7 @@ window.BACSKAI_ESEMENYEK = [
     helyszin: "Baja, képzőterem",
     ferohely: 30,
     foglalt: 0,
+    telt: true, 
   },
   {
     kepzes: "szerdai",
