@@ -50,7 +50,7 @@ window.BACSKAI_ESEMENYEK = [
     ido: "17:30–19:30",
     helyszin: "Baja, képzőterem",
     ferohely: 30,
-    foglalt: 0,
+    foglalt: 30,
     telt: true, 
   },
   {
