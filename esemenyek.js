@@ -69,8 +69,8 @@ window.BACSKAI_ESEMENYEK = [
     datum: "2026-08-26",
     ido: "17:30–19:30",
     helyszin: "Baja, képzőterem",
-    ferohely: 30,
-    foglalt: 0,
+    ferohely: 25,
+    foglalt: 2,
   },
   {
     kepzes: "alapozo",
