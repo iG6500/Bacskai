@@ -77,6 +77,33 @@
 /* Footer → Kapcsolat oszlop kiemelt hírlevél-linkje */
 .footer-col ul li a.footer-hirlevel-link{color:var(--amber);font-weight:800;}
 .footer-col ul li a.footer-hirlevel-link:hover{color:#fff;}
+/* Nav másodlagos hírlevél-link (képzésoldalak) */
+.nav-hirlevel{font-size:0.88rem;font-weight:700;color:var(--text-2);white-space:nowrap;transition:color 0.2s;}
+.nav-hirlevel:hover{color:var(--amber);}
+@media (max-width:900px){ .nav-hirlevel{display:none;} }
+/* Mobil menü hírlevél-sora */
+.mobile-menu .mobile-menu-hirlevel{color:var(--amber);font-weight:800;}
+/* "Betelt" / "nincs időpont" állapot melletti értesítés-kérő link */
+.hirlevel-ertesites{font-size:0.82rem;font-weight:700;color:var(--slate);
+  text-decoration:underline;text-underline-offset:3px;cursor:pointer;}
+.hirlevel-ertesites:hover{color:var(--amber);}
+/* Képzésoldalak időpont-sora: a letiltott "Betelt" gomb alatt */
+.ev-telt-actions{display:flex;flex-direction:column;align-items:center;gap:0.45rem;}
+/* Rendezvények oldal esemény-kártyája */
+.event-action .hirlevel-ertesites{display:block;margin-top:0.5rem;text-align:center;}
+/* A betelt sor/kártya halványítása ne vigye magával az értesítés-kérő linket:
+   az opacity-t a testvérelemekre tesszük át, hogy a CTA teljes erővel látszódjon. */
+.ev.telt{opacity:1;}
+.ev.telt .ev-left,.ev.telt .ev-status{opacity:.62;}
+/* a letiltott gomb korábban a sor és a saját halványítását is kapta (.62 × .5) */
+.ev.telt .btn[disabled]{opacity:.31;}
+.event-card.ev-telt{opacity:1;}
+.event-card.ev-telt .event-date,.event-card.ev-telt .event-body,
+.event-card.ev-telt .btn,.event-card.ev-telt .event-details-link{opacity:.62;}
+/* Főoldali képzéskártya "Következő időpont" jelzése */
+.course-next .cn-hirlevel{margin-top:0.15rem;font-size:0.78rem;font-weight:700;
+  color:var(--slate);text-decoration:underline;text-underline-offset:2px;}
+.course-next .cn-hirlevel:hover{color:var(--amber);}
 </style>
 
 <script>
@@ -90,8 +117,7 @@
     document.getElementById('hirlevelSuccessView').style.display = 'none';
     document.getElementById('hirlevelOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
-    // MailerLite form-megtekintés statisztika (megnyitásonként egyszer elég)
-    if(!takelSent){ takelSent = true; try{ fetch(HL_TAKEL); }catch(e){} }
+    window.hirlevelTakel();
   };
   window.closeHirlevel = function(){
     document.getElementById('hirlevelOverlay').classList.remove('open');
@@ -100,10 +126,20 @@
   window.closeHirlevelOnBg = function(e){
     if(e.target === document.getElementById('hirlevelOverlay')) closeHirlevel();
   };
-  window.submitHirlevel = function(e){
-    e.preventDefault();
-    var form = document.getElementById('hirlevelForm');
-    var btn  = document.getElementById('hirlevelSubmitBtn');
+  // MailerLite form-megtekintés statisztika — oldalanként egyszer elég.
+  // A modál és a főoldali hírlevél-sáv is ezt hívja.
+  window.hirlevelTakel = function(){
+    if(takelSent) return;
+    takelSent = true;
+    // statisztika: ha nem megy át, az a feliratkozást nem érinti
+    try{ fetch(HL_TAKEL).catch(function(){}); }catch(e){}
+  };
+
+  /* Közös MailerLite-küldés. Bármelyik hírlevél-űrlap használhatja
+     (modál, főoldali sáv), így az endpoint egy helyen van definiálva.
+     no-cors: az adat elmegy, a választ nem olvassuk (MailerLite így
+     működik böngészőből), ezért a hiba-ág is sikernek számít. */
+  window.hirlevelKuldes = function(form, kesz){
     var data = new URLSearchParams();
     new FormData(form).forEach(function(val, key){
       if(typeof val === 'string') val = val.trim();
@@ -112,17 +148,23 @@
     data.append('ml-submit', '1');
     data.append('anticsrf', 'true');
 
-    btn.disabled = true;
-    btn.style.opacity = '0.7';
-
-    // no-cors: az adat elmegy, a választ nem olvassuk (MailerLite így működik böngészőből)
     fetch(HL_ACTION, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: data.toString()
-    }).then(function(){ hirlevelSuccess(form, btn); })
-      .catch(function(){ hirlevelSuccess(form, btn); });
+    }).then(kesz).catch(kesz);
+  };
+
+  window.submitHirlevel = function(e){
+    e.preventDefault();
+    var form = document.getElementById('hirlevelForm');
+    var btn  = document.getElementById('hirlevelSubmitBtn');
+
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+
+    window.hirlevelKuldes(form, function(){ hirlevelSuccess(form, btn); });
 
     return false;
   };
