@@ -128,7 +128,7 @@ window.BACSKAI = (function () {
       tag: "free",
       tagFelirat: "Ingyenes",
       gomb: "Foglalok helyet",
-      letszam: "30 fő",
+      letszam: "25 fő",
       leiras: "Kötetlen, 2 órás ismertető est azoknak, akik szeretnék megérteni, mire használható ma az AI — előzetes tudás nélkül.",
     },
     alapozo: {
@@ -139,7 +139,7 @@ window.BACSKAI = (function () {
       tag: "paid",
       tagFelirat: "AI Alapozó",
       gomb: "Jelentkezem",
-      letszam: "20 fő",
+      letszam: "15 fő",
       leiras: "Az AI-eszközök biztonságos, gyakorlati használata a napi munkában. Részvételi díj: 39 900 Ft.",
     },
     halado: {
