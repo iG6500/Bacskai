@@ -73,7 +73,7 @@ window.BACSKAI_ESEMENYEK = [
   },
   {
     kepzes: "alapozo",
-    datum: "2026-09-11",
+    datum: "2026-10-02",
     ido: "09:00–16:00",
     helyszin: "Baja, képzőterem",
     ferohely: 15,
@@ -91,7 +91,7 @@ window.BACSKAI_ESEMENYEK = [
   },
   {
     kepzes: "halado",
-    datum: "2026-09-25",
+    datum: "2026-10-30",
     ido: "09:00–18:00",
     helyszin: "Baja, képzőterem",
     ferohely: 10,
@@ -101,7 +101,7 @@ window.BACSKAI_ESEMENYEK = [
    // ─── 2026. OKTÓBER ───
   {
     kepzes: "alapozo",
-    datum: "2026-10-09",
+    datum: "2026-10-16",
     ido: "09:00–16:00",
     helyszin: "Baja, képzőterem",
     ferohely: 15,
