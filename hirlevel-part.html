@@ -137,8 +137,13 @@
 
   /* Közös MailerLite-küldés. Bármelyik hírlevél-űrlap használhatja
      (modál, főoldali sáv), így az endpoint egy helyen van definiálva.
-     no-cors: az adat elmegy, a választ nem olvassuk (MailerLite így
-     működik böngészőből), ezért a hiba-ág is sikernek számít. */
+
+     Olvasható CORS-kérés — ugyanaz a minta, mint a kérdőívnél és a
+     jelentkezésnél. A korábbi no-cors fetch válasza átlátszatlan volt,
+     ezért a sikert akkor is kiírtuk, ha a feliratkozás elveszett.
+     A kesz(ok, uzenet) visszahívást csak valódi válasz után hívjuk.
+     Ha a CORS-kérés el sem indul (pl. hirdetésblokkoló), egyszer
+     visszaesünk a régi no-cors POST-ra, hogy az adat akkor is menjen. */
   window.hirlevelKuldes = function(form, kesz){
     var data = new URLSearchParams();
     new FormData(form).forEach(function(val, key){
@@ -148,12 +153,56 @@
     data.append('ml-submit', '1');
     data.append('anticsrf', 'true');
 
+    var settled = false;
+    function finish(ok, uzenet){
+      if(settled) return;
+      settled = true;
+      clearTimeout(timer);
+      kesz(ok, uzenet);
+    }
+    var timer = setTimeout(function(){
+      finish(false, 'A feliratkozás túl sokáig tartott. Próbáld meg még egyszer.');
+    }, 15000);
+
     fetch(HL_ACTION, {
       method: 'POST',
-      mode: 'no-cors',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: data.toString()
-    }).then(kesz).catch(kesz);
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      if(res && res.success) finish(true);
+      else finish(false, 'A feliratkozást nem sikerült rögzíteni. Próbáld meg újra, vagy írj nekünk: info@vidainterim.hu');
+    })
+    .catch(function(){
+      fetch(HL_ACTION, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: data.toString()
+      })
+      .then(function(){ finish(true); })
+      .catch(function(){
+        finish(false, 'Nem sikerült elérni a szervert. Ellenőrizd a netkapcsolatot — ha hirdetésblokkolót használsz, arra is gyanakodj.');
+      });
+    });
+  };
+
+  /* Hibaüzenet a megadott gomb fölé. */
+  window.hirlevelHiba = function(btn, azonosito, uzenet){
+    var box = document.getElementById(azonosito);
+    if(!box){
+      box = document.createElement('div');
+      box.id = azonosito;
+      box.setAttribute('role', 'alert');
+      box.style.cssText = 'background:#FDECEC;border:1px solid #F2C4C4;color:#B23B3B;' +
+        'font-size:0.85rem;font-weight:600;line-height:1.5;padding:0.7rem 1rem;' +
+        'border-radius:var(--r-sm);margin-bottom:0.9rem;';
+      btn.parentNode.insertBefore(box, btn);
+    }
+    box.textContent = uzenet;
+    btn.disabled = false;
+    btn.style.opacity = '';
   };
 
   window.submitHirlevel = function(e){
@@ -164,7 +213,10 @@
     btn.disabled = true;
     btn.style.opacity = '0.7';
 
-    window.hirlevelKuldes(form, function(){ hirlevelSuccess(form, btn); });
+    window.hirlevelKuldes(form, function(ok, uzenet){
+      if(ok) hirlevelSuccess(form, btn);
+      else window.hirlevelHiba(btn, 'hirlevelFormError', uzenet);
+    });
 
     return false;
   };
