@@ -128,7 +128,7 @@ window.BACSKAI = (function () {
       tagFelirat: "Ingyenes",
       gomb: "Foglalok helyet",
       letszam: "25 fő",
-      leiras: "Kötetlen, 2 órás ismertető est azoknak, akik szeretnék megérteni, mire használható ma az AI — előzetes tudás nélkül.",
+      leiras: "Kötetlen, 90 perces ismertető est azoknak, akik szeretnék megérteni, mire használható ma az AI — előzetes tudás nélkül.",
     },
     alapozo: {
       cim: "AI Alapozó workshop",
