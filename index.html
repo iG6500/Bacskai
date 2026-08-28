@@ -2334,15 +2334,9 @@ document.addEventListener('DOMContentLoaded', function () {
 .sp-name{font-family:var(--font-display);font-weight:800;font-size:0.95rem;color:var(--ink);line-height:1.3;}
 .sp-role{font-size:0.82rem;color:var(--muted);}
 .sp-photos{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:1100px;margin:2.8rem auto 0;}
-.sp-photo{aspect-ratio:4/3;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--border);box-shadow:var(--sh-md);background:var(--coral-light);}
+.sp-photo{aspect-ratio:16/9;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--border);box-shadow:var(--sh-md);background:var(--coral-light);}
 .sp-photo img{width:100%;height:100%;object-fit:cover;display:block;}
-.sp-photo-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;color:var(--coral);font-size:0.8rem;font-weight:600;}
 .sp-cta{text-align:center;margin-top:2.8rem;}
-.sp-blur-wrap{position:relative;}
-.sp-blur-content{filter:blur(7px);opacity:0.55;pointer-events:none;user-select:none;}
-.sp-soon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;}
-.sp-soon-badge{background:var(--surface);border:1px solid var(--border-med);border-radius:999px;padding:1rem 2.2rem;font-family:var(--font-display);font-weight:800;font-size:1.1rem;color:var(--ink);box-shadow:var(--sh-lg);display:flex;align-items:center;gap:0.7rem;text-align:center;}
-.sp-soon-badge::before{content:'';width:10px;height:10px;border-radius:50%;background:var(--amber);flex-shrink:0;}
 /* ha a kevert sorrend miatt az utolsó sorba egyetlen kártya jut, középre tesszük */
 /* aki kevesebb mozgást kér, annak nem pörög: kézzel húzható sorrá válik */
 @media (prefers-reduced-motion: reduce){
@@ -2368,16 +2362,14 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="sp-marquee fade-up" id="spMarquee" role="region" aria-label="Résztvevői vélemények">
       <div class="sp-track" id="spTrack"></div>
     </div>
-    <div class="sp-blur-wrap" style="margin-top:2.8rem;">
-    <div class="sp-soon"><div class="sp-soon-badge">Fotók hamarosan</div></div>
-    <div class="sp-blur-content">
-    <div class="sp-photos fade-up" style="margin-top:0;">
-      <div class="sp-photo"><div class="sp-photo-ph"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M21 15l-4.5-4L9 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Fotó a találkozóról</div></div>
-      <div class="sp-photo"><div class="sp-photo-ph"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M21 15l-4.5-4L9 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Fotó a találkozóról</div></div>
-      <div class="sp-photo"><div class="sp-photo-ph"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M21 15l-4.5-4L9 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Fotó a találkozóról</div></div>
-      <div class="sp-photo"><div class="sp-photo-ph"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M21 15l-4.5-4L9 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Fotó a találkozóról</div></div>
-    </div>
-    </div>
+    <div class="sp-photos fade-up" style="margin-top:2.8rem;">
+      <div class="sp-photo"><img src="images/BAI_0712.1.jpg" alt="Előadás egy SzerdAI esten, kivetítővel és hallgatósággal" loading="lazy"></div>
+      <div class="sp-photo"><img src="images/BAI_0712.2.jpg" alt="Az oktatók bemutatkozó diája a SzerdAI esten" loading="lazy"></div>
+      <div class="sp-photo"><img src="images/BAI_0712.3.jpg" alt="Résztvevők figyelik az előadást" loading="lazy"></div>
+      <div class="sp-photo"><img src="images/BAI_0712.4.jpg" alt="Az oktatók a képzés közben" loading="lazy"></div>
+      <div class="sp-photo"><img src="images/BAI_0712.5.jpg" alt="Résztvevők a SzerdAI esten" loading="lazy"></div>
+      <div class="sp-photo"><img src="images/BAI_0726.1.jpg" alt="A SzerdAI est hallgatósága" loading="lazy"></div>
+      <div class="sp-photo"><img src="images/BAI_0726.2.jpg" alt="Teltházas terem egy SzerdAI esten" loading="lazy"></div>
     </div>
     <div class="sp-cta">
       <a href="#" class="btn btn-primary" onclick="openModal('SzerdAI'); return false;">Gyere el a következő SzerdAI estre <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
