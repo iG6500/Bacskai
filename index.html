@@ -2340,6 +2340,10 @@ document.addEventListener('DOMContentLoaded', function () {
 .sp-soon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;}
 .sp-soon-badge{background:var(--surface);border:1px solid var(--border-med);border-radius:999px;padding:1rem 2.2rem;font-family:var(--font-display);font-weight:800;font-size:1.1rem;color:var(--ink);box-shadow:var(--sh-lg);display:flex;align-items:center;gap:0.7rem;text-align:center;}
 .sp-soon-badge::before{content:'';width:10px;height:10px;border-radius:50%;background:var(--amber);flex-shrink:0;}
+/* ha a kevert sorrend miatt az utolsó sorba egyetlen kártya jut, középre tesszük */
+@media (min-width: 901px){
+  .sp-grid > .sp-card:last-child:nth-child(3n+1){grid-column:2;}
+}
 @media (max-width: 900px){
   .sp-grid{grid-template-columns:1fr;max-width:560px;}
   .sp-photos{grid-template-columns:repeat(2,1fr);max-width:560px;}
@@ -2353,33 +2357,13 @@ document.addEventListener('DOMContentLoaded', function () {
       <h2 class="headline fade-up">Ők már <em>eljöttek.</em></h2>
       <p class="body-lg fade-up" style="margin:0 auto;">Résztvevőink tapasztalatai a SzerdAI estekről és a képzésekről — a saját szavaikkal.</p>
     </div>
-    <div class="sp-blur-wrap">
-    <div class="sp-soon"><div class="sp-soon-badge">Hamarosan — az első SzerdAI esték után</div></div>
+    <!-- A kártyák tartalma a szekció alatti scriptben (SP_TESTIMONIALS), minden
+         oldalbetöltéskor Fisher–Yates-keveréssel új sorrendben rendereljük. -->
+    <div class="sp-grid fade-up" id="spGrid"></div>
+    <div class="sp-blur-wrap" style="margin-top:2.8rem;">
+    <div class="sp-soon"><div class="sp-soon-badge">Fotók hamarosan</div></div>
     <div class="sp-blur-content">
-    <div class="sp-grid fade-up">
-      <div class="sp-card">
-        <p class="sp-quote">Ide kerül az első valós résztvevői vélemény a SzerdAI estről vagy a képzésről.</p>
-        <div class="sp-person">
-          <div class="sp-avatar">??</div>
-          <div><div class="sp-name">Név</div><div class="sp-role">Foglalkozás, település</div></div>
-        </div>
-      </div>
-      <div class="sp-card">
-        <p class="sp-quote">Ide kerül a második valós résztvevői vélemény.</p>
-        <div class="sp-person">
-          <div class="sp-avatar">??</div>
-          <div><div class="sp-name">Név</div><div class="sp-role">Foglalkozás, település</div></div>
-        </div>
-      </div>
-      <div class="sp-card">
-        <p class="sp-quote">Ide kerül a harmadik valós résztvevői vélemény.</p>
-        <div class="sp-person">
-          <div class="sp-avatar">??</div>
-          <div><div class="sp-name">Név</div><div class="sp-role">Foglalkozás, település</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="sp-photos fade-up">
+    <div class="sp-photos fade-up" style="margin-top:0;">
       <div class="sp-photo"><div class="sp-photo-ph"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M21 15l-4.5-4L9 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Fotó a találkozóról</div></div>
       <div class="sp-photo"><div class="sp-photo-ph"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M21 15l-4.5-4L9 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Fotó a találkozóról</div></div>
       <div class="sp-photo"><div class="sp-photo-ph"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M21 15l-4.5-4L9 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Fotó a találkozóról</div></div>
@@ -2392,6 +2376,80 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
   </div>
 </section>
+
+<script>
+/* RÓLUNK MONDTÁK — a kártyák adatai és véletlen sorrendű renderelése.
+   Új vélemény felvétele: egy új objektum a tömbbe (quote / name / category).
+   name: null  =>  "Név nélkül" + semleges avatar-ikon. */
+(function(){
+  var SP_TESTIMONIALS = [
+    { quote: 'Imádom, hogy ebben a korban élek. Már nagyon várom, hogy megbízhatóbban tudjon segíteni, és még jobban megkönnyítse az életem.', name: 'Brigitta', category: 'Egyéb' },
+    { quote: 'Nagyszerű munkatárs vagy asszisztens lehet belőle, csak meg kell tanulni jól kérdezni és kérni tőle. Ebben kell még fejlődnöm!', name: null, category: 'Vállalkozó, cégvezető' },
+    { quote: 'Azt eddig is tudtam, hogy szinte bármire lehet használni az AI-t, de sok új lehetőséget mutattak, amire egyáltalán nem gondoltam.', name: 'János', category: 'Egyéb' },
+    { quote: 'Jó előadók, érdekes és hasznos volt, jövőbe mutató témákkal. Közelebb vitt az AI világához.', name: null, category: 'Szakma, szolgáltatás' },
+    { quote: 'Úgy álljunk hozzá az AI-hoz, mint egy új munkatárshoz: tanítsuk meg neki, mit várunk el tőle.', name: 'Ágnes', category: 'Vállalkozó, cégvezető' },
+    { quote: 'A legjobban az tetszett, hogy ennyi új eszközt megismertem, ezek közül a NotebookLM hatott rám a legjobban. Nagyon hasznos volt ez az előadás számomra.', name: 'Ivett', category: 'Szakma, szolgáltatás' },
+    { quote: 'Megtanultam, hogyan válasszam ki a feladathoz a megfelelő eszközt, például a Claude-ot vagy a NotebookLM-et.', name: 'Magdolna', category: 'Irodai, adminisztratív munka' },
+    { quote: 'Megmutatták, hogyan lehet egy szövegből percek alatt más formátumot készíteni, ezt egy vizsgafelkészítő példán keresztül láttuk.', name: null, category: 'Szakma, szolgáltatás' },
+    { quote: 'Rengeteg mindenre használható az AI. Szimpatikus benne a lehetőség, hogy segítséget nyújthat a munkában.', name: null, category: 'Irodai, adminisztratív munka' },
+    { quote: 'Nagyon tetszett a vizsgafelkészítő bemutató. Ez hatalmas segítség.', name: 'Éva', category: 'Vállalkozó, cégvezető' }
+  ];
+
+  /* Fisher–Yates — helyben kever egy másolatot, hogy az eredeti tömb sorrendje megmaradjon. */
+  function shuffle(arr){
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  var ANON_ICON = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="1.7"/><path d="M4.8 19.2c0-3.2 3.2-5.2 7.2-5.2s7.2 2 7.2 5.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
+
+  function card(item){
+    var el = document.createElement('div');
+    el.className = 'sp-card';
+
+    var q = document.createElement('p');
+    q.className = 'sp-quote';
+    q.textContent = item.quote;
+
+    var person = document.createElement('div');
+    person.className = 'sp-person';
+
+    var avatar = document.createElement('div');
+    avatar.className = 'sp-avatar';
+    if (item.name){
+      avatar.textContent = item.name.trim().charAt(0).toUpperCase();
+    } else {
+      avatar.innerHTML = ANON_ICON;
+    }
+
+    var meta = document.createElement('div');
+    var name = document.createElement('div');
+    name.className = 'sp-name';
+    name.textContent = item.name || 'Név nélkül';
+    var role = document.createElement('div');
+    role.className = 'sp-role';
+    role.textContent = item.category;
+    meta.appendChild(name);
+    meta.appendChild(role);
+
+    person.appendChild(avatar);
+    person.appendChild(meta);
+    el.appendChild(q);
+    el.appendChild(person);
+    return el;
+  }
+
+  var grid = document.getElementById('spGrid');
+  if (!grid) return;
+  var frag = document.createDocumentFragment();
+  shuffle(SP_TESTIMONIALS).forEach(function(item){ frag.appendChild(card(item)); });
+  grid.appendChild(frag);
+})();
+</script>
 
 <!-- GYIK -->
 <style>
