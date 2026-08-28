@@ -2322,8 +2322,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <!-- RÓLUNK MONDTÁK -->
 <style>
-.sp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1100px;margin:0 auto;}
-.sp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);box-shadow:var(--sh-lg);padding:1.8rem 1.7rem;display:flex;flex-direction:column;gap:1.1rem;}
+.sp-marquee{position:relative;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);overflow:hidden;padding:0.7rem 0;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%);}
+.sp-track{display:flex;align-items:stretch;gap:1.5rem;width:max-content;animation:sp-scroll var(--sp-duration,90s) linear infinite;will-change:transform;}
+.sp-marquee:hover .sp-track,.sp-marquee:focus-within .sp-track{animation-play-state:paused;}
+@keyframes sp-scroll{from{transform:translate3d(0,0,0);}to{transform:translate3d(calc(-1 * var(--sp-shift,50%)),0,0);}}
+.sp-card{flex:0 0 340px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);box-shadow:var(--sh-lg);padding:1.8rem 1.7rem;display:flex;flex-direction:column;gap:1.1rem;}
 .sp-quote{color:var(--text-2);line-height:1.7;font-size:0.98rem;font-style:italic;margin:0;flex:1;}
 .sp-quote::before{content:'\201E';font-family:var(--font-display);font-size:2.4rem;line-height:0;color:var(--amber);display:block;margin-bottom:0.9rem;}
 .sp-person{display:flex;align-items:center;gap:0.85rem;}
@@ -2341,11 +2344,13 @@ document.addEventListener('DOMContentLoaded', function () {
 .sp-soon-badge{background:var(--surface);border:1px solid var(--border-med);border-radius:999px;padding:1rem 2.2rem;font-family:var(--font-display);font-weight:800;font-size:1.1rem;color:var(--ink);box-shadow:var(--sh-lg);display:flex;align-items:center;gap:0.7rem;text-align:center;}
 .sp-soon-badge::before{content:'';width:10px;height:10px;border-radius:50%;background:var(--amber);flex-shrink:0;}
 /* ha a kevert sorrend miatt az utolsó sorba egyetlen kártya jut, középre tesszük */
-@media (min-width: 901px){
-  .sp-grid > .sp-card:last-child:nth-child(3n+1){grid-column:2;}
+/* aki kevesebb mozgást kér, annak nem pörög: kézzel húzható sorrá válik */
+@media (prefers-reduced-motion: reduce){
+  .sp-marquee{overflow-x:auto;-webkit-mask-image:none;mask-image:none;padding-bottom:1rem;}
+  .sp-track{animation:none;}
 }
 @media (max-width: 900px){
-  .sp-grid{grid-template-columns:1fr;max-width:560px;}
+  .sp-card{flex-basis:min(78vw, 320px);}
   .sp-photos{grid-template-columns:repeat(2,1fr);max-width:560px;}
   .sp-cta .btn{white-space:normal;max-width:100%;}
 }
@@ -2358,8 +2363,11 @@ document.addEventListener('DOMContentLoaded', function () {
       <p class="body-lg fade-up" style="margin:0 auto;">Résztvevőink tapasztalatai a SzerdAI estekről és a képzésekről — a saját szavaikkal.</p>
     </div>
     <!-- A kártyák tartalma a szekció alatti scriptben (SP_TESTIMONIALS), minden
-         oldalbetöltéskor Fisher–Yates-keveréssel új sorrendben rendereljük. -->
-    <div class="sp-grid fade-up" id="spGrid"></div>
+         oldalbetöltéskor Fisher–Yates-keveréssel új sorrendben rendereljük,
+         majd a futósor lassan körbepörgeti őket. -->
+    <div class="sp-marquee fade-up" id="spMarquee" role="region" aria-label="Résztvevői vélemények">
+      <div class="sp-track" id="spTrack"></div>
+    </div>
     <div class="sp-blur-wrap" style="margin-top:2.8rem;">
     <div class="sp-soon"><div class="sp-soon-badge">Fotók hamarosan</div></div>
     <div class="sp-blur-content">
@@ -2443,11 +2451,59 @@ document.addEventListener('DOMContentLoaded', function () {
     return el;
   }
 
-  var grid = document.getElementById('spGrid');
-  if (!grid) return;
-  var frag = document.createDocumentFragment();
-  shuffle(SP_TESTIMONIALS).forEach(function(item){ frag.appendChild(card(item)); });
-  grid.appendChild(frag);
+  var marquee = document.getElementById('spMarquee');
+  var track = document.getElementById('spTrack');
+  if (!marquee || !track) return;
+
+  var SPEED = 45;        /* px/másodperc — ennyivel csúszik a sor */
+  var MAX_COPIES = 6;    /* biztonsági felső határ a másolatokra */
+
+  var order = shuffle(SP_TESTIMONIALS);
+
+  /* Egy adag kártya a sor végére. Az első adag a "valódi", a többi csak a
+     folytonos pörgés miatt kell, ezért azokat kihagyjuk a felolvasásból. */
+  function appendSet(hidden){
+    var frag = document.createDocumentFragment();
+    order.forEach(function(item){
+      var el = card(item);
+      if (hidden) el.setAttribute('aria-hidden', 'true');
+      frag.appendChild(el);
+    });
+    track.appendChild(frag);
+  }
+
+  function build(){
+    track.innerHTML = '';
+    appendSet(false);
+    appendSet(true);
+
+    /* Egy adag pontos hossza (kártyák + közök) — ennyit kell csúsznia a
+       sornak ahhoz, hogy pixelre ugyanoda érjen vissza. */
+    var period = track.children[order.length].offsetLeft - track.children[0].offsetLeft;
+    if (!period) return;
+
+    /* Ha egy-két adag nem tölti ki bőven a képernyőt, teszünk hozzá többet,
+       hogy sose látszódjon üres rész a sor végén. */
+    var copies = 2;
+    while (copies < MAX_COPIES && track.scrollWidth < window.innerWidth + period){
+      appendSet(true);
+      copies++;
+    }
+
+    track.style.setProperty('--sp-shift', period + 'px');
+    track.style.setProperty('--sp-duration', (period / SPEED).toFixed(1) + 's');
+  }
+
+  build();
+
+  /* Átméretezéskor újraszámoljuk a hosszt, hogy ne szakadjon meg a loop. */
+  var t = null, lastW = window.innerWidth;
+  window.addEventListener('resize', function(){
+    if (window.innerWidth === lastW) return;   /* mobil címsor-mozgás miatt */
+    lastW = window.innerWidth;
+    clearTimeout(t);
+    t = setTimeout(build, 250);
+  });
 })();
 </script>
 
