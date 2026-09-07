@@ -94,7 +94,7 @@ window.BACSKAI_ESEMENYEK = [
   {
     kepzes: "alapozo",
     datum: "2026-10-02",
-    ido: "09:00–16:00",
+    ido: "08:30–15:30",
     helyszin: "Baja, képzőterem",
     ferohely: 15,
     foglalt: 0,
@@ -104,7 +104,7 @@ window.BACSKAI_ESEMENYEK = [
   {
     kepzes: "alapozo",
     datum: "2026-11-06",
-    ido: "09:00–16:00",
+    ido: "08:30–15:30",
     helyszin: "Baja, képzőterem",
     ferohely: 15,
     foglalt: 0,
