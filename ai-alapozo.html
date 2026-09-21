@@ -2238,40 +2238,145 @@ function selectDate(btn) {
   btn.classList.add('selected');
   var idoInput = document.getElementById('mlIdopont');
   if (idoInput) idoInput.value = btn.getAttribute('data-datum');
+  var err = document.getElementById('mlIdopontError');
+  if (err) err.remove();
+}
+
+/* ─── IDŐPONT — a választás KÖTELEZŐ ───────────────────────────────
+   Az esemenyek.js külön kérésként érkezik, ezért amíg nincs betöltve,
+   NEM tudjuk, van-e választható időpont. Korábban ilyenkor egyszerűen
+   nem jelent meg az időpontválasztó, és a jelentkezés dátum nélkül
+   elment (így jött be két dátum nélküli SzerdAI foglalás). Ezért az
+   állapotot külön tartjuk nyilván, és beküldéskor ezt nézzük.
+
+   mlIdopontAllapot lehetséges értékei:
+     'nincs'       — ennél a képzésnél nincs időpontválasztó (pl. céges)
+     'toltes'      — még töltjük az esemenyek.js-t, nem tudjuk, mi van
+     'hiba'        — az esemenyek.js nem töltődött be
+     'valaszthato' — vannak szabad időpontok → választani KELL
+     'betelt'      — minden meghirdetett alkalom betelt → értesítést kér
+     'nincs_idopont' — nincs meghirdetett alkalom → értesítést kér      */
+var mlIdopontAllapot = 'nincs';
+
+function mlIdopontRender(courseName) {
+  var datesBox = document.getElementById('modalDates');
+  if (!datesBox) { mlIdopontAllapot = 'nincs'; return; }
+  var idoInput = document.getElementById('mlIdopont');
+  var html = '';
+
+  // FIGYELEM: a képzéskulcsot csak akkor tudjuk feloldani, ha az
+  // esemenyek.js már betöltött — ezért ezt kell ELŐSZÖR ellenőrizni.
+  if (!window.BACSKAI) {
+    mlIdopontAllapot = 'toltes';
+    html = '<div class="modal-dates-label">Időpontok</div>' +
+      '<div class="modal-dates-note">Időpontok betöltése…</div>';
+    datesBox.innerHTML = html;
+    datesBox.style.display = 'block';
+    return;
+  }
+
+  var kulcs = bacskaiKulcsCourseName(courseName);
+  if (!kulcs || kulcs === 'ceges') {
+    // Céges képzés: egyedi egyeztetés, nincs meghirdetett időpont
+    mlIdopontAllapot = 'nincs';
+  } else {
+    // Csak azokat az időpontokat kínáljuk fel, amikre még lehet jelentkezni
+    var lista = window.BACSKAI.foglalhatoEsemenyei(kulcs).slice(0, 3);
+    if (lista.length) {
+      mlIdopontAllapot = 'valaszthato';
+      html = '<div class="modal-dates-label">Válaszd ki, melyik időpont érdekel: <span style="color:var(--coral);">*</span></div><div class="modal-dates-list">' +
+        lista.map(function (e) {
+          var d = window.BACSKAI.rovidDatum(e._dt);
+          return '<button type="button" class="modal-date-pill" data-datum="' + d + '" onclick="selectDate(this)">' + d + '</button>';
+        }).join('') +
+        '</div>';
+    } else if (window.BACSKAI.kepzesEsemenyei(kulcs).length) {
+      // Van meghirdetett időpont, de mind betelt — nincs mit választani,
+      // de a MailerLite dátummezője így sem marad üresen
+      mlIdopontAllapot = 'betelt';
+      html = '<div class="modal-dates-label">Időpontok</div>' +
+        '<div class="modal-dates-note">A meghirdetett időpontok jelenleg beteltek. ' +
+        'Küldd el a jelentkezésed, és szólunk, amint meghirdetjük a következő alkalmat.</div>';
+      if (idoInput) idoInput.value = 'Nincs szabad időpont — értesítést kér';
+    } else {
+      mlIdopontAllapot = 'nincs_idopont';
+      html = '<div class="modal-dates-label">Időpontok</div>' +
+        '<div class="modal-dates-note">Jelenleg nincs meghirdetett időpont. ' +
+        'Küldd el a jelentkezésed, és szólunk, amint meghirdetjük a következő alkalmat.</div>';
+      if (idoInput) idoInput.value = 'Nincs meghirdetett időpont — értesítést kér';
+    }
+  }
+
+  datesBox.innerHTML = html;
+  datesBox.style.display = html ? 'block' : 'none';
+}
+
+/* Ablaknyitáskor: kirajzoljuk, amit tudunk, és ha az esemenyek.js még
+   nincs meg, utólag betöltjük, majd újrarajzoljuk az időpontokat. */
+function mlIdopontBetolt(courseName) {
+  mlIdopontRender(courseName);
+  if (mlIdopontAllapot !== 'toltes') return;
+
+  if (typeof bacskaiBetoltEsemenyek !== 'function') { mlIdopontHiba(); return; }
+  bacskaiBetoltEsemenyek(function () {
+    // Közben másik képzésre is nyithattak ablakot — akkor ne írjuk felül
+    var aktualis = document.getElementById('mlEsemeny');
+    if (!aktualis || aktualis.value !== courseName) return;
+    if (window.BACSKAI) mlIdopontRender(courseName);
+    else mlIdopontHiba();
+  });
+}
+
+function mlIdopontHiba() {
+  mlIdopontAllapot = 'hiba';
+  var datesBox = document.getElementById('modalDates');
+  if (!datesBox) return;
+  datesBox.innerHTML = '<div class="modal-dates-label">Időpontok</div>' +
+    '<div class="modal-dates-note">Az időpontokat most nem sikerült betölteni. ' +
+    'Frissítsd az oldalt, vagy írj nekünk: <a href="mailto:info@vidainterim.hu">info@vidainterim.hu</a></div>';
+  datesBox.style.display = 'block';
+}
+
+/* Hibaüzenet az időpontválasztó alatt. */
+function mlIdopontHibaMutat(msg) {
+  var datesBox = document.getElementById('modalDates');
+  if (!datesBox) return;
+  var err = document.getElementById('mlIdopontError');
+  if (!err) {
+    err = document.createElement('div');
+    err.id = 'mlIdopontError';
+    err.setAttribute('role', 'alert');
+    err.style.cssText = 'color:var(--coral-dark);font-size:0.82rem;font-weight:600;margin-top:0.5rem;';
+    datesBox.appendChild(err);
+  }
+  err.textContent = msg;
+  datesBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+/* Beküldés előtti ellenőrzés: dátum nélkül nem megy el jelentkezés.
+   true = mehet a beküldés. */
+function mlIdopontRendben() {
+  var idoInput = document.getElementById('mlIdopont');
+  if (mlIdopontAllapot === 'valaszthato' && (!idoInput || !idoInput.value)) {
+    mlIdopontHibaMutat('Kérjük, válassz időpontot a jelentkezés elküldéséhez.');
+    return false;
+  }
+  if (mlIdopontAllapot === 'toltes' || mlIdopontAllapot === 'hiba') {
+    mlShowError('Az időpontokat nem sikerült betölteni, ezért a jelentkezést most nem tudjuk fogadni. ' +
+      'Frissítsd az oldalt (Ctrl+F5), vagy írj nekünk: info@vidainterim.hu');
+    return false;
+  }
+  return true;
 }
 function openModal(courseName) {
   // Esemény-érték a MailerLite "esemeny" mezőhöz (pontos opciónevek)
   document.getElementById('mlEsemeny').value = courseName;
   document.getElementById('modalCourseName').textContent = courseName;
 
-  // Legközelebbi időpontok (max 3) az esemenyek.js-ből
-  var datesBox = document.getElementById('modalDates');
-  if (datesBox) {
-    var datesHtml = '';
-    var kulcs = bacskaiKulcsCourseName(courseName);
-    if (kulcs && window.BACSKAI) {
-      // Csak azokat az időpontokat kínáljuk fel, amikre még lehet jelentkezni
-      var lista = window.BACSKAI.foglalhatoEsemenyei(kulcs).slice(0, 3);
-      if (lista.length) {
-        datesHtml = '<div class="modal-dates-label">Válaszd ki, melyik időpont érdekel:</div><div class="modal-dates-list">' +
-          lista.map(function (e) {
-            var d = window.BACSKAI.rovidDatum(e._dt);
-            return '<button type="button" class="modal-date-pill" data-datum="' + d + '" onclick="selectDate(this)">' + d + '</button>';
-          }).join('') +
-          '</div>';
-      } else if (window.BACSKAI.kepzesEsemenyei(kulcs).length) {
-        // Van meghirdetett időpont, de mind betelt — jelezzük, ne kelljen választani
-        datesHtml = '<div class="modal-dates-label">Időpontok</div>' +
-          '<div class="modal-dates-note">A meghirdetett időpontok jelenleg beteltek. ' +
-          'Küldd el a jelentkezésed, és szólunk, amint meghirdetjük a következő alkalmat.</div>';
-      }
-    }
-    datesBox.innerHTML = datesHtml;
-    datesBox.style.display = datesHtml ? 'block' : 'none';
-  }
-  // Korábbi dátumválasztás nullázása minden nyitáskor
+  // Időpontok az esemenyek.js-ből — a választás kötelező (lásd mlIdopontRender)
   var idoInput = document.getElementById('mlIdopont');
-  if (idoInput) idoInput.value = '';
+  if (idoInput) idoInput.value = '';   // korábbi dátumválasztás nullázása minden nyitáskor
+  mlIdopontBetolt(courseName);
 
   // Céges mezők csak a Céges AI képzésnél
   const isCorporate = courseName.toLowerCase().includes('céges');
@@ -2358,6 +2463,10 @@ function mlShowError(msg) {
 
 function submitMlForm(e) {
   e.preventDefault();
+
+  // Időpont-választás kötelező — dátum nélkül nem megy el jelentkezés
+  if (!mlIdopontRendben()) return false;
+
   const form = document.getElementById('mlForm');
   const btn = document.getElementById('mlSubmitBtn');
   const data = new URLSearchParams();
