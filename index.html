@@ -2886,10 +2886,12 @@ function closeModalOnBg(e) {
   if (e.target === document.getElementById('modalOverlay')) closeModal();
 }
 
-// URL-hash alapú modalnyitás (pl. FB-posztból: bacskaiakademia.hu/#ingyenes)
+// URL-hash alapú modalnyitás (pl. FB-posztból: bacskaiakademia.hu/#ingyenes, #alapozo)
 function openModalFromHash() {
   if (window.location.hash === '#ingyenes') {
     openModal('SzerdAI');
+  } else if (window.location.hash === '#alapozo') {
+    openModal('AI Alapozó');
   }
 }
 window.addEventListener('load', openModalFromHash);
