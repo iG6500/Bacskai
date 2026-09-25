@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="BácskAI Akadémia">
 <meta property="og:title" content="BácskAI Akadémia – Gyakorlati AI-képzések Baján">
 <meta property="og:description" content="AI-képzések nem informatikusoknak – helyben, érthetően, üzleti szemlélettel. Ingyenes SzerdAI estek, Alapozó és Haladó workshopok, céges képzések.">
-<meta property="og:url" content="https://www.bacskaiakademia.hu">
+<meta property="og:url" content="https://www.bacskaiakademia.hu/">
 <meta property="og:image" content="https://www.bacskaiakademia.hu/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="BácskAI Akadémia – Gyakorlati AI-képzések Baján">
 <meta name="twitter:description" content="AI-képzések nem informatikusoknak – helyben, érthetően, üzleti szemlélettel.">
-<meta name="twitter:image" content="https://www.bacskaiakademia.hu/Bacskai/og-image.png">
+<meta name="twitter:image" content="https://www.bacskaiakademia.hu/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
@@ -98,7 +98,7 @@ ul { list-style: none; }
 /* ─── TYPOGRAPHY HELPERS ──────────────────────────────── */
 h1, h2, h3, h4 { font-family: var(--font-display); }
 
-h2.headline {
+h1.headline, h2.headline {
   font-weight: 800;
   font-size: clamp(2rem, 4vw, 3rem);
   letter-spacing: -0.02em;
@@ -106,7 +106,7 @@ h2.headline {
   color: var(--ink);
   margin-bottom: 1.2rem;
 }
-h2.headline em {
+h1.headline em, h2.headline em {
   font-style: normal;
   color: var(--coral);
 }
@@ -1848,6 +1848,43 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 <!-- BACSKAI:POLISH:END -->
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "EducationalOrganization",
+   "@id": "https://www.bacskaiakademia.hu/#org",
+   "name": "BácskAI Akadémia",
+   "url": "https://www.bacskaiakademia.hu/",
+   "logo": "https://www.bacskaiakademia.hu/images/logo.png",
+   "image": "https://www.bacskaiakademia.hu/og-image.png",
+   "description": "Gyakorlati AI-képzések nem informatikusoknak – Baján, helyben, érthetően, üzleti szemlélettel.",
+   "email": "info@vidainterim.hu",
+   "telephone": "+36308442912",
+   "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Baja",
+    "addressCountry": "HU"
+   },
+   "areaServed": "Baja és környéke",
+   "sameAs": [
+    "https://www.facebook.com/bacskaiakademia"
+   ]
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://www.bacskaiakademia.hu/#website",
+   "url": "https://www.bacskaiakademia.hu/",
+   "name": "BácskAI Akadémia",
+   "inLanguage": "hu",
+   "publisher": {
+    "@id": "https://www.bacskaiakademia.hu/#org"
+   }
+  }
+ ]
+}
+</script>
 </head>
 <body>
 
@@ -2263,7 +2300,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="flip-face flip-front">
-            <img class="flip-photo" src="images/oktato-vida.jpeg" alt="Vida József">
+            <img class="flip-photo" src="images/oktato-vida.jpeg" alt="Vida József" loading="lazy" decoding="async">
             <div class="flip-front-cap">
               <h3>Vida József</h3>
               <span>Szervezetfejlesztő, üzletviteli tanácsadó</span>
@@ -2282,7 +2319,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="flip-face flip-front">
-            <img class="flip-photo" src="images/oktato-gorotyak.jpeg" alt="Gorotyák Igor">
+            <img class="flip-photo" src="images/oktato-gorotyak.jpeg" alt="Gorotyák Igor" loading="lazy" decoding="async">
             <div class="flip-front-cap">
               <h3>Gorotyák Igor</h3>
               <span>Marketing- és üzletszerzési szakember</span>
@@ -2301,7 +2338,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="flip-face flip-front">
-            <img class="flip-photo" src="images/oktato-vendeg.jpeg" alt="Vendég előadó">
+            <img class="flip-photo" src="images/oktato-vendeg.jpeg" alt="Vendég előadó a BácskAI Akadémián" loading="lazy" decoding="async">
             <div class="flip-front-cap">
               <h3>Vendég előadó</h3>
               <span>Meghívott szakértő — alkalmanként</span>
@@ -2363,14 +2400,14 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="sp-track" id="spTrack"></div>
     </div>
     <div class="sp-photos fade-up" style="margin-top:2.8rem;">
-      <div class="sp-photo"><img src="images/BAI_0712.1.jpg" alt="Előadás egy SzerdAI esten, kivetítővel és hallgatósággal" loading="lazy"></div>
-      <div class="sp-photo"><img src="images/BAI_0712.2.jpg" alt="Az oktatók bemutatkozó diája a SzerdAI esten" loading="lazy"></div>
-      <div class="sp-photo"><img src="images/BAI_0712.3.jpg" alt="Résztvevők figyelik az előadást" loading="lazy"></div>
-      <div class="sp-photo"><img src="images/BAI_0712.4.jpg" alt="Az oktatók a képzés közben" loading="lazy"></div>
-      <div class="sp-photo"><img src="images/BAI_0712.5.jpg" alt="Résztvevők a SzerdAI esten" loading="lazy"></div>
-      <div class="sp-photo"><img src="images/BAI_0712.6.jpg" alt="Résztvevők a SzerdAI esten" loading="lazy"></div>
-      <div class="sp-photo"><img src="images/BAI_0726.1.jpg" alt="A SzerdAI est hallgatósága" loading="lazy"></div>
-      <div class="sp-photo"><img src="images/BAI_0726.2.jpg" alt="Teltházas terem egy SzerdAI esten" loading="lazy"></div>
+      <div class="sp-photo"><img src="images/BAI_0712.1.jpg" alt="Előadás egy SzerdAI esten, kivetítővel és hallgatósággal" width="1200" height="630" loading="lazy" decoding="async"></div>
+      <div class="sp-photo"><img src="images/BAI_0712.2.jpg" alt="Az oktatók bemutatkozó diája a SzerdAI esten" width="1200" height="630" loading="lazy" decoding="async"></div>
+      <div class="sp-photo"><img src="images/BAI_0712.3.jpg" alt="Résztvevők figyelik az előadást" width="1200" height="630" loading="lazy" decoding="async"></div>
+      <div class="sp-photo"><img src="images/BAI_0712.4.jpg" alt="Az oktatók a képzés közben" width="1200" height="630" loading="lazy" decoding="async"></div>
+      <div class="sp-photo"><img src="images/BAI_0712.5.jpg" alt="Résztvevők a SzerdAI esten" width="1200" height="630" loading="lazy" decoding="async"></div>
+      <div class="sp-photo"><img src="images/BAI_0712.6.jpg" alt="Résztvevők a SzerdAI esten" width="1200" height="630" loading="lazy" decoding="async"></div>
+      <div class="sp-photo"><img src="images/BAI_0726.1.jpg" alt="A SzerdAI est hallgatósága" width="1200" height="630" loading="lazy" decoding="async"></div>
+      <div class="sp-photo"><img src="images/BAI_0726.2.jpg" alt="Teltházas terem egy SzerdAI esten" width="1200" height="630" loading="lazy" decoding="async"></div>
     </div>
     <div class="sp-cta">
       <a href="#" class="btn btn-primary" onclick="openModal('SzerdAI'); return false;">Gyere el a következő SzerdAI estre <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>

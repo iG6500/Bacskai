@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /cookie-part.html
+Disallow: /hirlevel-part.html
+Disallow: /build.py
+
+Sitemap: https://www.bacskaiakademia.hu/sitemap.xml

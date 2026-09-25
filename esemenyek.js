@@ -286,3 +286,81 @@ window.BACSKAI = (function () {
   };
 
 })();
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   KERESŐOPTIMALIZÁLÁS — Event strukturált adat (schema.org JSON-LD)
+   A fenti eseménylistából automatikusan készül, ide sem kell nyúlnod.
+   Egy képzés aloldalán csak az adott képzés alkalmai kerülnek bele,
+   a főoldalon és a Rendezvények oldalon minden jövőbeli alkalom.
+   ═══════════════════════════════════════════════════════════════════ */
+(function () {
+  const ARAK = { szerdai: 0, alapozo: 39900, halado: 79900 };
+  const BASE = "https://www.bacskaiakademia.hu/";
+
+  // Magyar idő: nyári időszámítás március utolsó vasárnapjától október utolsó vasárnapjáig
+  function eltolas(y, m, d) {
+    function utolsoVasarnap(ho) {
+      const dt = new Date(Date.UTC(y, ho + 1, 0));
+      return dt.getUTCDate() - dt.getUTCDay();
+    }
+    const nyari = (m > 3 && m < 10) ||
+      (m === 3 && d >= utolsoVasarnap(2)) ||
+      (m === 10 && d < utolsoVasarnap(9));
+    return nyari ? "+02:00" : "+01:00";
+  }
+
+  function iso(datum, ido) {
+    const [y, m, d] = datum.split("-").map(Number);
+    return datum + "T" + ido + ":00" + eltolas(y, m, d);
+  }
+
+  try {
+    const oldal = (location.pathname.split("/").pop() || "index.html");
+    let lista = window.BACSKAI.osszesEsemeny().filter(function (e) {
+      return e.jovobeli && e.kepzes in ARAK;
+    });
+    const sajat = Object.keys(window.BACSKAI.KEPZESEK).filter(function (k) {
+      return window.BACSKAI.KEPZESEK[k].aloldal === oldal;
+    })[0];
+    if (sajat) lista = lista.filter(function (e) { return e.kepzes === sajat; });
+    if (!lista.length) return;
+
+    const esemenyek = lista.map(function (e) {
+      const idok = String(e.ido || "").match(/(\d{1,2}:\d{2})\D+(\d{1,2}:\d{2})/);
+      const url = BASE + e.meta.aloldal;
+      const obj = {
+        "@type": "EducationEvent",
+        "name": e.meta.cim,
+        "description": e.meta.leiras,
+        "startDate": idok ? iso(e.datum, idok[1].padStart(5, "0")) : e.datum,
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "inLanguage": "hu",
+        "image": [BASE + "og-image.png"],
+        "url": url,
+        "location": {
+          "@type": "Place",
+          "name": e.helyszin || "Baja",
+          "address": { "@type": "PostalAddress", "addressLocality": "Baja", "addressCountry": "HU" }
+        },
+        "organizer": { "@type": "Organization", "name": "BácskAI Akadémia", "url": BASE },
+        "offers": {
+          "@type": "Offer",
+          "price": ARAK[e.kepzes],
+          "priceCurrency": "HUF",
+          "url": url,
+          "availability": e.statusz.telt ? "https://schema.org/SoldOut" : "https://schema.org/InStock"
+        }
+      };
+      if (idok) obj.endDate = iso(e.datum, idok[2].padStart(5, "0"));
+      if (typeof e.ferohely === "number") obj.maximumAttendeeCapacity = e.ferohely;
+      return obj;
+    });
+
+    const s = document.createElement("script");
+    s.type = "application/ld+json";
+    s.text = JSON.stringify({ "@context": "https://schema.org", "@graph": esemenyek });
+    document.head.appendChild(s);
+  } catch (err) { /* a strukturált adat hiánya nem akaszthatja meg az oldalt */ }
+})();
