@@ -7,6 +7,23 @@
 <link rel="shortcut icon" type="image/png" href="images/favicon.png?v=2">
 <link rel="apple-touch-icon" href="images/logo.png">
 <title>SzerdAI – Ingyenes AI ismertető est Baján | BácskAI Akadémia</title>
+<meta name="description" content="Ingyenes, 90 perces AI ismertető est Baján nem informatikusoknak: gyakorlati példák arra, mire jó ma a mesterséges intelligencia a munkában. Foglalj helyet!">
+<link rel="canonical" href="https://www.bacskaiakademia.hu/szerdai.html">
+<!-- Open Graph (Facebook, LinkedIn) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BácskAI Akadémia">
+<meta property="og:title" content="SzerdAI – Ingyenes AI ismertető est Baján | BácskAI Akadémia">
+<meta property="og:description" content="Ingyenes, 90 perces AI ismertető est Baján nem informatikusoknak: gyakorlati példák arra, mire jó ma a mesterséges intelligencia a munkában. Foglalj helyet!">
+<meta property="og:url" content="https://www.bacskaiakademia.hu/szerdai.html">
+<meta property="og:image" content="https://www.bacskaiakademia.hu/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="hu_HU">
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SzerdAI – Ingyenes AI ismertető est Baján | BácskAI Akadémia">
+<meta name="twitter:description" content="Ingyenes, 90 perces AI ismertető est Baján nem informatikusoknak: gyakorlati példák arra, mire jó ma a mesterséges intelligencia a munkában. Foglalj helyet!">
+<meta name="twitter:image" content="https://www.bacskaiakademia.hu/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
@@ -81,7 +98,7 @@ ul { list-style: none; }
 /* ─── TYPOGRAPHY HELPERS ──────────────────────────────── */
 h1, h2, h3, h4 { font-family: var(--font-display); }
 
-h2.headline {
+h1.headline, h2.headline {
   font-weight: 800;
   font-size: clamp(2rem, 4vw, 3rem);
   letter-spacing: -0.02em;
@@ -89,7 +106,7 @@ h2.headline {
   color: var(--ink);
   margin-bottom: 1.2rem;
 }
-h2.headline em {
+h1.headline em, h2.headline em {
   font-style: normal;
   color: var(--coral);
 }
@@ -1654,7 +1671,7 @@ footer {
   margin-bottom: 1.2rem;
 }
 .slider-tag .sdot { width: 7px; height: 7px; border-radius: 50%; background: var(--coral); }
-.slider-slide h2 {
+.slider-slide h1, .slider-slide h2 {
   font-family: var(--font-display);
   font-weight: 900;
   font-size: clamp(1.9rem, 4vw, 3rem);
@@ -1903,6 +1920,63 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 <!-- BACSKAI:POLISH:END -->
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Főoldal",
+     "item": "https://www.bacskaiakademia.hu/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "SzerdAI est",
+     "item": "https://www.bacskaiakademia.hu/szerdai.html"
+    }
+   ]
+  },
+  {
+   "@type": "Course",
+   "name": "SzerdAI est – AI a mindennapi munkában",
+   "description": "Ingyenes, 90 perces AI ismertető est Baján nem informatikusoknak: gyakorlati példák arra, mire jó ma a mesterséges intelligencia a munkában. Foglalj helyet!",
+   "url": "https://www.bacskaiakademia.hu/szerdai.html",
+   "inLanguage": "hu",
+   "provider": {
+    "@type": "EducationalOrganization",
+    "@id": "https://www.bacskaiakademia.hu/#org",
+    "name": "BácskAI Akadémia"
+   },
+   "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "onsite",
+    "location": {
+     "@type": "Place",
+     "name": "Baja",
+     "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Baja",
+      "addressCountry": "HU"
+     }
+    },
+    "courseWorkload": "PT90M"
+   },
+   "offers": {
+    "@type": "Offer",
+    "category": "Free",
+    "price": 0,
+    "priceCurrency": "HUF",
+    "url": "https://www.bacskaiakademia.hu/szerdai.html"
+   }
+  }
+ ]
+}
+</script>
 </head>
 <body class="page-szerdai">
 
@@ -1945,7 +2019,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <section class="subpage-section">
   <div class="subpage-narrow">
     <div class="section-label">Mi ez?</div>
-    <h2 class="headline">Először átlátnád,<br>mire jó az <em>AI</em> a munkában?</h2>
+    <h1 class="headline">Először átlátnád,<br>mire jó az <em>AI</em> a munkában?</h1>
     <p class="sub-lead">A SzerdAI azoknak szól, akik szeretnék megérteni, mire használható ma az AI a munkában, de először kockázat nélkül ismerkednének a témával.</p>
     <p class="sub-lead">Nem technológiai előadást tartunk. Nem programozásról, algoritmusokról vagy távoli jövőről beszélünk. Gyakorlati példákat mutatunk arra, hogyan segíthet az AI szövegírásban, elemzésben, döntés-előkészítésben, ügyfélkommunikációban, marketingben vagy adminisztratív feladatokban.</p>
 
