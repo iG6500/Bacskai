@@ -107,6 +107,14 @@ window.BACSKAI_ESEMENYEK = [
     ferohely: 25,
     foglalt: 0,
   },
+   {
+    kepzes: "szerdai",
+    datum: "2026-10-21",
+    ido: "18:00–19:30",
+    helyszin: "Baja, képzőterem",
+    ferohely: 25,
+    foglalt: 0,
+  },
    
    // ─── 2026. NOVEMBER ───
   {
