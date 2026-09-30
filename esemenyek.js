@@ -97,7 +97,7 @@ window.BACSKAI_ESEMENYEK = [
     ido: "08:30–15:30",
     helyszin: "Baja, képzőterem",
     ferohely: 15,
-    foglalt: 0,
+    foglalt: 15,
   },
    {
     kepzes: "szerdai",
