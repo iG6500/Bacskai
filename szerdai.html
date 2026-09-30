@@ -1989,6 +1989,26 @@ document.addEventListener('DOMContentLoaded', function () {
 .ml-tipus label:has(input:checked) { border-color:var(--coral); background:var(--coral-light); }
 .form-group .ml-tipus input { width:auto; margin:0; accent-color:var(--coral); box-shadow:none; }
 </style>
+<style>
+/* ─── KONVERZIÓ-RÉTEG: hero CTA + ragadós jelentkezősáv ─── */
+.hero-cta{display:flex;align-items:center;flex-wrap:wrap;gap:1rem 1.4rem;margin:0 0 .4rem;}
+.hero-cta .btn{font-size:1.05rem;padding:1rem 2.1rem;}
+.hero-cta-link{color:var(--coral);font-weight:700;font-size:.95rem;text-decoration:underline;text-underline-offset:3px;}
+.hero-next{flex-basis:100%;font-size:.92rem;font-weight:600;color:var(--text-2);margin:0;}
+.hero-next strong{color:var(--ink);}
+.info-band{gap:1.6rem 2.5rem;margin:1.8rem 0 1.6rem;}
+.subpage-section.sec-hero{padding-bottom:3rem;}
+.subpage-section.sec-slots{padding-top:3.5rem;}
+.sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:150;display:none;align-items:center;justify-content:space-between;gap:.8rem;
+  padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));background:var(--surface);border-top:1px solid var(--border-med);
+  box-shadow:0 -4px 20px rgba(43,51,64,.12);transform:translateY(110%);transition:transform .3s ease;}
+.sticky-cta.show{transform:none;}
+.sticky-cta-info{display:flex;flex-direction:column;line-height:1.25;min-width:0;}
+.sticky-cta-info b{font-size:.92rem;color:var(--ink);}
+.sticky-cta-info span{font-size:.78rem;color:var(--text-2);font-weight:600;}
+.sticky-cta .btn{padding:.8rem 1.3rem;white-space:nowrap;}
+@media(max-width:760px){.sticky-cta{display:flex;} body{padding-bottom:0;} .hero-cta .btn{width:100%;justify-content:center;}}
+</style>
 </head>
 <body class="page-szerdai">
 
@@ -2005,7 +2025,7 @@ document.addEventListener('DOMContentLoaded', function () {
   </ul>
   <div style="display:flex;align-items:center;gap:0.8rem;">
     <a href="#hirlevel" class="nav-hirlevel" onclick="openHirlevel(); return false;">Hírlevél</a>
-    <a href="rendezvenyek.html" class="nav-cta">Képzési időpontok →</a>
+    <a href="#" class="nav-cta" onclick="openModal('SzerdAI'); return false;">Jelentkezem →</a>
     <button class="hamburger" onclick="toggleMenu()" aria-label="Menü"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -2015,7 +2035,7 @@ document.addEventListener('DOMContentLoaded', function () {
   <a href="index.html#kepzesek">Képzések</a>
   <a href="ceges-ai-kepzes.html">Céges képzés</a>
   <a href="index.html#oktatok">Oktatók</a>
-  <a href="rendezvenyek.html" class="mobile-menu-cta">Képzési időpontok →</a>
+  <a href="#" class="mobile-menu-cta" onclick="toggleMenu(); openModal('SzerdAI'); return false;">Jelentkezem →</a>
   <a href="#hirlevel" class="mobile-menu-hirlevel" onclick="toggleMenu(); openHirlevel(); return false;">Hírlevél — iratkozz fel →</a>
 </div>
 
@@ -2028,12 +2048,10 @@ document.addEventListener('DOMContentLoaded', function () {
 <!-- ═══════════════════════════════════════════════════════
      BEVEZETŐ + KINEK SZÓL
 ═══════════════════════════════════════════════════════ -->
-<section class="subpage-section">
+<section class="subpage-section sec-hero">
   <div class="subpage-narrow">
-    <div class="section-label">Mi ez?</div>
     <h1 class="headline">Először átlátnád,<br>mire jó az <em>AI</em> a munkában?</h1>
     <p class="sub-lead">A SzerdAI azoknak szól, akik szeretnék megérteni, mire használható ma az AI a munkában, de először kockázat nélkül ismerkednének a témával.</p>
-    <p class="sub-lead">Nem technológiai előadást tartunk. Nem programozásról, algoritmusokról vagy távoli jövőről beszélünk. Gyakorlati példákat mutatunk arra, hogyan segíthet az AI szövegírásban, elemzésben, döntés-előkészítésben, ügyfélkommunikációban, marketingben vagy adminisztratív feladatokban.</p>
 
     <div class="info-band">
       <div class="ib">
@@ -2045,25 +2063,28 @@ document.addEventListener('DOMContentLoaded', function () {
         <span class="ib-value coral">Ingyenes</span>
       </div>
       <div class="ib">
-        <span class="ib-label">Létszám</span>
-        <span class="ib-value">20–25 fő</span>
-      </div>
-      <div class="ib">
-        <span class="ib-label">Gyakoriság</span>
-        <span class="ib-value">Kéthetente, szerdán</span>
-      </div>
-      <div class="ib">
         <span class="ib-label">Helyszín</span>
         <span class="ib-value">Baja</span>
       </div>
     </div>
+    <div class="hero-cta">
+      <a href="#" class="btn btn-primary" onclick="openModal('SzerdAI'); return false;">Ingyenesen foglalok helyet <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="#idopontok" class="hero-cta-link">Időpontok megtekintése ↓</a>
+      <p class="hero-next" id="heroNext"></p>
+    </div>
   </div>
 </section>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     KINEK SZÓL + MIT KAPSZ
-═══════════════════════════════════════════════════════ -->
+<section class="subpage-section sec-slots" id="idopontok">
+  <div class="subpage-narrow" style="text-align:center;">
+    <div class="section-label" style="display:inline-block;">Időpontok</div>
+    <h2 class="headline" style="margin-bottom:1.6rem;">Válassz időpontot<br>és <em>jelentkezz.</em></h2>
+    <p class="sub-lead" style="margin-left:auto;margin-right:auto;">Minden est azonos tartalmú — gyere arra, amelyik neked megfelelő. A részvétel ingyenes, de regisztrációhoz kötött.</p>
+    <div class="ev-list" id="idopont-lista">
+      <div class="ev" style="justify-content:center;color:var(--text-2);">Időpontok betöltése…</div>
+    </div>
+    <p class="ev-note">Jelentkezés után emailben visszaigazoljuk a részvételed.</p>
+  </div>
+</section>
 <section class="subpage-section" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="subpage-narrow">
     <div class="section-label">Kinek szól?</div>
@@ -2109,15 +2130,11 @@ document.addEventListener('DOMContentLoaded', function () {
     </ul>
   </div>
 </section>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     TEMATIKA
-═══════════════════════════════════════════════════════ -->
 <section class="subpage-section">
   <div class="subpage-narrow">
     <div class="section-label">Tematika</div>
     <h2 class="headline" style="margin-bottom:1.8rem;">Miről lesz <em>szó?</em></h2>
+    <p class="sub-lead">Nem technológiai előadást tartunk. Nem programozásról, algoritmusokról vagy távoli jövőről beszélünk. Gyakorlati példákat mutatunk arra, hogyan segíthet az AI szövegírásban, elemzésben, döntés-előkészítésben, ügyfélkommunikációban, marketingben vagy adminisztratív feladatokban.</p>
     <ul class="topic-list">
       <li>Mi az AI üzleti felhasználásának lényege?</li>
       <li>Mire jó a ChatGPT, a Copilot, a Gemini és a Claude?</li>
@@ -2133,11 +2150,6 @@ document.addEventListener('DOMContentLoaded', function () {
     </p>
   </div>
 </section>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     GYIK
-═══════════════════════════════════════════════════════ -->
 <section class="subpage-section" style="background:var(--surface2);border-top:1px solid var(--border);">
   <div class="subpage-narrow">
     <div class="section-label">Gyakori kérdések</div>
@@ -2162,38 +2174,40 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
   </div>
 </section>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     IDŐPONTOK
-═══════════════════════════════════════════════════════ -->
-<section class="subpage-section" id="idopontok" style="background:var(--surface2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="subpage-narrow" style="text-align:center;">
-    <div class="section-label" style="display:inline-block;">Időpontok</div>
-    <h2 class="headline" style="margin-bottom:1.6rem;">Válassz időpontot<br>és <em>jelentkezz.</em></h2>
-    <p class="sub-lead" style="margin-left:auto;margin-right:auto;">Minden est azonos tartalmú — gyere arra, amelyik neked megfelelő. A részvétel ingyenes, de regisztrációhoz kötött.</p>
-    <div class="ev-list" id="idopont-lista">
-      <div class="ev" style="justify-content:center;color:var(--text-2);">Időpontok betöltése…</div>
-    </div>
-    <p class="ev-note">Jelentkezés után emailben visszaigazoljuk a részvételed.</p>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════
-     ZÁRÓ CTA + JELENTKEZÉS
-═══════════════════════════════════════════════════════ -->
 <section class="subpage-section" id="jelentkezes">
   <div class="subpage-narrow">
     <div class="subpage-cta">
-      <h2>Jelentkezem a következő SzerdAI estre</h2>
-      <p>Add meg az elérhetőségedet, és felvesszük veled a kapcsolatot a következő időponttal. A részvétel ingyenes, a helyek száma korlátozott.</p>
-      <a href="#" class="slider-cta" onclick="openModal('SzerdAI'); return false;" style="position:relative;">
-        Foglalok egy helyet
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
+      <h2>Foglalj helyet a következő SzerdAI estre</h2>
+      <p>90 perc, ingyenes, kockázat nélkül. A helyek száma korlátozott — a foglalás fél perc.</p>
+      <a href="#" class="slider-cta" onclick="openModal('SzerdAI'); return false;" style="position:relative;">Ingyenesen foglalok helyet <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
   </div>
 </section>
+<div class="sticky-cta" id="stickyCta" aria-hidden="true">
+  <div class="sticky-cta-info"><b>SzerdAI</b><span>Ingyenes</span></div>
+  <a href="#" class="btn btn-primary" onclick="openModal('SzerdAI'); return false;">Jelentkezem <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</div>
+<script>
+/* Ragadós jelentkezősáv (mobil): hero után látszik, az időpontlistánál eltűnik. */
+(function(){
+  var bar=document.getElementById('stickyCta'), slots=document.getElementById('idopontok'), hero=document.querySelector('.sec-hero');
+  if(!bar||!slots||!hero||!('IntersectionObserver' in window)) return;
+  var heroOut=false, slotsIn=false;
+  function upd(){ var on=heroOut&&!slotsIn; bar.classList.toggle('show',on); bar.setAttribute('aria-hidden',on?'false':'true'); }
+  new IntersectionObserver(function(e){heroOut=!e[0].isIntersecting&&e[0].boundingClientRect.top<0;upd();}).observe(hero);
+  new IntersectionObserver(function(e){slotsIn=e[0].isIntersecting;upd();},{threshold:.15}).observe(slots);
+})();
+</script>
+<script>
+/* Következő szabad időpont a hero-ban. */
+document.addEventListener('DOMContentLoaded',function(){ bacskaiBetoltEsemenyek(function(){
+  var el=document.getElementById('heroNext'); if(!el||!window.BACSKAI) return;
+  var l=window.BACSKAI.foglalhatoEsemenyei('szerdai');
+  if(!l.length){ el.innerHTML='Jelenleg nincs szabad időpont — jelentkezz, és elsőként értesítünk az újról.'; return; }
+  el.innerHTML='Következő időpont: <strong>'+window.BACSKAI.teljesDatum(l[0]._dt)+'</strong> · '+l[0].ido+(l.length>1?' · még '+(l.length-1)+' további alkalom':'');
+});});
+</script>
+
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
@@ -2279,8 +2293,8 @@ document.addEventListener('DOMContentLoaded', function () {
           <input type="tel" name="fields[phone]" placeholder="" required>
         </div>
         <div class="form-group">
-          <label>Munkaterület</label>
-          <select name="fields[city]" required>
+          <label>Munkaterület <span style="color:var(--muted);font-weight:500;">(nem kötelező)</span></label>
+          <select name="fields[city]">
             <option value="">Válassz…</option>
             <option>Cégvezetés, management</option>
             <option>Adminisztráció, irodai asszisztens</option>
