@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Köszi, vettük | BácskAI Akadémia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #2B3340;
+      --cream: #F7F1E3;
+      --amber: #D9941F;
+      --steel: #4B6584;
+      --border: #EAE2D0;
+      --muted: #5B6574;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--cream);
+      color: var(--navy);
+      font-family: 'Mulish', Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .top {
+      background: var(--navy);
+      padding: 34px 28px 30px 28px;
+      text-align: center;
+    }
+    .top svg { display: block; margin: 0 auto 16px auto; }
+    .kicker {
+      font-size: 12px;
+      line-height: 18px;
+      font-weight: 800;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin: 0 0 8px 0;
+    }
+    h1 {
+      margin: 0;
+      font-size: 36px;
+      line-height: 42px;
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+    .body { padding: 26px 28px 30px 28px; }
+    .body p { margin: 0 0 14px 0; }
+    .btns { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 13px 22px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 15px;
+      line-height: 20px;
+      text-decoration: none;
+      text-align: center;
+    }
+    .btn-amber { background: var(--amber); color: var(--navy); }
+    .body .sign { margin: 24px 0 0 0; color: var(--muted); font-size: 15px; }
+    @media (max-width: 420px) {
+      h1 { font-size: 32px; line-height: 38px; }
+      .btn { display: block; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="top">
+      <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="28" cy="28" r="24" stroke="#D9941F" stroke-width="3"/>
+        <path d="M17 29.5l7.5 7.5L39.5 20" stroke="#D9941F" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <p class="kicker">BácskAI Akadémia</p>
+      <h1>Köszi, vettük.</h1>
+    </div>
+    <div class="body">
+      <p>Megkaptuk a jelzésedet: ez most nem aktuális neked. Semmi gond.</p>
+      <p>Ha később meggondolod magad, vagy szétnéznél, hogy mikor lesz legközelebb alkalom, a rendezvényeinket itt találod.</p>
+
+      <div class="btns">
+        <a class="btn btn-amber" href="https://www.bacskaiakademia.hu/rendezvenyek.html">Rendezvényeink</a>
+      </div>
+
+      <p class="sign">Igor és Józsi</p>
+    </div>
+  </main>
+</body>
+</html>
